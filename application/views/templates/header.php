@@ -528,12 +528,12 @@
                         </li> 
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                 Configuración<b class="caret"></b>
-                            </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarConfiguracionProcesos">Procesos</a></li>        
-                            </ul>
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraProcesos">Configuración Procesos</a></li> 
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraPruebas">Configuración Pruebas</a></li> 								
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraInventario">Configuración Inventario</a></li>
+							</ul>
                         </li> 
    
 
