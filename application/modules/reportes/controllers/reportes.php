@@ -7,7 +7,7 @@ class reportes extends MX_Controller {
         $this->load->library('Pdf_Library');
 		$this->load->model('reportes_model');
     }
-    //Ver reportes generados en Library TCPDF
+    //Ver reportes generados en Library TCPDF Prueba
 	public function VerReporte($nombre,$nro_pedido){
 		
 		 if ($this->session->userdata('loggeado'))
