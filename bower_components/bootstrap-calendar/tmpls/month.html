@@ -1,0 +1,30 @@
+<div class="alert alert-info" style="text-align:center">
+	<span style="font-weight:bold; color: black" id="nombre_mes">
+		<!-- <%= start.getFullYear() %>-<%= start.getMonthFormatted() %>-<%= start.getDateFormatted() %> -->
+	</span>
+</div>
+<div class="cal-row-fluid cal-row-head">
+	<% _.each(months, function(name){ %>
+		<div class="cal-cell1"><%= name %></div>
+	<% }) %>
+</div>
+<div class="cal-month-bo ">
+	<% for(i = 0; i < 6; i++) { %>
+		<% if(cal.stop_cycling == true) break; %>
+		<div class="cal-row-fluid cal-before-eventlist" style="cursor:pointer">
+			<div class="cal-cell1 table-bordered" data-cal-row="-day1"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day2"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day3"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day4"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day5"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day6"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+			<div class="cal-cell1 table-bordered" data-cal-row="-day7"><%= cal._day(i, day++) %></div> <!-- cal-cell  -->
+		</div>
+	<% } %>
+</div>
+
+<script type="text/javascript"> 
+var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var fecha=meses[<%= start.getMonthFormatted()-1 %>]+" del "+<%= start.getFullYear() %>;
+$("#nombre_mes").html(fecha);
+</script> 

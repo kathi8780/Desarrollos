@@ -1,0 +1,30 @@
+naranja // termini el pproceso
+gris normal // no ha pasado el tracking
+
+
+
+
+
+estados
+
+pendiente
+
+cuando el mensajero entrega sigue en transito pero entregado, solo cuando factura es que esta 
+
+
+
+demora en produccion
+demora en entrega desde el empaque contra la entrega al cliente
+
+
+
+primer dia
+1-creacion de botones con indicadores para:
+ PEDIDOS SUSPENDIDOS
+ PEDIDOS ATRASADOS EN PRODUCCÓN
+ PEDIDOS ATRASADOS EN ENTREGA A CLIENTE
+2-creación de pantalla produccion suspendida
+
+segundo dia
+creacion de pantalla ATRASADOS EN PRODUCCION
+creacion de pantalla ATRASADOS EN ENTREGAR A CLIENTES

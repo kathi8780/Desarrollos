@@ -1,0 +1,56 @@
+<div class="alert alert-info" style="text-align:center">
+	<span style="font-weight:bold; color: black" id="nombre_mes">
+		<!-- <%= start.getFullYear() %>-<%= start.getMonthFormatted() %>-<%= start.getDateFormatted() %> -->
+	</span>
+</div>
+
+<div class="cal-year-box"  style="cursor:pointer"> <!-- class="cal-year-box" -->
+	<div class="row row-fluid cal-before-eventlist">
+		<div class="span3 col-md-3" data-cal-row="-month1" ondblclick="verPedidos('<%= start.getFullYear() %>-01-01','mes');">
+			<%= cal._month(0) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month2" ondblclick="verPedidos('<%= start.getFullYear() %>-02-01','mes');">
+			<%= cal._month(1) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month3" ondblclick="verPedidos('<%= start.getFullYear() %>-03-01','mes');">
+			<%= cal._month(2) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month4" ondblclick="verPedidos('<%= start.getFullYear() %>-04-01','mes');">
+			<%= cal._month(3) %>
+		</div> <!--cal-cell -->
+	</div>
+	<div class="row row-fluid cal-before-eventlist">
+		<div class="span3 col-md-3" data-cal-row="-month1" ondblclick="verPedidos('<%= start.getFullYear() %>-05-01','mes');">
+			<%= cal._month(4) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month2" ondblclick="verPedidos('<%= start.getFullYear() %>-06-01','mes');">
+			<%= cal._month(5) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month3" ondblclick="verPedidos('<%= start.getFullYear() %>-07-01','mes');">
+			<%= cal._month(6) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month4" ondblclick="verPedidos('<%= start.getFullYear() %>-08-01','mes');">
+			<%= cal._month(7) %>
+		</div> <!--cal-cell -->
+	</div>
+	<div class="row row-fluid cal-before-eventlist">
+		<div class="span3 col-md-3" data-cal-row="-month1" ondblclick="verPedidos('<%= start.getFullYear() %>-09-01','mes');">
+			<%= cal._month(8) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month2" ondblclick="verPedidos('<%= start.getFullYear() %>-10-01','mes');">
+			<%= cal._month(9) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month3" ondblclick="verPedidos('<%= start.getFullYear() %>-11-01','mes');">
+			<%= cal._month(10) %>
+		</div> <!--cal-cell -->
+		<div class="span3 col-md-3" data-cal-row="-month4" ondblclick="verPedidos('<%= start.getFullYear() %>-12-01','mes');">
+			<%= cal._month(11) %>
+		</div> <!--cal-cell -->
+	</div>
+</div>
+
+<script type="text/javascript"> 
+var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+var fecha=<%= start.getFullYear() %>;
+$("#nombre_mes").html(fecha);
+</script> 

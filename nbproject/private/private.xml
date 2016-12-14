@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>application/controllers/clientes/Clientes.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>205</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/automatica/views/gestionarCheques.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/academico/models/Postulantes_model.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/automatica/models/automatica_model.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/facturacion/models/Facturacion_model.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/automatica/views/edicionFacturasAutomatico.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/automatica/controllers/automatica.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/facturacion/controllers/Facturacion.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/views/templates/header.php</file>
+            <file>file:/C:/xampp/htdocs/CLIENTES/ITCAV12/application/modules/facturacion/views/edicionFacturasManual.php</file>
+        </group>
+    </open-files>
+</project-private>
