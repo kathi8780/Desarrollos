@@ -1362,7 +1362,7 @@ class Pedidos_model extends CI_Model
 
          $resultado['ID_RETIRO']=$id_retiro;
          return $resultado;
-    }
+    }   
 
     public function obtenerRetiros() 
     {

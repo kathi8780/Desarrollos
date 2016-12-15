@@ -50,32 +50,55 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">PROCESO NUEVO BADENT</div>
+    <div class="panel-heading">ADICIONAR NUEVO RETIRO</div>
 
 	<div class="container">
 		<div class="row">
 	        <!-- campo cliente -->
-	        <div class="col-md-7 col-sm-2 col-xs-12">
+	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Nuevo Proceso<span class="required"> * </span></label> 
-	                <input type="text" id="c_nuevo_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <label class="control-label required" for="">Cliente<span class="required"> * </span></label> 
+	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 	            </div>
 	        </div>		
 
 	        <!-- campo telefono -->
-	        <div class="col-md-3 col-sm-2 col-xs-12">
+	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
-	                <input type="text" id="c_minutos" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <label class="control-label required" for="">Teléfono<span class="required"> * </span></label> 
+	                <input type="text" id="c_telefono" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 	            </div>
 	        </div>	
+
+	        <!-- campo contacto -->
+	        <div class="col-md-2 col-sm-2 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Contacto<span class="required"> * </span></label> 
+	                <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	            </div>
+	        </div>
+
+          <div class="col-md-2 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Ciudad<span class="required"> * </span></label> 
+                  <input type="text" id="c_ciudad" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Direccion<span class="required"> * </span></label> 
+                  <input type="text" id="c_direccion" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+            
 
 	        <!-- btn adicionar -->
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">     
 	            		<label class="control-label required" for=""> &nbsp</label>           
-                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearProceso();">
-                            <span class="glyphicon glyphicon-"></span> Crear Proceso
+                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearRetiro();">
+                            <span class="glyphicon glyphicon-"></span> Crear Retiro
                         </button>
 	            </div>
 	        </div>	
@@ -85,7 +108,7 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">PROCESOS REGISTRADOS</div></div>
+    <div class="panel-heading">RETIROS PENDIENTES</div></div>
     <div class="container">
     	<div class="table-responsive">
     		<table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
@@ -95,13 +118,28 @@
                               Nº
                             </th>
                             <th>
-                                PROCESO
+                                CLIENTE
                             </th>
                             <th>
-                                MINUTOS
+                                TELEFONO
+                            </th>
+                            <th>
+                                CONTACTO
+                            </th>
+                             <th>
+                                CIUDAD
+                            </th>
+                             <th>
+                                DIRECCION
+                            </th>
+                            <th>
+                                FECHA
+                            </th>
+                            <th>
+                                REGISTRADO POR
                             </th>
                             <th style="text-align:center">
-                            	MODIFICAR
+                            	ASIGNAR
                             </th>
                         </tr>
               </thead>
@@ -109,22 +147,52 @@
                           $cliente_iteracion_anterior="";
                         	for ($i=0; $i < count($retiros_pendientes); $i++) 
                         	{ 
-                            
+                            $cliente= $retiros_pendientes[$i]['CLIENTE'];
+
+                              /*if($i!=0)//aqui controlo que se muestre solo una celda con el nombre
+                              {
+                                if($cliente==$cliente_iteracion_anterior)
+                                {
+                                  $cliente_iteracion_anterior=$cliente;
+                                  $cliente="";
+                                }
+                                else
+                                {
+                                  $cliente_iteracion_anterior=$cliente;
+                                }
+                              }
+                              else
+                                $cliente_iteracion_anterior=$cliente;*/
+
                          ?>
-                         	<tr id="<?php echo  'r'.$retiros_pendientes[$i]['ID_PROCESO_NOMBRE']; ?>" >
+                         	<tr id="<?php echo  'r'.$retiros_pendientes[$i]['ID_RETIRO']; ?>" >
                               <td>
                                   <?php echo $i+1; ?>
                               </td>
 	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['NOMBRE_PROCESO'];  ?>
+	                                <?php echo $cliente; ?>
 	                            </td>
 	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['MINUTOS']; ?>
+	                                <?php echo $retiros_pendientes[$i]['TELEFONO'];  ?>
 	                            </td>
-	                            
+	                            <td>
+	                                <?php echo $retiros_pendientes[$i]['CONTACTO']; ?>
+	                            </td>
+                              <td>
+                                  <?php echo $retiros_pendientes[$i]['CIUDAD']; ?>
+                              </td>
+                              <td>
+                                  <?php echo $retiros_pendientes[$i]['DIRECCION_RETIRO']; ?>
+                              </td>
+                              <td>
+                                  <?php echo $retiros_pendientes[$i]['FECHA']; ?>
+                              </td>
+	                            <td>
+	                                <?php echo $retiros_pendientes[$i]['USUARIO_NOMBRE']." ".$retiros_pendientes[$i]['USUARIO_APELLIDO']; ?>
+	                            </td>
 	                            <td style="text-align:center">
       				                    <center>
-      				                    	<button id="<?php echo $retiros_pendientes[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="asignarRetiro(this.id)">
+      				                    	<button id="<?php echo $retiros_pendientes[$i]['ID_RETIRO']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="asignarRetiro(this.id)">
       				                          	<span class="glyphicon glyphicon-share-alt"></span>
       				                        </button>
       				                    </center>
@@ -170,24 +238,44 @@
     params.life = '4000';//4segundos
 
 
-    function crearProceso()
+    function crearRetiro()
     {
-    	var proceso = $("#c_nuevo_proceso").val().trim();
-    	var minutos =$("#c_minutos").val().trim();
-    
+    	var cliente = $("#c_cliente").val().trim();
+    	var telefono =$("#c_telefono").val().trim();
+    	var contacto =$("#c_contacto").val().trim();
+      var ciudad =$("#c_ciudad").val().trim();
+      var direccion =$("#c_direccion").val().trim();
 
-    	if(proceso=="")
+    	if(cliente=="")
     	{
-            var text = 'Falta campo NUEVO PROCESO';
+            var text = 'Falta campo CLIENTE';
             $.notific8(text, params); 
             return;
     	}
-    	else if(minutos=="")
+    	else if(telefono=="")
     	{
-            var text = 'Falta campo MINUTOS';
+            var text = 'Falta campo TELEFONO';
             $.notific8(text, params); 
             return;
-    	} 
+    	}  
+    	else if(contacto=="")
+    	{
+            var text = 'Falta campo CONTACTO';
+            $.notific8(text, params); 
+            return;
+    	}
+      else if(ciudad=="")
+      {
+            var text = 'Falta campo CIUDAD';
+            $.notific8(text, params); 
+            return;
+      }
+      else if(direccion=="")
+      {
+            var text = 'Falta campo DIRECCION';
+            $.notific8(text, params); 
+            return;
+      }
 
 				$.isLoading({
                     text: "Cargando",
@@ -199,8 +287,8 @@
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {proceso:proceso,minutos:minutos},
-                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarProcesoNombre',
+                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion},
+                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/insertarRetiro',
                          success: function (data) 
                          {    
                            
@@ -208,18 +296,33 @@
 						   location.reload();
                            //alert(data['USUARIO_NOMBRE']);  
 			
-                           var usuario = data['NOMBRE_PROCESO'];
-                           var id_proceso = data['ID_PROCESO_NOMBRE'];
+                           var usuario = data['USUARIO_NOMBRE']+" "+data['USUARIO_APELLIDO'];
+                           var id_retiro = data['ID_RETIRO'];
 				            //ADICIONO UNA LINEA DE PRUEBA
-				            var cadena_html='<tr class="fila-retiro" id="r'+id_proceso+'" >'
+				            var cadena_html='<tr class="fila-retiro" id="r'+id_retiro+'" >'
                                         +'<td>'
-				                                    +proceso
+				                                    +cliente
 				                                +'</td>'
 				                                +'<td>'
-				                                    +minutos
+				                                    +telefono
 				                                +'</td>'
 				                                +'<td>'
-				                                    +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="asignarRetiro(this.id)" >'
+				                                    +contacto
+				                                +'</td>'
+                                        +'<td>'
+                                            +ciudad
+                                        +'</td>'
+                                        +'<td>'
+                                            +direccion
+                                        +'</td>'
+				                                +'<td>'
+				                                    +"<?php echo date("Y-m-d H:i:s"); ?>"
+				                                +'</td>'
+				                                +'<td>'
+				                                    +usuario
+				                                +'</td>'
+				                                +'<td>'
+				                                    +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_retiro+'" style="width:50px" onclick="asignarRetiro(this.id)" >'
 				                                          +'<span class="glyphicon glyphicon-share-alt"></span>'
 				                                    +'</button></center>'
 				                                +'</td>'
@@ -230,9 +333,11 @@
 
 				            $("#tablaGenerada").append(cadena_html); 
 
-					    	$("#c_nuevo_proceso").val("");
-					    	$("#c_minutos").val("");
-					    	   
+					    	$("#c_cliente").val("");
+					    	$("#c_telefono").val("");
+					    	$("#c_contacto").val(""); 
+                $("#c_ciudad").val(""); 
+                $("#c_direccion").val("");   
 					    	          
                          }
                 }); 
@@ -265,7 +370,7 @@
                             [20, 100, 200, -1],    //valor q utilizo en la propiedad iDisplayLength para asociar a una opcion
                             [20, 100, 200, "Todo"]  //opciones del select para la cant de registros a mostrar
                             ],
-              iDisplayLength: 20,
+              iDisplayLength: -1,
               "bSort": true, //habilito el ordenar para todas las columnas
               "order": [],  //para que no ordene la primera columna por default
               "columnDefs": [{
@@ -278,8 +383,10 @@
                                 { "aTargets": [ 0 ],"bSortable": true },
                                 { "aTargets": [ 1 ],"bSortable": true },
                                 { "aTargets": [ 2 ],"bSortable": true },
-                                { "aTargets": [ 3 ],"bSortable": true }
-                                
+                                { "aTargets": [ 3 ],"bSortable": true },
+                                { "aTargets": [ 4 ],"bSortable": true },
+                                { "aTargets": [ 5 ],"bSortable": true },
+                                { "aTargets": [ 6 ],"bSortable": false }
                               ] 
           });
 
