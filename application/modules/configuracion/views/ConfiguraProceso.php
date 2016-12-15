@@ -1,52 +1,111 @@
-<!--ventana modal para asignar mensajero-->
-        <div class="modal fade" id="modal-asignar-mensajero">
+<!--ventana modal para editar proceso-->
+
+<?php 
+
+$n="";
+                          $cliente_iteracion_anterior="";
+                          for ($i=0; $i < count($procesos_nombre_datos); $i++) 
+                          { 
+                              if ($i==1) {
+                                # code...
+                                 $n=$procesos_nombre_datos[$i]['NOMBRE_PROCESO'];
+                              }
+
+                            }
+                         ?>
+
+
+        <div class="modal fade" id="modal-editar-proceso">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">ASIGNAR EL RETIRO A UN MENSAJERO</h4>
+                        <h4 class="modal-title">MODIFICAR PROCESO</h4>
                     </div>
                     <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
             <div class="table-responsive">
               <table class="table table-condensed table-striped table-bordered">
                 <tr style="font-weight: bold">
                   <td colspan="2" class="bg-primary" style="text-align: center">
-                    ASIGNAR
+                    EDITAR
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    Mensajero: 
-                  </td>
-                  <td>
-                      <select id="s_mensajeros" class="form-control" style="height:30px">
-                      <option value="">Seleccione...</option> 
-                      <?php 
-                          for ($i=0; $i < count($mensajeros) ; $i++) 
-                          { 
-                       ?> 
-                              <option value="<?php echo $mensajeros[$i]['USUARIO_ID']; ?>">
-                                <?php echo $mensajeros[$i]['USUARIO_NOMBRE']." ".$mensajeros[$i]['USUARIO_APELLIDO']; ?>
-                              </option> 
-                      <?php    
-                          }
-                       ?> 
-                      </select>
-                  </td>
+                    <div class="col-md-9 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
+                  <input type='hidden' name='id' value=".$id."/>
+                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
+              </div>
+          </div>
+          <div class="col-md-3 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
+                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+                  
                 </tr>
               </table>
             </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarAsignacion()">
-                            <span class="glyphicon glyphicon-share-alt"></span> Asignar
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-<!--fin ventana modal para asignar mensajero-->
+
+
+
+<!--fin ventana modal para editar proceso-->
+
+
+<!--inicio ventana modal para eliminar proceso-->
+
+<div class="modal fade" id="modal-eliminar-proceso">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">ELIMINAR PROCESO</h4>
+                    </div>
+                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">
+                    Esta seguro que desea eliminar el proceso..?
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="col-md-9 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
+                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+                  
+                </tr>
+              </table>
+            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="realizarEliminacion()">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+<!--fin ventana modal para eliminar proceso-->
 
 
 <div class="panel panel-primary" >
@@ -98,37 +157,50 @@
                                 PROCESO
                             </th>
                             <th>
-                                MINUTOS
+                                MsINUTOS
                             </th>
                             <th style="text-align:center">
                             	MODIFICAR
                             </th>
+                            <th style="text-align:center">
+                              ELIMINAR
+                            </th>
                         </tr>
               </thead>
                         <?php 
+                        $nomb="prueba";
                           $cliente_iteracion_anterior="";
-                        	for ($i=0; $i < count($retiros_pendientes); $i++) 
+                        	for ($i=0; $i < count($procesos_nombre_datos); $i++) 
                         	{ 
                             
                          ?>
-                         	<tr id="<?php echo  'r'.$retiros_pendientes[$i]['ID_PROCESO_NOMBRE']; ?>" >
+                         	<tr id="<?php echo  'r'.$procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" >
                               <td>
                                   <?php echo $i+1; ?>
                               </td>
 	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['NOMBRE_PROCESO'];  ?>
+	                                <?php echo $procesos_nombre_datos[$i]['NOMBRE_PROCESO'];  ?>
 	                            </td>
 	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['MINUTOS']; ?>
+	                                <?php echo $procesos_nombre_datos[$i]['MINUTOS']; 
+
+                                  ?>
 	                            </td>
 	                            
 	                            <td style="text-align:center">
       				                    <center>
-      				                    	<button id="<?php echo $retiros_pendientes[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="asignarRetiro(this.id)">
-      				                          	<span class="glyphicon glyphicon-share-alt"></span>
+      				                    	<button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarProceso(this.id)">
+      				                          	<span class="glyphicon glyphicon-pencil"></span>
       				                        </button>
       				                    </center>
 	                            </td>
+                              <td style="text-align:center">
+                                  <center>
+                                    <button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarProceso(this.id)">
+                                          <span class="glyphicon glyphicon-trash"></span>
+                                      </button>
+                                  </center>
+                              </td>
 	                        </tr>
                         <?php 		
                         	}
@@ -206,32 +278,8 @@
                            
 						   $.isLoading("hide"); 
 						   location.reload();
-                           //alert(data['USUARIO_NOMBRE']);  
+                tablaReload();  
 			
-                           var usuario = data['NOMBRE_PROCESO'];
-                           var id_proceso = data['ID_PROCESO_NOMBRE'];
-				            //ADICIONO UNA LINEA DE PRUEBA
-				            var cadena_html='<tr class="fila-retiro" id="r'+id_proceso+'" >'
-                                        +'<td>'
-				                                    +proceso
-				                                +'</td>'
-				                                +'<td>'
-				                                    +minutos
-				                                +'</td>'
-				                                +'<td>'
-				                                    +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="asignarRetiro(this.id)" >'
-				                                          +'<span class="glyphicon glyphicon-share-alt"></span>'
-				                                    +'</button></center>'
-				                                +'</td>'
-				                            +'</tr>';
-
-				            $( ".dataTables_empty" ).parent().remove();
-
-
-				            $("#tablaGenerada").append(cadena_html); 
-
-					    	$("#c_nuevo_proceso").val("");
-					    	$("#c_minutos").val("");
 					    	   
 					    	          
                          }
@@ -278,7 +326,9 @@
                                 { "aTargets": [ 0 ],"bSortable": true },
                                 { "aTargets": [ 1 ],"bSortable": true },
                                 { "aTargets": [ 2 ],"bSortable": true },
-                                { "aTargets": [ 3 ],"bSortable": true }
+                                { "aTargets": [ 3 ],"bSortable": true },
+                                { "aTargets": [ 4 ],"bSortable": true }
+
                                 
                               ] 
           });
@@ -307,13 +357,88 @@
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
         }
 
-    var id_retiro_a_asignar="";
-    function asignarRetiro(id_retiro)
+    var id_editar_proceso="";
+    function editarProceso(id_proceso)
     {
-      id_retiro_a_asignar=id_retiro;
-      $("#modal-asignar-mensajero").modal('show');
-    }
 
+      //document.getElementById("c_proceso").value=id_proceso;
+
+
+      id_editar_proceso=id_proceso;
+      id=nomb;
+     
+
+          
+                   
+                     $("#modal-editar-proceso").modal('show');
+                     $("#c_proceso").val(id);      //alert(data['USUARIO_NOMBRE']);  
+      
+
+    }
+    //abrir eliminar proceso
+    function eliminarProceso(id){
+
+      $.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+       
+       $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id:id},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarProcesosNombre',
+                success: function (data) 
+                {     
+                   alert('Proceso Eliminado con Exito');
+       $.isLoading("hide"); 
+       //constultarPedidos(); 
+       location.reload();
+                           //alert(data['USUARIO_NOMBRE']);  
+      
+                           tablaReload();
+                }
+
+       });
+
+    }
+function tablaReload(){
+
+
+  var usuario = data['NOMBRE_PROCESO'];
+                           var id_proceso = data['ID_PROCESO_NOMBRE'];
+                    //ADICIONO UNA LINEA DE PRUEBA
+                    var cadena_html='<tr class="fila-retiro" id="r'+id_proceso+'" >'
+                                        +'<td>'
+                                            +proceso
+                                        +'</td>'
+                                        +'<td>'
+                                            +minutos
+                                        +'</td>'
+                                        +'<td>'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="editarProceso(this.id)" >'
+                                                  +'<span class="glyphicon glyphicon-pencil"></span>'
+                                            +'</button></center>'
+                                        +'</td>'
+                                        +'<td>'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="eliminarProceso(this.id)" >'
+                                                  +'<span class="glyphicon glyphicon-trash"></span>'
+                                            +'</button></center>'
+                                        +'</td>'
+                                    +'</tr>';
+
+                    $( ".dataTables_empty" ).parent().remove();
+
+
+                    $("#tablaGenerada").append(cadena_html); 
+
+                $("#c_nuevo_proceso").val("");
+                $("#c_minutos").val(""); 
+
+
+                return cadena_html;
+}
     window.onload= function alcargar()
     {
     	aplicarPaginado();

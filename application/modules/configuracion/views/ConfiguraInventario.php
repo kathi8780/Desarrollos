@@ -1,209 +1,195 @@
-<!--ventana modal para asignar mensajero-->
-        <div class="modal fade" id="modal-asignar-mensajero">
+<!--ventana modal para editar proceso-->
+
+        <div class="modal fade" id="modal-editar-inventario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">ASIGNAR EL RETIRO A UN MENSAJERO</h4>
+                        <h4 class="modal-title">MODIFICAR PROCESO</h4>
                     </div>
                     <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
             <div class="table-responsive">
               <table class="table table-condensed table-striped table-bordered">
                 <tr style="font-weight: bold">
                   <td colspan="2" class="bg-primary" style="text-align: center">
-                    ASIGNAR
+                    EDITAR
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    Mensajero: 
-                  </td>
-                  <td>
-                      <select id="s_mensajeros" class="form-control" style="height:30px">
-                      <option value="">Seleccione...</option> 
-                      <?php 
-                          for ($i=0; $i < count($mensajeros) ; $i++) 
-                          { 
-                       ?> 
-                              <option value="<?php echo $mensajeros[$i]['USUARIO_ID']; ?>">
-                                <?php echo $mensajeros[$i]['USUARIO_NOMBRE']." ".$mensajeros[$i]['USUARIO_APELLIDO']; ?>
-                              </option> 
-                      <?php    
-                          }
-                       ?> 
-                      </select>
-                  </td>
+                    <div class="col-md-9 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
+                  <input type='hidden' name='id' value=".$id."/>
+                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
+              </div>
+          </div>
+          <div class="col-md-3 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
+                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+                  
                 </tr>
               </table>
             </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarAsignacion()">
-                            <span class="glyphicon glyphicon-share-alt"></span> Asignar
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
                         </button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-<!--fin ventana modal para asignar mensajero-->
+
+
+
+<!--fin ventana modal para editar proceso-->
+
+
+<!--inicio ventana modal para eliminar proceso-->
+
+<div class="modal fade" id="modal-eliminar-proceso">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">ELIMINAR PROCESO</h4>
+                    </div>
+                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">
+                    Esta seguro que desea eliminar el proceso..?
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="col-md-9 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
+                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
+                  
+                </tr>
+              </table>
+            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="realizarEliminacion()">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+<!--fin ventana modal para eliminar proceso-->
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR NUEVO RETIRO</div>
+    <div class="panel-heading">INVENTARIO NUEVO BADENT</div>
 
-	<div class="container">
-		<div class="row">
-	        <!-- campo cliente -->
-	        <div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Cliente<span class="required"> * </span></label> 
-	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-	            </div>
-	        </div>		
+  <div class="container">
+    <div class="row">
+          <!-- campo cliente -->
+          <div class="col-md-7 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Nuevo Inventario<span class="required"> * </span></label> 
+                  <input type="text" id="c_nuevo_inventario" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>    
 
-	        <!-- campo telefono -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Teléfono<span class="required"> * </span></label> 
-	                <input type="text" id="c_telefono" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-	            </div>
-	        </div>	
+          <!-- campo telefono -->
+          <div class="col-md-3 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Activo<span class="required"> * </span></label> 
+                  <input type="text" value="S" min="0" max="31" id="c_activo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>  
 
-	        <!-- campo contacto -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Contacto<span class="required"> * </span></label> 
-	                <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-	            </div>
-	        </div>
-
+          <!-- btn adicionar -->
           <div class="col-md-2 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Ciudad<span class="required"> * </span></label> 
-                  <input type="text" id="c_ciudad" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-
-          <div class="col-md-3 col-sm-3 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Direccion<span class="required"> * </span></label> 
-                  <input type="text" id="c_direccion" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-            
-
-	        <!-- btn adicionar -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">     
-	            		<label class="control-label required" for=""> &nbsp</label>           
-                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearRetiro();">
-                            <span class="glyphicon glyphicon-"></span> Crear Retiro
+              <div class="form-group form-group-sm">     
+                  <label class="control-label required" for=""> &nbsp</label>           
+                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearInventario();">
+                            <span class="glyphicon glyphicon-"></span> Crear Inventario
                         </button>
-	            </div>
-	        </div>	
-		</div>		
-	</div>
+              </div>
+          </div>  
+    </div>    
+  </div>
 </div>
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">RETIROS PENDIENTES</div></div>
+    <div class="panel-heading">INVENTARIOS REGISTRADOS</div></div>
     <div class="container">
-    	<div class="table-responsive">
-    		<table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
-    					<thead>
+      <div class="table-responsive">
+        <table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
+              <thead>
                         <tr style="font-weight: bold" >
                             <th>
                               Nº
                             </th>
                             <th>
-                                CLIENTE
+                                INVENTARIO
                             </th>
                             <th>
-                                TELEFONO
-                            </th>
-                            <th>
-                                CONTACTO
-                            </th>
-                             <th>
-                                CIUDAD
-                            </th>
-                             <th>
-                                DIRECCION
-                            </th>
-                            <th>
-                                FECHA
-                            </th>
-                            <th>
-                                REGISTRADO POR
+                                ACTIVO
                             </th>
                             <th style="text-align:center">
-                            	ASIGNAR
+                              MODIFICAR
+                            </th>
+                            <th style="text-align:center">
+                              ELIMINAR
                             </th>
                         </tr>
               </thead>
                         <?php 
                           $cliente_iteracion_anterior="";
-                        	for ($i=0; $i < count($retiros_pendientes); $i++) 
-                        	{ 
-                            $cliente= $retiros_pendientes[$i]['CLIENTE'];
-
-                              /*if($i!=0)//aqui controlo que se muestre solo una celda con el nombre
-                              {
-                                if($cliente==$cliente_iteracion_anterior)
-                                {
-                                  $cliente_iteracion_anterior=$cliente;
-                                  $cliente="";
-                                }
-                                else
-                                {
-                                  $cliente_iteracion_anterior=$cliente;
-                                }
-                              }
-                              else
-                                $cliente_iteracion_anterior=$cliente;*/
-
+                          for ($i=0; $i < count($inventario); $i++) 
+                          { 
+                            
                          ?>
-                         	<tr id="<?php echo  'r'.$retiros_pendientes[$i]['ID_RETIRO']; ?>" >
+                          <tr id="<?php echo  'r'.$inventario[$i]['id_inventario']; ?>" >
                               <td>
                                   <?php echo $i+1; ?>
                               </td>
-	                            <td>
-	                                <?php echo $cliente; ?>
-	                            </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['TELEFONO'];  ?>
-	                            </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['CONTACTO']; ?>
-	                            </td>
                               <td>
-                                  <?php echo $retiros_pendientes[$i]['CIUDAD']; ?>
+                                  <?php echo $inventario[$i]['nombre_inventario'];  ?>
                               </td>
                               <td>
-                                  <?php echo $retiros_pendientes[$i]['DIRECCION_RETIRO']; ?>
+                                  <?php echo $inventario[$i]['activo']; ?>
                               </td>
-                              <td>
-                                  <?php echo $retiros_pendientes[$i]['FECHA']; ?>
+                              
+                              <td style="text-align:center">
+                                  <center>
+                                    <button id="<?php echo $inventario[$i]['id_inventario']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarInventario(this.id)">
+                                          <span class="glyphicon glyphicon-pencil"></span>
+                                      </button>
+                                  </center>
                               </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['USUARIO_NOMBRE']." ".$retiros_pendientes[$i]['USUARIO_APELLIDO']; ?>
-	                            </td>
-	                            <td style="text-align:center">
-      				                    <center>
-      				                    	<button id="<?php echo $retiros_pendientes[$i]['ID_RETIRO']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="asignarRetiro(this.id)">
-      				                          	<span class="glyphicon glyphicon-share-alt"></span>
-      				                        </button>
-      				                    </center>
-	                            </td>
-	                        </tr>
-                        <?php 		
-                        	}
+                              <td style="text-align:center">
+                                  <center>
+                                    <button id="<?php echo $inventario[$i]['id_inventario']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarInventario(this.id)">
+                                          <span class="glyphicon glyphicon-trash"></span>
+                                      </button>
+                                  </center>
+                              </td>
+                          </tr>
+                        <?php     
+                          }
                          ?>
 
-    		</table>
-    	</div>
+        </table>
+      </div>
     </div>
 
 
@@ -238,46 +224,26 @@
     params.life = '4000';//4segundos
 
 
-    function crearRetiro()
+    function crearInventario()
     {
-    	var cliente = $("#c_cliente").val().trim();
-    	var telefono =$("#c_telefono").val().trim();
-    	var contacto =$("#c_contacto").val().trim();
-      var ciudad =$("#c_ciudad").val().trim();
-      var direccion =$("#c_direccion").val().trim();
+      var inventario = $("#c_nuevo_inventario").val().trim();
+      var activo =$("#c_activo").val().trim();
+    
 
-    	if(cliente=="")
-    	{
-            var text = 'Falta campo CLIENTE';
-            $.notific8(text, params); 
-            return;
-    	}
-    	else if(telefono=="")
-    	{
-            var text = 'Falta campo TELEFONO';
-            $.notific8(text, params); 
-            return;
-    	}  
-    	else if(contacto=="")
-    	{
-            var text = 'Falta campo CONTACTO';
-            $.notific8(text, params); 
-            return;
-    	}
-      else if(ciudad=="")
+      if(inventario=="")
       {
-            var text = 'Falta campo CIUDAD';
+            var text = 'Falta campo NUEVO INVENTARIO';
             $.notific8(text, params); 
             return;
       }
-      else if(direccion=="")
+      else if(activo=="")
       {
-            var text = 'Falta campo DIRECCION';
+            var text = 'Falta campo ACTIVOVO';
             $.notific8(text, params); 
             return;
-      }
+      } 
 
-				$.isLoading({
+        $.isLoading({
                     text: "Cargando",
                     position: "overlay"
                 });
@@ -287,58 +253,18 @@
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion},
-                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/insertarRetiro',
+                         data: {inventario:inventario,activo:activo},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarInventario',
                          success: function (data) 
                          {    
-                           
-						   $.isLoading("hide"); 
-						   location.reload();
-                           //alert(data['USUARIO_NOMBRE']);  
-			
-                           var usuario = data['USUARIO_NOMBRE']+" "+data['USUARIO_APELLIDO'];
-                           var id_retiro = data['ID_RETIRO'];
-				            //ADICIONO UNA LINEA DE PRUEBA
-				            var cadena_html='<tr class="fila-retiro" id="r'+id_retiro+'" >'
-                                        +'<td>'
-				                                    +cliente
-				                                +'</td>'
-				                                +'<td>'
-				                                    +telefono
-				                                +'</td>'
-				                                +'<td>'
-				                                    +contacto
-				                                +'</td>'
-                                        +'<td>'
-                                            +ciudad
-                                        +'</td>'
-                                        +'<td>'
-                                            +direccion
-                                        +'</td>'
-				                                +'<td>'
-				                                    +"<?php echo date("Y-m-d H:i:s"); ?>"
-				                                +'</td>'
-				                                +'<td>'
-				                                    +usuario
-				                                +'</td>'
-				                                +'<td>'
-				                                    +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_retiro+'" style="width:50px" onclick="asignarRetiro(this.id)" >'
-				                                          +'<span class="glyphicon glyphicon-share-alt"></span>'
-				                                    +'</button></center>'
-				                                +'</td>'
-				                            +'</tr>';
-
-				            $( ".dataTables_empty" ).parent().remove();
-
-
-				            $("#tablaGenerada").append(cadena_html); 
-
-					    	$("#c_cliente").val("");
-					    	$("#c_telefono").val("");
-					    	$("#c_contacto").val(""); 
-                $("#c_ciudad").val(""); 
-                $("#c_direccion").val("");   
-					    	          
+                     alert('Inventario Guardado Con Exit');
+               $.isLoading("hide"); 
+               location.reload();
+               
+                tablaReload();  
+      
+                   
+                          
                          }
                 }); 
     }
@@ -370,7 +296,7 @@
                             [20, 100, 200, -1],    //valor q utilizo en la propiedad iDisplayLength para asociar a una opcion
                             [20, 100, 200, "Todo"]  //opciones del select para la cant de registros a mostrar
                             ],
-              iDisplayLength: -1,
+              iDisplayLength: 20,
               "bSort": true, //habilito el ordenar para todas las columnas
               "order": [],  //para que no ordene la primera columna por default
               "columnDefs": [{
@@ -384,9 +310,9 @@
                                 { "aTargets": [ 1 ],"bSortable": true },
                                 { "aTargets": [ 2 ],"bSortable": true },
                                 { "aTargets": [ 3 ],"bSortable": true },
-                                { "aTargets": [ 4 ],"bSortable": true },
-                                { "aTargets": [ 5 ],"bSortable": true },
-                                { "aTargets": [ 6 ],"bSortable": false }
+                                { "aTargets": [ 4 ],"bSortable": true }
+
+                                
                               ] 
           });
 
@@ -414,16 +340,88 @@
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
         }
 
-    var id_retiro_a_asignar="";
-    function asignarRetiro(id_retiro)
+    var id_editar_proceso="";
+    function editarProceso(id_proceso)
     {
-      id_retiro_a_asignar=id_retiro;
-      $("#modal-asignar-mensajero").modal('show');
-    }
 
+      document.getElementById("c_proceso").value=nombre;
+
+
+      id_editar_proceso=id_proceso;
+      id=id_proceso;
+      $("#modal-editar-prueba").modal('show');
+
+       
+
+
+    }
+    //abrir eliminar proceso
+    function eliminarInventario(id){
+
+      $.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+       
+       $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id:id},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarInventario',
+                success: function (data) 
+                {     
+                   alert('Prueba Eliminada con Exito');
+       $.isLoading("hide"); 
+       //constultarPedidos(); 
+       location.reload();
+                           //alert(data['USUARIO_NOMBRE']);  
+      
+                           tablaReload();
+                }
+
+       });
+
+    }
+function tablaReload(){
+
+
+  var usuario = data['NOMBRE_PROCESO'];
+                           var id_proceso = data['id_inventario'];
+                    //ADICIONO UNA LINEA DE PRUEBA
+                    var cadena_html='<tr class="fila-retiro" id="r'+id_proceso+'" >'
+                                        +'<td>'
+                                            +inventario
+                                        +'</td>'
+                                        +'<td>'
+                                            +activo
+                                        +'</td>'
+                                        +'<td>'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="editarInventario(this.id)" >'
+                                                  +'<span class="glyphicon glyphicon-pencil"></span>'
+                                            +'</button></center>'
+                                        +'</td>'
+                                        +'<td>'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="eliminarInventario(this.id)" >'
+                                                  +'<span class="glyphicon glyphicon-trash"></span>'
+                                            +'</button></center>'
+                                        +'</td>'
+                                    +'</tr>';
+
+                    $( ".dataTables_empty" ).parent().remove();
+
+
+                    $("#tablaGenerada").append(cadena_html); 
+
+                $("#c_nuevo_proceso").val("");
+                $("#c_minutos").val(""); 
+
+
+                return cadena_html;
+}
     window.onload= function alcargar()
     {
-    	aplicarPaginado();
+      aplicarPaginado();
     }
 
     function realizarAsignacion()
