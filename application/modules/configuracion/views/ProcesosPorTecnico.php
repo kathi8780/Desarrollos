@@ -1,53 +1,54 @@
 <div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR NUEVO TÉCNICO</div>
+    <div class="panel-heading">ADICIONAR NUEVO TÉCNICO A PROCESO</div>
 
 	<div class="container">
 		<div class="row">
-	        <!-- campo cliente -->
+	        <!-- campo técnico -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Cliente<span class="required"> * </span></label> 
-	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <label class="control-label required" for="">Técnico<span class="required"> * </span></label> 
+					<select id="tecnico" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($tecnico as $array) 
+							{?>
+								<option value="<?php echo $array['ID_TECNICO']; ?>" ><?php echo $array['TECNICO']; ?></option>  
+					<?php } ?>
+					</select>
 	            </div>
-	        </div>		
+	        </div>			
 
-	        <!-- campo telefono -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
+	        <!-- campo categoria -->
+	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Teléfono<span class="required"> * </span></label> 
-	                <input type="text" id="c_telefono" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-	            </div>
-	        </div>	
-
-	        <!-- campo contacto -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Contacto<span class="required"> * </span></label> 
-	                <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
+					<select id="proceso" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($proceso as $array) 
+							{?>
+								<option value="<?php echo $array['ID_PROCESO_NOMBRE']; ?>" ><?php echo $array['NOMBRE_PROCESO']; ?></option>  
+					<?php } ?>
+					</select>
 	            </div>
 	        </div>
-
-          <div class="col-md-2 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Ciudad<span class="required"> * </span></label> 
-                  <input type="text" id="c_ciudad" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-
-          <div class="col-md-3 col-sm-3 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Direccion<span class="required"> * </span></label> 
-                  <input type="text" id="c_direccion" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-            
-
+	        <!-- campo proceso -->
+	        <div class="col-md- col-sm-2 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Categoria<span class="required"> * </span></label> 
+					<select id="categoria" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($categoria as $array) 
+							{?>
+								<option value="<?php echo $array['ID_CATEGORIA']; ?>" ><?php echo $array['SIGLAS_CATEGORIA']; ?></option>  
+						<?php } ?>
+					</select>
+	            </div>
+	        </div>
 	        <!-- btn adicionar -->
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">     
 	            		<label class="control-label required" for=""> &nbsp</label>           
-                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearRetiro();">
-                            <span class="glyphicon glyphicon-"></span> Crear Retiro
+                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearRegistro();">
+                            <span class="glyphicon glyphicon-"></span> Crear
                         </button>
 	            </div>
 	        </div>	
@@ -55,9 +56,9 @@
 	</div>
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
- 	<label class="control-label">Técnicos</label>
+ 	<label class="control-label">Seleccione el Técnico</label>
      <div class='input-group'>
-		<select id="tecnico" class="form-control" style="height:30px">
+		<select id="ftecnico" class="form-control" style="height:30px">
 			<option value="">TODOS</option>
              <?php foreach ($tecnico as $array) 
              	{?>
@@ -94,131 +95,96 @@
     params.life = '4000';//4segundos
 
 
-    function crearRetiro()
+    function crearRegistro()
     {
-    	var cliente = $("#c_cliente").val().trim();
-    	var telefono =$("#c_telefono").val().trim();
-    	var contacto =$("#c_contacto").val().trim();
-      var ciudad =$("#c_ciudad").val().trim();
-      var direccion =$("#c_direccion").val().trim();
-
-    	if(cliente=="")
+    	var tecnico   = $("#tecnico").val().trim();
+    	var proceso   = $("#proceso").val().trim();
+		var categoria = $("#categoria").val().trim();
+		
+    	if(tecnico=="")
     	{
-            var text = 'Falta campo CLIENTE';
+            var text = 'Falta campo TÉCNICO';
             $.notific8(text, params); 
             return;
     	}
-    	else if(telefono=="")
+    	else if(proceso=="")
     	{
-            var text = 'Falta campo TELEFONO';
+            var text = 'Falta campo PROCESO';
             $.notific8(text, params); 
             return;
     	}  
-    	else if(contacto=="")
+    	else if(categoria=="")
     	{
-            var text = 'Falta campo CONTACTO';
+            var text = 'Falta campo CATEGORIA';
             $.notific8(text, params); 
             return;
     	}
-      else if(ciudad=="")
-      {
-            var text = 'Falta campo CIUDAD';
-            $.notific8(text, params); 
-            return;
-      }
-      else if(direccion=="")
-      {
-            var text = 'Falta campo DIRECCION';
-            $.notific8(text, params); 
-            return;
-      }
+      
 
-				$.isLoading({
-                    text: "Cargando",
-                    position: "overlay"
-                });
-
-
-                $.ajax({
-                         type: 'POST',
-                         async:false,
-                         dataType: 'json',
-                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion},
-                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/insertarRetiro',
-                         success: function (data) 
-                         {    
-                           
-						   $.isLoading("hide"); 
-						   location.reload();
-                           //alert(data['USUARIO_NOMBRE']);  
-			
-                           var usuario = data['USUARIO_NOMBRE']+" "+data['USUARIO_APELLIDO'];
-                           var id_retiro = data['ID_RETIRO'];
-				            //ADICIONO UNA LINEA DE PRUEBA
-				            var cadena_html='<tr class="fila-retiro" id="r'+id_retiro+'" >'
-                                        +'<td>'
-				                                    +cliente
-				                                +'</td>'
-				                                +'<td>'
-				                                    +telefono
-				                                +'</td>'
-				                                +'<td>'
-				                                    +contacto
-				                                +'</td>'
-                                        +'<td>'
-                                            +ciudad
-                                        +'</td>'
-                                        +'<td>'
-                                            +direccion
-                                        +'</td>'
-				                                +'<td>'
-				                                    +"<?php echo date("Y-m-d H:i:s"); ?>"
-				                                +'</td>'
-				                                +'<td>'
-				                                    +usuario
-				                                +'</td>'
-				                                +'<td>'
-				                                    +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_retiro+'" style="width:50px" onclick="asignarRetiro(this.id)" >'
-				                                          +'<span class="glyphicon glyphicon-share-alt"></span>'
-				                                    +'</button></center>'
-				                                +'</td>'
-				                            +'</tr>';
-
-				            $( ".dataTables_empty" ).parent().remove();
-
-
-				            $("#tablaGenerada").append(cadena_html); 
-
-					    	$("#c_cliente").val("");
-					    	$("#c_telefono").val("");
-					    	$("#c_contacto").val(""); 
-                $("#c_ciudad").val(""); 
-                $("#c_direccion").val("");   
-					    	          
-                         }
-                }); 
-    }
-	function constultarPedidos(){
-		
-    	var tecnico = $("#tecnico").val().trim();
-
-			$.isLoading({
+        $.isLoading({
                       text: "Cargando",
                       position: "overlay"
-                      });
-			            $.ajax({
-			                     type: 'POST',
-			                     async:false,
-			                     dataType: 'json',
-			                     data: {tecnico:tecnico},
-			                     url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorTecnico',
-			                     success: function (data) 
-			                     {     
-			                        generarTablaDinamica(data); 							
-			                        $.isLoading("hide");                     
-			                     }
+                });
+		
+		$.ajax({
+                 type: 'POST',
+                 async:false,
+                 dataType: 'json',
+                 data: {tecnico:tecnico,proceso:proceso,categoria:categoria},
+                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarProcesosPorTecnico',
+                 success: function (data) 
+                 {     
+				   alert('Técnico Asociado a Proceso con Exito');
+				   $.isLoading("hide"); 
+				   location.reload();
+                 }
+        }); 
+							
+    }
+	function EliminarRegistro(id){
+		
+		$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {id:id},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarProcesosPorTecnico',
+			             success: function (data) 
+			             {     
+			                alert('Proceso Eliminado con Exito');
+							$.isLoading("hide"); 
+							constultarPedidos();		
+			             }
 
-			            });  
+			    });
+	}
+	function constultarPedidos(){
+		
+    	var tecnico = $("#ftecnico").val().trim();
+
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {tecnico:tecnico},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorTecnico',
+			             success: function (data) 
+			             {     
+			                generarTablaDinamica(data); 							
+			                $.isLoading("hide");                     
+			             }
+
+			    });  
     	}
         function generarTablaDinamica(data)
         {
@@ -310,23 +276,33 @@
 			                celda4.appendChild(textoCelda4); 
 			                celda5.appendChild(textoCelda5); 
 
-
-			                var btn = document.createElement("input");
-			                btn.setAttribute("class", "btn btn-primary btn-xs");
-			                btn.setAttribute("type", "button");
-			                btn.setAttribute("value", "Editar" );
-			                btn.setAttribute("onclick","modificarPedido('"+id+"')");
-			                celda12.appendChild(btn);
-			                celda12.setAttribute("style","text-align:center"); 
+							var span2 = document.createElement("span");
+							span2.setAttribute("class", "glyphicon glyphicon-pencil");
 							
-							var btn2 = document.createElement("input");
-			                btn2.setAttribute("class", "btn btn-primary btn-xs");
+			               	var btn2 = document.createElement("button");
+			                btn2.setAttribute("class", "btn btn-primary btn-sm");
 			                btn2.setAttribute("type", "button");
-			                btn2.setAttribute("value", "Eliminar" );
-			                btn2.setAttribute("onclick","VerReporte('"+id+"')");
-			                celda11.appendChild(btn2);
+			                btn2.setAttribute("value", "MODIFICAR" );
+			                btn2.setAttribute("onclick","ModificarRegistro('"+id+"')");
+			                btn2.appendChild(span2);
+							
+							celda11.appendChild(btn2);
 			                celda11.setAttribute("style","text-align:center"); 
 
+						    var span1 = document.createElement("span");
+							span1.setAttribute("class", "glyphicon glyphicon-trash");
+							
+							var btn = document.createElement("button");
+			                btn.setAttribute("class", "btn btn-danger btn-sm");
+			                btn.setAttribute("type", "button");
+			                btn.setAttribute("value", "ELIMINAR");
+							btn.setAttribute("onclick","EliminarRegistro('"+id+"')");
+							btn.appendChild(span1);
+							
+			                celda12.appendChild(btn);
+			                celda12.setAttribute("style","text-align:center"); 
+		
+														
 							fila.appendChild(celda0);
 			                fila.appendChild(celda1);
 			                fila.appendChild(celda2);
