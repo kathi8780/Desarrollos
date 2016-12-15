@@ -29,18 +29,49 @@ class configura_procesos_model extends CI_Model
     }
 	public function obtenerTecnico()
     {
-           
-		$usuario=$this->session->userdata['loggeado']['USUARIO'];	
 		
 		$array=array("t.ID_TECNICO","CONCAT_WS(' ',t.APELLIDO_TECNICO,t.NOMBRE_TECNICO) AS TECNICO");
 		$this->db->select($array);
 		$this->db->from("tecnico AS t");
-				
+						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
 		return $resultado;
 				
     }
+	public function obtenerProcesos()
+    {
+           	
+		$array=array("pn.ID_PROCESO_NOMBRE", "pn.NOMBRE_PROCESO");
+		$this->db->select($array);
+		$this->db->from("procesos_nombre AS pn");
+						
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
+	public function obtenerCategoria()
+    {
+		
+		$array=array("c.ID_CATEGORIA","c.SIGLAS_CATEGORIA");
+		$this->db->select($array);
+		$this->db->from("categoria AS c");
+						
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }	
+	public function InsertarProcesosPorTecnico($data)
+    {
+        $this->db->insert('tecnico_proceso', $data);
+        return $this->db->insert_id();
+    }
+	public function EliminarProcesosPorTecnico($id)
+    {
+        $this->db->where('ID_TECNICO_PROCESO', $id);
+        $this->db->delete('tecnico_proceso'); 
+    }
 	
 }
-
