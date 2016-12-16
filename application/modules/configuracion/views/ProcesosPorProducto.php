@@ -1,22 +1,22 @@
 <div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR NUEVO TÉCNICO A PROCESO</div>
+    <div class="panel-heading">ADICIONAR NUEVO PROCESO A PRODUCTO</div>
 
 	<div class="container">
 		<div class="row">
-	        <!-- campo técnico -->
+	        <!-- campo Producto -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Técnico<span class="required"> * </span></label> 
-					<select id="tecnico" class="form-control" style="height:30px">
+	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
+					<select id="producto" class="form-control" style="height:30px">
 						<option value="">TODOS</option>
-						<?php foreach ($tecnico as $array) 
+						<?php foreach ($producto as $array) 
 							{?>
-								<option value="<?php echo $array['ID_TECNICO']; ?>" ><?php echo $array['TECNICO']; ?></option>  
+								<option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
 					<?php } ?>
 					</select>
 	            </div>
 	        </div>			
-	        <!-- campo Proceso -->
+			 <!-- campo categoria -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
@@ -29,16 +29,36 @@
 					</select>
 	            </div>
 	        </div>
-	        <!-- campo Categoria -->
+			 <!-- campo laboratorio -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Categoria<span class="required"> * </span></label> 
-					<select id="categoria" class="form-control" style="height:30px">
+	                <label class="control-label required" for="">Laboratorio<span class="required"> * </span></label> 
+					<select id="proceso" class="form-control" style="height:30px">
 						<option value="">TODOS</option>
-						<?php foreach ($categoria as $array) 
+						<?php foreach ($laboratorio as $array) 
 							{?>
-								<option value="<?php echo $array['ID_CATEGORIA']; ?>" ><?php echo $array['SIGLAS_CATEGORIA']; ?></option>  
-						<?php } ?>
+								<option value="<?php echo $array['ID_LABORATORIO']; ?>" ><?php echo $array['NOMBRE_LABORATORIO']; ?></option>  
+					<?php } ?>
+					</select>
+	            </div>
+	        </div>
+		    <!-- campo comisión -->
+	        <div class="col-md- col-sm-2 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Comisión<span class="required"> * </span></label> 
+					<select id="categoria" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
+					</select>
+	            </div>
+	        </div>
+			<!-- campo Prod. Principal -->
+	        <div class="col-md- col-sm-2 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Prod. Principal<span class="required"> * </span></label> 
+					<select id="categoria" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
 					</select>
 	            </div>
 	        </div>
@@ -55,13 +75,13 @@
 	</div>
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
- 	<label class="control-label">Reporte por Técnico</label>
+ 	<label class="control-label">Reporte por Producto</label>
      <div class='input-group'>
-		<select id="ftecnico" class="form-control" style="height:30px">
+		<select id="fproducto" class="form-control" style="height:30px">
 			<option value="">TODOS</option>
-             <?php foreach ($tecnico as $array) 
+             <?php foreach ($producto as $array) 
              	{?>
-                	 <option value="<?php echo $array['ID_TECNICO']; ?>" ><?php echo $array['TECNICO']; ?></option>  
+                	 <option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
            <?php } ?>
 		</select>  
      </div>
@@ -96,11 +116,11 @@
 
     function crearRegistro()
     {
-    	var tecnico   = $("#tecnico").val().trim();
+    	var producto   = $("#producto").val().trim();
     	var proceso   = $("#proceso").val().trim();
 		var categoria = $("#categoria").val().trim();
 		
-    	if(tecnico=="")
+    	if(producto=="")
     	{
             var text = 'Falta campo TÉCNICO';
             $.notific8(text, params); 
@@ -129,7 +149,7 @@
                  type: 'POST',
                  async:false,
                  dataType: 'json',
-                 data: {tecnico:tecnico,proceso:proceso,categoria:categoria},
+                 data: {producto:producto,proceso:proceso,categoria:categoria},
                  url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarProcesosPorTecnico',
                  success: function (data) 
                  {     
@@ -157,19 +177,19 @@
 			             async:false,
 			             dataType: 'json',
 			             data: {id:id},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarProcesosPorTecnico',
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarProcesosPorProducto',
 			             success: function (data) 
 			             {     
-			                alert('Proceso Eliminado con Exito');
+							alert(data);
 							$.isLoading("hide"); 
-							constultarPedidos();		
+							constultarPedidos();
 			             }
 
 			    });
 	}
 	function constultarPedidos(){
 		
-    	var tecnico = $("#ftecnico").val().trim();
+    	var producto = $("#fproducto").val().trim();
 
 				$.isLoading({
                       text: "Cargando",
@@ -180,8 +200,8 @@
 			             type: 'POST',
 			             async:false,
 			             dataType: 'json',
-			             data: {tecnico:tecnico},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorTecnico',
+			             data: {producto:producto},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorProducto',
 			             success: function (data) 
 			             {     
 			                generarTablaDinamica(data); 							
@@ -211,12 +231,12 @@
 			            var celda12 = document.createElement("td");
 						
 		
-						var textoCelda0 = document.createTextNode("CEDULA");
-			            var textoCelda1 = document.createTextNode("TÉCNICO");
-			            var textoCelda2 = document.createTextNode("DIRECCIÓN");
-			            var textoCelda3 = document.createTextNode("PROCESO");
-			            var textoCelda4 = document.createTextNode("CATEGORIA");
-			            var textoCelda5 = document.createTextNode("SIGLAS");
+						var textoCelda0 = document.createTextNode("PRODUCTO");
+			            var textoCelda1 = document.createTextNode("LABORATORIO");
+			            var textoCelda2 = document.createTextNode("PRINCIPAL");
+			            var textoCelda3 = document.createTextNode("COMISIÓN");
+			            var textoCelda4 = document.createTextNode("ORDEN");
+			            var textoCelda5 = document.createTextNode("PROCESO");
 			            var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
 			            
@@ -242,69 +262,70 @@
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
 
-			            var cedula_iteracion_anterior="";
-						var tecnico_iteracion_anterior="";
-						var direccion_iteracion_anterior="";
+			            var producto_iteracion_anterior="";
+						var laboratorio_iteracion_anterior="";
+						var principal_iteracion_anterior="";
 						
 						//CUERPO
 			            for (var i = 0; i < data.length; i++)
-			            {                   
-			                var cedula    = data[i]['cedula']; 
-							
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre de la cedula
-                              {
-                                if(cedula==cedula_iteracion_anterior)
-                                {
-                                  cedula_iteracion_anterior=cedula;
-                                  cedula="";
-                                }
-                                else
-                                {
-                                  cedula_iteracion_anterior=cedula;
-                                }
-                              }
-                              else
-                                cedula_iteracion_anterior=cedula;
+			            {
 
-							
-			                var tecnico   = data[i]['tecnico']; 
-							
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del tecnico
+                              var producto = data[i]['producto'];
+                              if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto
                               {
-                                if(tecnico==tecnico_iteracion_anterior && cedula!=cedula_iteracion_anterior)
+                                if(producto==producto_iteracion_anterior)
                                 {
-                                  tecnico_iteracion_anterior=tecnico;
-                                  tecnico="";
+                                  producto_iteracion_anterior=producto;
+                                  producto="";
                                 }
                                 else
                                 {
-                                  tecnico_iteracion_anterior=tecnico;
+                                  producto_iteracion_anterior=producto;
                                 }
                               }
                               else
-                                tecnico_iteracion_anterior=tecnico;
+                                producto_iteracion_anterior=producto;
 							
-			                var direccion = data[i]['direccion']; 
 							
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre de la direccion
+							var laboratorio = data[i]['laboratorio'];
+							
+							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del laboratorio
                               {
-                                if(direccion==direccion_iteracion_anterior && cedula!=cedula_iteracion_anterior)
+                                if(laboratorio==laboratorio_iteracion_anterior && producto!=producto_iteracion_anterior)
                                 {
-                                  direccion_iteracion_anterior=direccion;
-                                  direccion="";
+                                  laboratorio_iteracion_anterior=laboratorio;
+                                  laboratorio="";
                                 }
                                 else
                                 {
-                                  direccion_iteracion_anterior=direccion;
+                                  laboratorio_iteracion_anterior=laboratorio;
                                 }
                               }
                               else
-                                direccion_iteracion_anterior=direccion;
+                                laboratorio_iteracion_anterior=laboratorio;
+					
+			                 var principal   = data[i]['principal']; 
+							 
+							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto principal
+                              {
+                                if(principal==principal_iteracion_anterior && producto!=producto_iteracion_anterior)
+                                {
+                                  principal_iteracion_anterior=principal;
+                                  principal="";
+                                }
+                                else
+                                {
+                                  principal_iteracion_anterior=principal;
+                                }
+                              }
+                              else
+                                principal_iteracion_anterior=principal;
 							
-			                var proceso   = data[i]['proceso']; 
-			                var categoria = data[i]['categoria'];
-							var siglas    = data[i]['siglas'];
-							var id        = data[i]['ID_TECNICO_PROCESO'];
+							
+			                var comision    = data[i]['comision'];
+			                var orden       = data[i]['orden'];
+							var proceso     = data[i]['proceso'];
+							var id          = data[i]['ID_PROCESOS'];
 
 			                
 			                var fila = document.createElement("tr");
@@ -318,12 +339,12 @@
 			                var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td");   						
 
-							var textoCelda0 = document.createTextNode(cedula);
-			                var textoCelda1 = document.createTextNode(tecnico);
-			                var textoCelda2 = document.createTextNode(direccion);
-			                var textoCelda3 = document.createTextNode(proceso);
-			                var textoCelda4 = document.createTextNode(categoria);
-			                var textoCelda5 = document.createTextNode(siglas);
+							var textoCelda0 = document.createTextNode(producto);
+			                var textoCelda1 = document.createTextNode(laboratorio);
+			                var textoCelda2 = document.createTextNode(principal);
+			                var textoCelda3 = document.createTextNode(comision);
+			                var textoCelda4 = document.createTextNode(orden);
+			                var textoCelda5 = document.createTextNode(proceso);
              
 
 							celda0.appendChild(textoCelda0);

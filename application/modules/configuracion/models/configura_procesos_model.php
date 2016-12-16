@@ -6,7 +6,49 @@ class configura_procesos_model extends CI_Model
     public function __construct() {
         $this->load->database();
     }
-   	//Trae los procesos por técnico
+   	//Trae las Pruebas Por Laboratorio
+	public function PruebasPorLaboratorio($laboratorio)
+    {
+   
+		 $select=array("pl.ID_PRUEBA_LABORATORIO","l.NOMBRE_LABORATORIO as laboratorio","tp.NOMBRE_PRUEBA prueba");
+		 $this->db->select($select);
+         $this->db->from("pruebas_laboratorio pl");
+		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+		 $this->db->join("tipo_prueba tp",'tp.ID_TIPO_PRUEBA= pl.ID_TIPO_PRUEBA');
+		 
+		 if($laboratorio!= ""){
+			 
+             $this->db->where("pl.ID_LABORATORIO=", $laboratorio);  
+         }
+		 
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+				
+    }
+	//Trae los procesos por producto
+	public function ProcesosPorProducto($producto)
+    {
+   
+		 $select=array("p.ID_PROCESOS","pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","p.ORDEN orden", "pn.NOMBRE_PROCESO proceso");
+		 $this->db->select($select);
+         $this->db->from("producto_laboratorio pl");
+		 $this->db->join("procesos p",'pl.ID_PRODUCTO_LABORATORIO=p.ID_PRODUCTO_LABORATORIO');
+		 $this->db->join("procesos_nombre pn",'pn.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE');
+		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+		 $this->db->order_by("pl.PROD_COD_PROD ASC,p.ORDEN ASC");
+		 
+		 if($producto!= ""){
+			 
+             $this->db->where("pl.PROD_COD_PROD=", $producto);  
+         }
+		 
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+				
+    }
+	//Trae los procesos por técnico
 	public function ProcesosPorTecnico($tecnico)
     {
    
@@ -25,6 +67,19 @@ class configura_procesos_model extends CI_Model
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
          return $resultado;
+				
+    }
+	public function obtenerProducto()
+    {
+		
+		$array=array("pl.PROD_COD_PROD");
+		$this->db->select($array);
+		$this->db->from("producto_laboratorio AS pl");
+		$this->db->group_by("pl.PROD_COD_PROD");
+								
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
 				
     }
 	public function obtenerTecnico()
@@ -51,27 +106,76 @@ class configura_procesos_model extends CI_Model
 		return $resultado;
 				
     }
-	public function obtenerCategoria()
+	public function obtenerPruebas()
     {
-		
+           	
+		$array=array("p.ID_TIPO_PRUEBA","p.NOMBRE_PRUEBA");
+		$this->db->select($array);
+		$this->db->from("tipo_prueba AS p");
+						
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
+	public function obtenerLaboratorio()
+    {
+           	
+		$array=array("l.ID_LABORATORIO", "l.NOMBRE_LABORATORIO");
+		$this->db->select($array);
+		$this->db->from("laboratorio AS l");
+						
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
+	public function obtenerCategoria()
+    {	
 		$array=array("c.ID_CATEGORIA","c.SIGLAS_CATEGORIA");
 		$this->db->select($array);
 		$this->db->from("categoria AS c");
 						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
-		return $resultado;
-				
+		return $resultado;				
+    }
+	public function InsertarPruebasPorLaboratorio($data)
+    {
+        $this->db->insert('pruebas_laboratorio', $data);
+        return $this->db->insert_id();
     }	
 	public function InsertarProcesosPorTecnico($data)
     {
         $this->db->insert('tecnico_proceso', $data);
         return $this->db->insert_id();
     }
+	public function EliminarPruebasPorLaboratorio($id)
+    {
+        $this->db->where('ID_PRUEBA_LABORATORIO', $id);
+        $this->db->delete('pruebas_laboratorio'); 
+    }
 	public function EliminarProcesosPorTecnico($id)
     {
         $this->db->where('ID_TECNICO_PROCESO', $id);
         $this->db->delete('tecnico_proceso'); 
     }
-	
+	public function EliminarProcesosPorProducto($id)
+    {
+        $query =$this->db->query("SELECT COUNT(*)cant FROM proceso_pedido a where a.ID_PROCESOS='$id'");
+		
+		if ($query->num_rows() > 0)
+		{
+				$row = $query->row_array();
+				
+				if($row['cant']==0){
+					$this->db->where('ID_PROCESOS', $id);
+					$this->db->delete('procesos');
+					$resultado='Proceso Eliminado con Exito';
+				}else{
+					$resultado='Proceso con Movimientos en Pedidos no puede ser Eliminado';
+				}
+		}
+		return $resultado;	
+    }
 }

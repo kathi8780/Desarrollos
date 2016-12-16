@@ -1209,8 +1209,6 @@ class Pedidos_model extends CI_Model
         $this->db->where('title', $idPedido);
         $this->db->delete('`events`'); 
     }
-
-
     public function reanudarPedidos($arreglo_nros_pedido)
     {
         for ($i=0; $i < count($arreglo_nros_pedido); $i++) 
@@ -1362,7 +1360,7 @@ class Pedidos_model extends CI_Model
 
          $resultado['ID_RETIRO']=$id_retiro;
          return $resultado;
-    }   
+    }
 
     public function obtenerRetiros() 
     {
