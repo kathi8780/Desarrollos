@@ -5,6 +5,38 @@ class configura_procesos extends MX_Controller {
         parent::__construct();
 		$this->load->model('configura_procesos_model');
     }
+	public function ProcesosPorProducto(){
+		
+		 if ($this->session->userdata('loggeado'))
+		 {
+			$datos=array();
+			$datos['producto']    = $this->configura_procesos_model->obtenerProducto();
+			$datos['proceso']    = $this->configura_procesos_model->obtenerProcesos();
+			$datos['categoria']  = $this->configura_procesos_model->obtenerCategoria();
+			$datos['laboratorio']= $this->configura_procesos_model->obtenerLaboratorio();
+			
+			
+			$this->load->view('templates/header');
+            $this->load->view('ProcesosPorProducto', $datos);
+            $this->load->view('templates/footer');
+						 
+		 }
+		
+	}
+	public function BuscarProcesosPorProducto(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {
+            $producto = trim($this->input->post('producto'));
+			$resultado = $datos['procesos_producto']  = $this->configura_procesos_model->ProcesosPorProducto($producto);
+            echo json_encode($resultado);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+		
+	}
 	public function ProcesosPorTecnico(){
 		
 		 if ($this->session->userdata('loggeado'))
@@ -73,5 +105,18 @@ class configura_procesos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }	
 	}
-
+	public function EliminarProcesosPorProducto(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {			
+            $id = trim($this->input->post('id'));
+			$resultado=$this->configura_procesos_model->EliminarProcesosPorProducto($id);
+			echo json_encode($resultado);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
+	}
 }  

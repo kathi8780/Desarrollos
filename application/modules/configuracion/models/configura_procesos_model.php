@@ -6,7 +6,29 @@ class configura_procesos_model extends CI_Model
     public function __construct() {
         $this->load->database();
     }
-   	//Trae los procesos por técnico
+   	//Trae los procesos por producto
+	public function ProcesosPorProducto($producto)
+    {
+   
+		 $select=array("p.ID_PROCESOS","pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","p.ORDEN orden", "pn.NOMBRE_PROCESO proceso");
+		 $this->db->select($select);
+         $this->db->from("producto_laboratorio pl");
+		 $this->db->join("procesos p",'pl.ID_PRODUCTO_LABORATORIO=p.ID_PRODUCTO_LABORATORIO');
+		 $this->db->join("procesos_nombre pn",'pn.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE');
+		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+		 $this->db->order_by("pl.PROD_COD_PROD ASC,p.ORDEN ASC");
+		 
+		 if($producto!= ""){
+			 
+             $this->db->where("pl.PROD_COD_PROD=", $producto);  
+         }
+		 
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+				
+    }
+	//Trae los procesos por técnico
 	public function ProcesosPorTecnico($tecnico)
     {
    
@@ -27,6 +49,19 @@ class configura_procesos_model extends CI_Model
          return $resultado;
 				
     }
+	public function obtenerProducto()
+    {
+		
+		$array=array("pl.PROD_COD_PROD");
+		$this->db->select($array);
+		$this->db->from("producto_laboratorio AS pl");
+		$this->db->group_by("pl.PROD_COD_PROD");
+								
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
 	public function obtenerTecnico()
     {
 		
@@ -45,6 +80,18 @@ class configura_procesos_model extends CI_Model
 		$array=array("pn.ID_PROCESO_NOMBRE", "pn.NOMBRE_PROCESO");
 		$this->db->select($array);
 		$this->db->from("procesos_nombre AS pn");
+						
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
+	public function obtenerLaboratorio()
+    {
+           	
+		$array=array("l.ID_LABORATORIO", "l.NOMBRE_LABORATORIO");
+		$this->db->select($array);
+		$this->db->from("laboratorio AS l");
 						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
@@ -73,5 +120,33 @@ class configura_procesos_model extends CI_Model
         $this->db->where('ID_TECNICO_PROCESO', $id);
         $this->db->delete('tecnico_proceso'); 
     }
-	
+	public function EliminarProcesosPorProducto($id)
+    {
+        $query =$this->db->query("SELECT COUNT(*)cant FROM proceso_pedido a where a.ID_PROCESOS='$id'");
+		
+		if ($query->num_rows() > 0)
+		{
+				$row = $query->row_array();
+				
+				if($row['cant']=0){
+					$this->db->where('ID_PROCESOS', $id);
+					$this->db->delete('procesos');
+					$resultado='Proceso Eliminado con Exito';
+				}else{
+					$resultado='Proceso con Movimientos en Pedidos no puede ser Eliminado';
+				}
+					
+
+		}
+		
+		//$this->db->select("COUNT(*) cant");
+		//$this->db->from("procesos");
+		//$this->db->where("id_procesos",$id);
+		//				
+		//$consulta = $this->db->get();
+		//$resultado = $consulta->result_array();
+		return $resultado;
+		
+		
+    }
 }
