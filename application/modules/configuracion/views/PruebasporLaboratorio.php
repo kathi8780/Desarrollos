@@ -1,39 +1,13 @@
 <div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR NUEVO PROCESO A PRODUCTO</div>
+    <div class="panel-heading">ADICIONAR NUEVA PRUEBA A LABORATORIO</div>
 
 	<div class="container">
 		<div class="row">
-	        <!-- campo Producto -->
-	        <div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
-					<select id="producto" class="form-control" style="height:30px">
-						<option value="">TODOS</option>
-						<?php foreach ($producto as $array) 
-							{?>
-								<option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
-					<?php } ?>
-					</select>
-	            </div>
-	        </div>			
-			 <!-- campo categoria -->
-	        <div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
-					<select id="proceso" class="form-control" style="height:30px">
-						<option value="">TODOS</option>
-						<?php foreach ($proceso as $array) 
-							{?>
-								<option value="<?php echo $array['ID_PROCESO_NOMBRE']; ?>" ><?php echo $array['NOMBRE_PROCESO']; ?></option>  
-					<?php } ?>
-					</select>
-	            </div>
-	        </div>
-			 <!-- campo laboratorio -->
+			<!-- campo laboratorio -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Laboratorio<span class="required"> * </span></label> 
-					<select id="proceso" class="form-control" style="height:30px">
+					<select id="laboratorio" class="form-control" style="height:30px">
 						<option value="">TODOS</option>
 						<?php foreach ($laboratorio as $array) 
 							{?>
@@ -42,23 +16,16 @@
 					</select>
 	            </div>
 	        </div>
-		    <!-- campo comisión -->
+			 <!-- campo Prueba -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Comisión<span class="required"> * </span></label> 
-					<select id="categoria" class="form-control" style="height:30px">
-						<option value="S">SI</option>
-						<option value="N">NO</option>			
-					</select>
-	            </div>
-	        </div>
-			<!-- campo Prod. Principal -->
-	        <div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Prod. Principal<span class="required"> * </span></label> 
-					<select id="categoria" class="form-control" style="height:30px">
-						<option value="S">SI</option>
-						<option value="N">NO</option>			
+	                <label class="control-label required" for="">Prueba<span class="required"> * </span></label> 
+					<select id="prueba" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($pruebas as $array) 
+							{?>
+								<option value="<?php echo $array['ID_TIPO_PRUEBA']; ?>" ><?php echo $array['NOMBRE_PRUEBA']; ?></option>  
+					<?php } ?>
 					</select>
 	            </div>
 	        </div>
@@ -75,13 +42,13 @@
 	</div>
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
- 	<label class="control-label">Reporte por Producto</label>
+ 	<label class="control-label">Reporte por Laboratorio</label>
      <div class='input-group'>
-		<select id="fproducto" class="form-control" style="height:30px">
+		<select id="flaboratorio" class="form-control" style="height:30px">
 			<option value="">TODOS</option>
-             <?php foreach ($producto as $array) 
+             <?php foreach ($laboratorio as $array) 
              	{?>
-                	 <option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
+                	 <option value="<?php echo $array['ID_LABORATORIO']; ?>" ><?php echo $array['NOMBRE_LABORATORIO']; ?></option>  
            <?php } ?>
 		</select>  
      </div>
@@ -116,29 +83,22 @@
 
     function crearRegistro()
     {
-    	var producto   = $("#producto").val().trim();
-    	var proceso   = $("#proceso").val().trim();
-		var categoria = $("#categoria").val().trim();
-		
-    	if(producto=="")
+    	var laboratorio   = $("#laboratorio").val().trim();
+    	var prueba   = $("#prueba").val().trim();
+				
+    	if(laboratorio=="")
     	{
-            var text = 'Falta campo TÉCNICO';
+            var text = 'Falta campo LABORATORIO';
             $.notific8(text, params); 
             return;
     	}
-    	else if(proceso=="")
+    	else if(prueba=="")
     	{
-            var text = 'Falta campo PROCESO';
+            var text = 'Falta campo PRUEBA';
             $.notific8(text, params); 
             return;
     	}  
-    	else if(categoria=="")
-    	{
-            var text = 'Falta campo CATEGORIA';
-            $.notific8(text, params); 
-            return;
-    	}
-      
+    	      
 
         $.isLoading({
                       text: "Cargando",
@@ -149,11 +109,11 @@
                  type: 'POST',
                  async:false,
                  dataType: 'json',
-                 data: {producto:producto,proceso:proceso,categoria:categoria},
-                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarProcesosPorTecnico',
+                 data: {laboratorio:laboratorio,prueba:prueba},
+                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarPruebasPorLaboratorio',
                  success: function (data) 
                  {     
-				   alert('Técnico Asociado a Proceso con Exito');
+				   alert('Prueba Asociada a Laboratorio con Exito');
 				   $.isLoading("hide"); 
 				   location.reload();
                  }
@@ -177,10 +137,10 @@
 			             async:false,
 			             dataType: 'json',
 			             data: {id:id},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarProcesosPorProducto',
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarPruebasPorLaboratorio',
 			             success: function (data) 
 			             {     
-							alert(data);
+							alert("Prueba Eliminada con Exito");
 							$.isLoading("hide"); 
 							constultarPedidos();
 			             }
@@ -189,7 +149,7 @@
 	}
 	function constultarPedidos(){
 		
-    	var producto = $("#fproducto").val().trim();
+    	var laboratorio = $("#flaboratorio").val().trim();
 
 				$.isLoading({
                       text: "Cargando",
@@ -200,8 +160,8 @@
 			             type: 'POST',
 			             async:false,
 			             dataType: 'json',
-			             data: {producto:producto},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorProducto',
+			             data: {laboratorio:laboratorio},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarPruebasPorLaboratorio',
 			             success: function (data) 
 			             {     
 			                generarTablaDinamica(data); 							
@@ -221,77 +181,41 @@
 
             //cabecera
             var filaCabecera = document.createElement("tr");
-						var celda0 = document.createElement("td");
-			            var celda1 = document.createElement("td");
-			            var celda2 = document.createElement("td");
-			            var celda3 = document.createElement("td");
-			            var celda4 = document.createElement("td");
-			            var celda5 = document.createElement("td");
+						var celda0  = document.createElement("td");
+			            var celda1  = document.createElement("td");
 			            var celda11 = document.createElement("td");
 			            var celda12 = document.createElement("td");
-						
 		
-						var textoCelda0 = document.createTextNode("PRODUCTO");
-			            var textoCelda1 = document.createTextNode("LABORATORIO");
-			            var textoCelda2 = document.createTextNode("PRINCIPAL");
-			            var textoCelda3 = document.createTextNode("COMISIÓN");
-			            var textoCelda4 = document.createTextNode("ORDEN");
-			            var textoCelda5 = document.createTextNode("PROCESO");
+						var textoCelda0  = document.createTextNode("LABORATORIO");
+			            var textoCelda1  = document.createTextNode("PRUEBAS");
 			            var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
 			            
 						celda0.appendChild(textoCelda0);
 			            celda1.appendChild(textoCelda1);
-			            celda2.appendChild(textoCelda2);
-			            celda3.appendChild(textoCelda3);
-			            celda4.appendChild(textoCelda4);
-			            celda5.appendChild(textoCelda5);
 			            celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
 
-
 						filaCabecera.appendChild(celda0);
 			            filaCabecera.appendChild(celda1);
-			            filaCabecera.appendChild(celda2);
-			            filaCabecera.appendChild(celda3);
-			            filaCabecera.appendChild(celda4);
-			            filaCabecera.appendChild(celda5);
 			            filaCabecera.appendChild(celda11);
 			            filaCabecera.appendChild(celda12);
 
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
 
-			            var producto_iteracion_anterior="";
+			            var prueba_iteracion_anterior="";
 						var laboratorio_iteracion_anterior="";
-						var principal_iteracion_anterior="";
 						
 						//CUERPO
 			            for (var i = 0; i < data.length; i++)
 			            {
 
-                              var producto = data[i]['producto'];
-                              if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto
+                              var laboratorio = data[i]['laboratorio'];
+							  
+                              if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del laboratorio
                               {
-                                if(producto==producto_iteracion_anterior)
-                                {
-                                  producto_iteracion_anterior=producto;
-                                  producto="";
-                                }
-                                else
-                                {
-                                  producto_iteracion_anterior=producto;
-                                }
-                              }
-                              else
-                                producto_iteracion_anterior=producto;
-							
-							
-							var laboratorio = data[i]['laboratorio'];
-							
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del laboratorio
-                              {
-                                if(laboratorio==laboratorio_iteracion_anterior && producto!=producto_iteracion_anterior)
+                                if(laboratorio==laboratorio_iteracion_anterior)
                                 {
                                   laboratorio_iteracion_anterior=laboratorio;
                                   laboratorio="";
@@ -303,57 +227,23 @@
                               }
                               else
                                 laboratorio_iteracion_anterior=laboratorio;
-					
-			                 var principal   = data[i]['principal']; 
-							 
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto principal
-                              {
-                                if(principal==principal_iteracion_anterior && producto!=producto_iteracion_anterior)
-                                {
-                                  principal_iteracion_anterior=principal;
-                                  principal="";
-                                }
-                                else
-                                {
-                                  principal_iteracion_anterior=principal;
-                                }
-                              }
-                              else
-                                principal_iteracion_anterior=principal;
 							
-							
-			                var comision    = data[i]['comision'];
-			                var orden       = data[i]['orden'];
-							var proceso     = data[i]['proceso'];
-							var id          = data[i]['ID_PROCESOS'];
-
+			                var prueba = data[i]['prueba'];
+							var id     = data[i]['ID_PRUEBA_LABORATORIO'];
 			                
 			                var fila = document.createElement("tr");
 
-							var celda0 = document.createElement("td");
-			                var celda1 = document.createElement("td");
-			                var celda2 = document.createElement("td");
-			                var celda3 = document.createElement("td");
-			                var celda4 = document.createElement("td");
-			                var celda5 = document.createElement("td");
+							var celda0  = document.createElement("td");
+			                var celda1  = document.createElement("td");
 			                var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td");   						
 
-							var textoCelda0 = document.createTextNode(producto);
-			                var textoCelda1 = document.createTextNode(laboratorio);
-			                var textoCelda2 = document.createTextNode(principal);
-			                var textoCelda3 = document.createTextNode(comision);
-			                var textoCelda4 = document.createTextNode(orden);
-			                var textoCelda5 = document.createTextNode(proceso);
-             
-
+							var textoCelda0 = document.createTextNode(laboratorio);
+			                var textoCelda1 = document.createTextNode(prueba);
+						                
 							celda0.appendChild(textoCelda0);
-			                celda1.appendChild(textoCelda1);   
-			                celda2.appendChild(textoCelda2); 
-			                celda3.appendChild(textoCelda3); 
-			                celda4.appendChild(textoCelda4); 
-			                celda5.appendChild(textoCelda5); 
-
+			                celda1.appendChild(textoCelda1); 
+			
 							var span2 = document.createElement("span");
 							span2.setAttribute("class", "glyphicon glyphicon-pencil");
 							
@@ -379,17 +269,12 @@
 							
 			                celda12.appendChild(btn);
 			                celda12.setAttribute("style","text-align:center"); 
-		
-														
+									
 							fila.appendChild(celda0);
 			                fila.appendChild(celda1);
-			                fila.appendChild(celda2);
-			                fila.appendChild(celda3);
-			                fila.appendChild(celda4);
-			                fila.appendChild(celda5);
-			                fila.appendChild(celda11);
+							fila.appendChild(celda11);
 			                fila.appendChild(celda12);
-	
+			               	
 			                tbody.appendChild(fila);
 			            }
 
@@ -441,14 +326,10 @@
 			"aoColumnDefs": [  //habilito la opcion de ordenar en la columna deseada
                                 { "aTargets": [ 0 ],"bSortable": true },
                                 { "aTargets": [ 1 ],"bSortable": true },
-                                { "aTargets": [ 2 ],"bSortable": true },
-                                { "aTargets": [ 3 ],"bSortable": true },
-                                { "aTargets": [ 4 ],"bSortable": true },
-                                { "aTargets": [ 5 ],"bSortable": true },
-                                { "aTargets": [ 6 ],"bSortable": false },
-								{ "aTargets": [ 7 ],"bSortable": false }
-								
-                              ] 
+                                { "aTargets": [ 2 ],"bSortable": false },
+                                { "aTargets": [ 3 ],"bSortable": false }
+	
+                            ] 
 
 		  });
 		

@@ -16,8 +16,7 @@
 					</select>
 	            </div>
 	        </div>			
-
-	        <!-- campo categoria -->
+	        <!-- campo Proceso -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
@@ -30,7 +29,7 @@
 					</select>
 	            </div>
 	        </div>
-	        <!-- campo proceso -->
+	        <!-- campo Categoria -->
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Categoria<span class="required"> * </span></label> 
