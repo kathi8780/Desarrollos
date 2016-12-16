@@ -1,19 +1,5 @@
 <!--ventana modal para editar proceso-->
 
-<?php 
-
-$n="";
-                          $cliente_iteracion_anterior="";
-                          for ($i=0; $i < count($procesos_nombre_datos); $i++) 
-                          { 
-                              if ($i==1) {
-                                # code...
-                                 $n=$procesos_nombre_datos[$i]['NOMBRE_PROCESO'];
-                              }
-
-                            }
-                         ?>
-
 
         <div class="modal fade" id="modal-editar-proceso">
             <div class="modal-dialog">
@@ -146,7 +132,7 @@ $n="";
 <div class="panel panel-primary" >
     <div class="panel-heading">PROCESOS REGISTRADOS</div></div>
     <div class="container">
-    	<div class="table-responsive">
+    	<div class="table-responsive" id="listaProcesos">
     		<table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
     					<thead>
                         <tr style="font-weight: bold" >
@@ -189,6 +175,7 @@ $n="";
 	                            
 	                            <td style="text-align:center">
       				                    <center>
+                                  <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">E</a> 
       				                    	<button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarProceso(this.id)">
       				                          	<span class="glyphicon glyphicon-pencil"></span>
       				                        </button>
@@ -275,6 +262,7 @@ $n="";
                          url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarProcesoNombre',
                          success: function (data) 
                          {    
+                          alert(data);
                            
 						   $.isLoading("hide"); 
 						   location.reload();
@@ -364,15 +352,21 @@ $n="";
       //document.getElementById("c_proceso").value=id_proceso;
 
 
-      id_editar_proceso=id_proceso;
-      id=nomb;
+     
      
 
           
-                   
-                     $("#modal-editar-proceso").modal('show');
-                     $("#c_proceso").val(id);      //alert(data['USUARIO_NOMBRE']);  
-      
+       var valores="";            
+                     //$("#modal-editar-proceso").modal('show');
+                     //$("#c_proceso").val(id_proceso);   
+
+     $(this).parents("tr").find("td").each(function(){
+
+                valores+=$(this).html()+"\n";
+
+            });
+
+     alert(valores);
 
     }
     //abrir eliminar proceso
@@ -391,7 +385,7 @@ $n="";
                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarProcesosNombre',
                 success: function (data) 
                 {     
-                   alert('Proceso Eliminado con Exito');
+                   alert(data);
        $.isLoading("hide"); 
        //constultarPedidos(); 
        location.reload();

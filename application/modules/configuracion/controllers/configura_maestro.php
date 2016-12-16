@@ -14,11 +14,12 @@ class configura_maestro extends MX_Controller {
         {      
             //$data_sesion = $this->session->userdata()['loggeado'];
             $id_usuario = $this->session->userdata['loggeado']['ID_USUARIO'];
-
+            //$nombre = array();
+            $nombre=trim($this->input->post('proceso'));
             $data_procesos_nombre = array();
             $data_procesos_nombre['NOMBRE_PROCESO']=trim($this->input->post('proceso'));
             $data_procesos_nombre['MINUTOS']=trim($this->input->post('minutos')); 
-            $procesos_nombre_datos = $this->configura_maestros_model->insertarNuevoProcesoNombre($data_procesos_nombre);
+            $procesos_nombre_datos = $this->configura_maestros_model->insertarNuevoProcesoNombre($data_procesos_nombre,$nombre);
 
             echo json_encode($procesos_nombre_datos);   
         }
@@ -33,11 +34,11 @@ class configura_maestro extends MX_Controller {
         {      
             //$data_sesion = $this->session->userdata()['loggeado'];
             $id_usuario = $this->session->userdata['loggeado']['ID_USUARIO'];
-
+            $nombre=trim($this->input->post('prueba'));
             $data_pruebas = array();
             $data_pruebas['NOMBRE_PRUEBA']=trim($this->input->post('prueba'));
             $data_pruebas['DIAS']=trim($this->input->post('dias')); 
-            $pruebas_datos = $this->configura_maestros_model->insertarNuevoPrueba($data_pruebas);
+            $pruebas_datos = $this->configura_maestros_model->insertarNuevoPrueba($data_pruebas,$nombre);
 
             echo json_encode($pruebas_datos);   
         }
@@ -101,8 +102,9 @@ public function editarProcesos(){
   if ($this->session->userdata('loggeado')) 
         {   
             $id = trim($this->input->post('id'));
-            $this->configura_maestros_model->eliminarProcesosPorNombre($id);
-            echo json_encode($id);    
+            $resultado=$this->configura_maestros_model->eliminarProcesosPorNombre($id);
+
+            echo json_encode($resultado);    
                          
         }
         else 
@@ -112,17 +114,17 @@ public function editarProcesos(){
  }
       public function eliminarTipoPrueba(){
   
-  if ($this->session->userdata('loggeado')) 
-        {   
-            $id = trim($this->input->post('id'));
-            $this->configura_maestros_model->eliminarPrueba($id);
-            echo json_encode($id);    
-                         
-        }
-        else 
-        {
-          redirect('admin/login', 'refresh');
-        } 
+          if ($this->session->userdata('loggeado')) 
+                {   
+                    $id = trim($this->input->post('id'));
+                    $resultado=$this->configura_maestros_model->eliminarPrueba($id);
+                    echo json_encode($resultado);    
+                                 
+                }
+                else 
+                {
+                  redirect('admin/login', 'refresh');
+                } 
  }
 
  //inventarios
@@ -162,11 +164,11 @@ public function ConfiguraInventario(){
         {      
             //$data_sesion = $this->session->userdata()['loggeado'];
             $id_usuario = $this->session->userdata['loggeado']['ID_USUARIO'];
-
+            $nombre=trim($this->input->post('inventario'));
             $data_inventarios = array();
             $data_inventarios['nombre_inventario']=trim($this->input->post('inventario'));
             $data_inventarios['activo']=trim($this->input->post('activo')); 
-            $inventarios_datos = $this->configura_maestros_model->insertarNuevoInventario($data_inventarios);
+            $inventarios_datos = $this->configura_maestros_model->insertarNuevoInventario($data_inventarios,$nombre);
 
             echo json_encode($inventarios_datos);   
         }
@@ -180,8 +182,8 @@ public function ConfiguraInventario(){
   if ($this->session->userdata('loggeado')) 
         {   
             $id = trim($this->input->post('id'));
-            $this->configura_maestros_model->eliminarInventario($id);
-            echo json_encode($id);    
+            $resultado=$this->configura_maestros_model->eliminarInventario($id);
+            echo json_encode($resultado);    
                          
         }
         else 

@@ -257,7 +257,7 @@
                          url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarInventario',
                          success: function (data) 
                          {    
-                     alert('Inventario Guardado Con Exit');
+                     alert(data);
                $.isLoading("hide"); 
                location.reload();
                
@@ -371,7 +371,7 @@
                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarInventario',
                 success: function (data) 
                 {     
-                   alert('Prueba Eliminada con Exito');
+                   alert(data);
        $.isLoading("hide"); 
        //constultarPedidos(); 
        location.reload();

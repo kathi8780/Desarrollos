@@ -110,7 +110,7 @@
           <div class="col-md-3 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
                   <label class="control-label required" for="">Dias<span class="required"> * </span></label> 
-                  <input type="number" min="0" max="31" id="c_dias" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+                  <input type="number"  min="0" max="31" id="c_dias" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$"  maxlength="50" class="form-control"/>
               </div>
           </div>  
 
@@ -257,7 +257,7 @@
                          url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarTipoPrueba',
                          success: function (data) 
                          {    
-                     alert('Tipo Prueba Guardada Con Exit');
+                     alert(data);
                $.isLoading("hide"); 
                location.reload();
                
@@ -371,7 +371,7 @@
                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarTipoPrueba',
                 success: function (data) 
                 {     
-                   alert('Prueba Eliminada con Exito');
+                   alert(data);
        $.isLoading("hide"); 
        //constultarPedidos(); 
        location.reload();
