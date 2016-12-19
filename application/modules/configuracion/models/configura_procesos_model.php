@@ -76,6 +76,7 @@ class configura_procesos_model extends CI_Model
 		$this->db->select($array);
 		$this->db->from("producto_laboratorio AS pl");
 		$this->db->group_by("pl.PROD_COD_PROD");
+		$this->db->order_by("pl.PROD_COD_PROD","ASC");
 								
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
@@ -88,6 +89,7 @@ class configura_procesos_model extends CI_Model
 		$array=array("t.ID_TECNICO","CONCAT_WS(' ',t.APELLIDO_TECNICO,t.NOMBRE_TECNICO) AS TECNICO");
 		$this->db->select($array);
 		$this->db->from("tecnico AS t");
+		$this->db->order_by("t.APELLIDO_TECNICO","ASC");
 						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
@@ -100,6 +102,7 @@ class configura_procesos_model extends CI_Model
 		$array=array("pn.ID_PROCESO_NOMBRE", "pn.NOMBRE_PROCESO");
 		$this->db->select($array);
 		$this->db->from("procesos_nombre AS pn");
+		$this->db->order_by("pn.NOMBRE_PROCESO","ASC");
 						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
@@ -112,7 +115,8 @@ class configura_procesos_model extends CI_Model
 		$array=array("p.ID_TIPO_PRUEBA","p.NOMBRE_PRUEBA");
 		$this->db->select($array);
 		$this->db->from("tipo_prueba AS p");
-						
+		$this->db->order_by("p.NOMBRE_PRUEBA","ASC");
+		
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
 		return $resultado;
@@ -124,7 +128,8 @@ class configura_procesos_model extends CI_Model
 		$array=array("l.ID_LABORATORIO", "l.NOMBRE_LABORATORIO");
 		$this->db->select($array);
 		$this->db->from("laboratorio AS l");
-						
+		$this->db->order_by("l.NOMBRE_LABORATORIO","ASC");
+		
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
 		return $resultado;
@@ -135,6 +140,7 @@ class configura_procesos_model extends CI_Model
 		$array=array("c.ID_CATEGORIA","c.SIGLAS_CATEGORIA");
 		$this->db->select($array);
 		$this->db->from("categoria AS c");
+		$this->db->order_by("c.SIGLAS_CATEGORIA","ASC");
 						
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
