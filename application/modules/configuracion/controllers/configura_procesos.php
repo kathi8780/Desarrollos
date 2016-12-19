@@ -5,6 +5,21 @@ class configura_procesos extends MX_Controller {
         parent::__construct();
 		$this->load->model('configura_procesos_model');
     }
+	public function ConfiguraProducto(){
+		
+		 if ($this->session->userdata('loggeado'))
+		 {
+			$datos=array();
+			$datos['producto']    = $this->configura_procesos_model->obtenerProductoSap();
+			$datos['laboratorio']= $this->configura_procesos_model->obtenerLaboratorio();
+						
+			$this->load->view('templates/header');
+            $this->load->view('ConfiguraProducto', $datos);
+            $this->load->view('templates/footer');
+						 
+		 }
+		
+	}
 	public function PruebasPorLaboratorio(){
 		
 		 if ($this->session->userdata('loggeado'))
@@ -27,15 +42,27 @@ class configura_procesos extends MX_Controller {
 			$datos=array();
 			$datos['producto']    = $this->configura_procesos_model->obtenerProducto();
 			$datos['proceso']    = $this->configura_procesos_model->obtenerProcesos();
-			$datos['categoria']  = $this->configura_procesos_model->obtenerCategoria();
 			$datos['laboratorio']= $this->configura_procesos_model->obtenerLaboratorio();
-			
-			
+						
 			$this->load->view('templates/header');
             $this->load->view('ProcesosPorProducto', $datos);
             $this->load->view('templates/footer');
 						 
 		 }
+		
+	}
+	public function BuscarConfiguraProducto(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {
+            $laboratorio = trim($this->input->post('laboratorio'));
+			$resultado = $datos['producto_laboratorio']  = $this->configura_procesos_model->ConfiguraProducto($laboratorio);
+            echo json_encode($resultado);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
 		
 	}
 	public function BuscarPruebasPorLaboratorio(){
@@ -96,6 +123,61 @@ class configura_procesos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
 		
+	}
+	public function InsertarConfiguraProducto(){
+		
+		if($this->session->userdata('loggeado')) 
+        {
+            $producto   = trim($this->input->post('producto'));
+			$laboratorio= trim($this->input->post('laboratorio'));
+			$comision   = trim($this->input->post('comision'));
+			$pprincipal = trim($this->input->post('pprincipal'));
+			$insentivo  = trim($this->input->post('insentivo'));
+			
+			//Inserto Producto Por Laboratorio 
+            $data = array();
+
+            $data['PROD_COD_PROD']  =$producto;
+            $data['ID_LABORATORIO'] =$laboratorio;
+			$data['COMISION']       =$comision;
+			$data['CONFIGURACION_INCENTIVO'] =$comision;
+			$data['PRINCIPAL']      =$pprincipal;
+						
+            $this->configura_procesos_model->InsertarConfiguraProducto($data);
+			echo json_encode($data);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
+	}
+	public function InsertarProductoPorLaboratorio(){
+		
+		if($this->session->userdata('loggeado')) 
+        {
+            $producto   = trim($this->input->post('producto'));
+			$IDlaboratorio= trim($this->input->post('IDlaboratorio'));
+			$comision   = trim($this->input->post('comision'));
+			$proceso    = trim($this->input->post('proceso'));
+			$orden      = trim($this->input->post('orden'));
+			
+			//Inserto Producto Por Laboratorio 
+            $data = array();
+
+            $data['ID_PRODUCTO_LABORATORIO']=$IDlaboratorio;
+            $data['ID_PROCESO_NOMBRE']      =$proceso;
+			$data['COMISION_PROCESO']       =$comision;
+			$data['ORDEN']                  =$orden;
+						
+            $this->configura_procesos_model->InsertarProductoPorLaboratorio($data);
+			echo json_encode($data);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
 	}
 	public function InsertarPruebasPorLaboratorio(){
 		

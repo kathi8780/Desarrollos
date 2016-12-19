@@ -78,12 +78,11 @@ class configura_maestro extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
 	}
-public function editarProcesos(){
+	public function editarProcesos(){
 
             echo "ola soy el editor";
 
-}
-
+	}
 	public function ConfiguraPruebas(){
 		
 		 if ($this->session->userdata('loggeado'))

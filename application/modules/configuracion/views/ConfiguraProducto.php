@@ -1,5 +1,5 @@
 <div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR NUEVO PROCESO A PRODUCTO</div>
+    <div class="panel-heading">CONFIGURAR PRODUCTO</div>
 
 	<div class="container">
 		<div class="row">
@@ -7,30 +7,16 @@
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
-					<select id="IDlaboratorio" class="form-control" style="height:30px">
+					<select id="producto" class="form-control" style="height:30px">
 						<option value="">TODOS</option>
 						<?php foreach ($producto as $array) 
 							{?>
-								<option value="<?php echo $array['ID_PRODUCTO_LABORATORIO']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
+								<option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
 					<?php } ?>
 					</select>
 	            </div>
-	        </div>
-	        <!-- campo Proceso -->
-	        <div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
-					<select id="proceso" class="form-control" style="height:30px">
-						<option value="">TODOS</option>
-						<?php foreach ($proceso as $array) 
-							{?>
-								<option value="<?php echo $array['ID_PROCESO_NOMBRE']; ?>" ><?php echo $array['NOMBRE_PROCESO']; ?></option>  
-					<?php } ?>
-					</select>
-	            </div>
-	        </div>			
+	        </div>	
 			<!-- campo Laboratorio -->
-			<!-- 
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Laboratorio<span class="required"> * </span></label> 
@@ -52,37 +38,8 @@
 						<option value="N">NO</option>			
 					</select>
 	            </div>
-	        </div>
-			<!-- campo Orden -->
-			<div class="col-md- col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Orden<span class="required"> * </span></label> 
-					<select id="orden" class="form-control" style="height:30px">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>						
-					</select>
-	            </div>
-	        </div>
+	        </div>	
 			<!-- campo Prod. Principal -->
-	        <!-- Comentado por que los campos seran llenados desde Sap
 			<div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Prod. Principal<span class="required"> * </span></label> 
@@ -93,7 +50,6 @@
 	            </div>
 	        </div>
 			<!-- campo Prod. Principal -->
-			<!-- Comentado por que los campos seran llenados desde Sap
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Conf. Insentivo<span class="required"> * </span></label> 
@@ -102,8 +58,7 @@
 						<option value="N">NO</option>			
 					</select>
 	            </div>
-	        </div>
-			
+	        </div>	
 	        <!-- btn adicionar -->
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">     
@@ -117,7 +72,7 @@
 	</div>
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
- 	<label class="control-label">Reporte por Producto</label>
+ 	<label class="control-label">Reporte por Laboratorio</label>
      <div class='input-group'>
 		<select id="fproducto" class="form-control" style="height:30px">
 			<option value="">TODOS</option>
@@ -158,26 +113,22 @@
 
     function crearRegistro()
     {
-    	//var producto    = $("#producto").val().trim();
-		var proceso       = $("#proceso").val().trim();
-		var IDlaboratorio = $("#IDlaboratorio").val().trim();
-		var comision      = $("#comision").val().trim();
-		var orden         = $("#orden").val().trim();
-		
-    	/*
+    	var producto    = $("#producto").val().trim();
+		var laboratorio = $("#laboratorio").val().trim();
+		var comision    = $("#comision").val().trim();
 		var pprincipal  = $("#pprincipal").val().trim();
-		var insentivo   = $("#insentivo").val().trim();*/
+		var insentivo   = $("#insentivo").val().trim();
 		
-    	if(IDlaboratorio=="")
+    	if(producto=="")
     	{
             var text = 'Falta campo PRODUCTO';
             $.notific8(text, params); 
             return;
     	}
     	
-    	else if(proceso=="")
+    	else if(laboratorio=="")
     	{
-            var text = 'Falta campo PROCESO';
+            var text = 'Falta campo LABORATORIO';
             $.notific8(text, params); 
             return;
     	}
@@ -186,18 +137,17 @@
         $.isLoading({
                       text: "Cargando",
                       position: "overlay"
-                });
+					});
 		
 		$.ajax({
                  type: 'POST',
                  async:false,
                  dataType: 'json',
-                 /*data: {producto:producto,laboratorio:laboratorio,comision:comision,pprincipal:pprincipal,insentivo:insentivo},*/
-                 data: {proceso:proceso,IDlaboratorio:IDlaboratorio,comision:comision,orden:orden},
-				 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarProductoPorLaboratorio',
+                 data: {producto:producto,laboratorio:laboratorio,comision:comision,pprincipal:pprincipal,insentivo:insentivo},
+				 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/InsertarConfiguraProducto',
                  success: function (data) 
                  {     
-				   alert('Proceso Asociado a Producto con Exito');
+				   alert('Producto Configurado con Exito');
 				   $.isLoading("hide"); 
 				   location.reload();
                  }
@@ -221,7 +171,7 @@
 			             async:false,
 			             dataType: 'json',
 			             data: {id:id},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarProcesosPorProducto',
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EliminarConfiguraProducto',
 			             success: function (data) 
 			             {     
 							alert(data);
@@ -245,7 +195,7 @@
 			             async:false,
 			             dataType: 'json',
 			             data: {producto:producto},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarProcesosPorProducto',
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarPConfiguraProducto',
 			             success: function (data) 
 			             {     
 			                generarTablaDinamica(data); 							
@@ -275,12 +225,12 @@
 			            var celda12 = document.createElement("td");
 						
 		
-						var textoCelda0 = document.createTextNode("PRODUCTO");
-			            var textoCelda1 = document.createTextNode("LABORATORIO");
+						var textoCelda0 = document.createTextNode("LABORATORIO");
+			            var textoCelda1 = document.createTextNode("PRODUCTO");
 			            var textoCelda2 = document.createTextNode("PRINCIPAL");
 			            var textoCelda3 = document.createTextNode("COMISIÓN");
-			            var textoCelda4 = document.createTextNode("ORDEN");
-			            var textoCelda5 = document.createTextNode("PROCESO");
+			            var textoCelda4 = document.createTextNode("PROD. PRINCIPAL");
+			            var textoCelda5 = document.createTextNode("INSENTIVO");
 			            var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
 			            
@@ -312,24 +262,7 @@
 						
 						//CUERPO
 			            for (var i = 0; i < data.length; i++)
-			            {
-
-                              var producto = data[i]['producto'];
-                              if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto
-                              {
-                                if(producto==producto_iteracion_anterior)
-                                {
-                                  producto_iteracion_anterior=producto;
-                                  producto="";
-                                }
-                                else
-                                {
-                                  producto_iteracion_anterior=producto;
-                                }
-                              }
-                              else
-                                producto_iteracion_anterior=producto;
-							
+			            {						
 							
 							var laboratorio = data[i]['laboratorio'];
 							
@@ -348,28 +281,11 @@
                               else
                                 laboratorio_iteracion_anterior=laboratorio;
 					
-			                 var principal   = data[i]['principal']; 
-							 
-							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto principal
-                              {
-                                if(principal==principal_iteracion_anterior && producto!=producto_iteracion_anterior)
-                                {
-                                  principal_iteracion_anterior=principal;
-                                  principal="";
-                                }
-                                else
-                                {
-                                  principal_iteracion_anterior=principal;
-                                }
-                              }
-                              else
-                                principal_iteracion_anterior=principal;
-							
-							
+			               							
 			                var comision    = data[i]['comision'];
-			                var orden       = data[i]['orden'];
-							var proceso     = data[i]['proceso'];
-							var id          = data[i]['ID_PROCESOS'];
+			                var principal   = data[i]['principal'];
+							var insentivo   = data[i]['insentivo'];
+							var id          = data[i]['ID_PRODUCTO_LABORATORIO'];
 
 			                
 			                var fila = document.createElement("tr");

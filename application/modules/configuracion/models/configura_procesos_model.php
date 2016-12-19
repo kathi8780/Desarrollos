@@ -26,6 +26,26 @@ class configura_procesos_model extends CI_Model
          return $resultado;
 				
     }
+	//Trae los productos por Laboratorio
+	public function ProcesosPorProductor($laboratorio)
+    {
+   
+		 $select=array("pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision");
+		 $this->db->select($select);
+         $this->db->from("producto_laboratorio pl");
+		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+		 $this->db->order_by("l.ID_LABORATORIO ASC");
+		 
+		 if($laboratorio!= ""){
+			 
+             $this->db->where("l.ID_LABORATORIO=", $laboratorio);  
+         }
+		 
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+				
+    }
 	//Trae los procesos por producto
 	public function ProcesosPorProducto($producto)
     {
@@ -69,10 +89,24 @@ class configura_procesos_model extends CI_Model
          return $resultado;
 				
     }
-	public function obtenerProducto()
+	public function obtenerProductoSap()
     {
 		
 		$array=array("pl.PROD_COD_PROD");
+		$this->db->select($array);
+		$this->db->from("producto_laboratorio AS pl");
+		$this->db->group_by("pl.PROD_COD_PROD");
+		$this->db->order_by("pl.PROD_COD_PROD","ASC");
+								
+		$consulta = $this->db->get();
+		$resultado = $consulta->result_array();
+		return $resultado;
+				
+    }
+	public function obtenerProducto()
+    {
+		
+		$array=array("pl.ID_PRODUCTO_LABORATORIO","pl.PROD_COD_PROD");
 		$this->db->select($array);
 		$this->db->from("producto_laboratorio AS pl");
 		$this->db->group_by("pl.PROD_COD_PROD");
@@ -145,6 +179,16 @@ class configura_procesos_model extends CI_Model
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
 		return $resultado;				
+    }
+	public function InsertarConfiguraProducto($data)
+    {
+        $this->db->insert('producto_laboratorio', $data);
+        return $this->db->insert_id();
+    }
+	public function InsertarProductoPorLaboratorio($data)
+    {
+        $this->db->insert('procesos', $data);
+        return $this->db->insert_id();
     }
 	public function InsertarPruebasPorLaboratorio($data)
     {
