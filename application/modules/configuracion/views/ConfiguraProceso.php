@@ -22,7 +22,8 @@
               <div class="form-group form-group-sm">                
                   <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
                   <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
+                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="
+                  <?php echo $proceso_uno[0]['NOMBRE_PROCESO'];  ?>" />
               </div>
           </div>
           <div class="col-md-3 col-sm-2 col-xs-12">
@@ -132,7 +133,7 @@
 <div class="panel panel-primary" >
     <div class="panel-heading">PROCESOS REGISTRADOS</div></div>
     <div class="container">
-    	<div class="table-responsive" id="listaProcesos">
+    	<div class="table-responsive">
     		<table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
     					<thead>
                         <tr style="font-weight: bold" >
@@ -175,7 +176,6 @@
 	                            
 	                            <td style="text-align:center">
       				                    <center>
-                                  <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">E</a> 
       				                    	<button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarProceso(this.id)">
       				                          	<span class="glyphicon glyphicon-pencil"></span>
       				                        </button>
@@ -349,24 +349,26 @@
     function editarProceso(id_proceso)
     {
 
-      //document.getElementById("c_proceso").value=id_proceso;
+         
 
+        id=id_proceso;  
+                   // $("#modal-editar-proceso").modal('show');
+        
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {id:id},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/obtenerUnProceso',
+                         success: function (data) 
+                         {    
 
-     
-     
-
-          
-       var valores="";            
-                     //$("#modal-editar-proceso").modal('show');
-                     //$("#c_proceso").val(id_proceso);   
-
-     $(this).parents("tr").find("td").each(function(){
-
-                valores+=$(this).html()+"\n";
-
-            });
-
-     alert(valores);
+                          //alert(data)
+                          $("#modal-editar-proceso").modal('show');
+                         // $("#c_proceso").val(id_proceso);
+                        
+                         }
+                }); 
 
     }
     //abrir eliminar proceso
@@ -390,10 +392,8 @@
        //constultarPedidos(); 
        location.reload();
                            //alert(data['USUARIO_NOMBRE']);  
-      
                            tablaReload();
                 }
-
        });
 
     }

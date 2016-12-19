@@ -55,8 +55,8 @@ class configura_maestro extends MX_Controller {
              $datos['proceso_uno'] = $this->configura_maestros_model->buscarprocesoNombreUnico($id);
             echo json_encode($datos); 
             
-            
          }
+         
         else 
         {
           redirect('admin/login', 'refresh');
@@ -68,6 +68,7 @@ class configura_maestro extends MX_Controller {
 		 if ($this->session->userdata('loggeado'))
 		 {
 			 $datos['procesos_nombre_datos'] = $this->configura_maestros_model->obtenerProcesoNombre();
+             $datos['proceso_uno']="";
             $this->load->view('templates/header');
             $this->load->view('ConfiguraProceso',$datos);
             $this->load->view('templates/footer');

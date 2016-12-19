@@ -52,7 +52,8 @@ public function buscarprocesoNombreUnico($id){
         $query=$this->db->get();
         if($query->num_rows() > 0 )
         {
-            return $query->result();
+            $resultado=$query->result_array();
+            return $resultado;
         }
         //$resultado=$consulta->
 
