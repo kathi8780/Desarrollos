@@ -76,7 +76,7 @@ public function eliminarProcesosPorNombre($id)
                      $this->db->delete('procesos_nombre');
                      $resultado='Nombre de Proceso Eliminado con Exito';
                     }else{
-                     $resultado='Nombre de Proceso Asociado a Procesos no Puede Ser Eliminado';
+                     $resultado='Proceso Asociado a Pedidos no Puede Ser Eliminado';
                     }
                  
 
@@ -142,7 +142,7 @@ public function insertarNuevoPrueba($data,$nombre){
                      $this->db->delete('tipo_prueba');
                      $resultado='Tipo de Prueba Eliminado con Exito';
                     }else{
-                     $resultado='Tipo de Prueba Asociada a Pruebas no Puede Ser Eliminada';
+                     $resultado='Prueba Asociada a Pedidos no Puede Ser Eliminada';
                     }
                  
 
@@ -193,10 +193,28 @@ public function insertarNuevoInventario($data,$nombre){
 
     public function eliminarInventario($id)
     {
-        $this->db->where('id_inventario', $id);
-        $this->db->delete('inventario'); 
-       return $resultado='Inventario Eliminado con Exito';
-                    
+        //$this->db->where('id_inventario', $id);
+        
+             
+
+        $query =$this->db->query("SELECT COUNT(*)cant FROM inventario_recibido a where a.id_inventario=".$id."");
+  
+              if ($query->num_rows() > 0)
+              {
+                $row = $query->row_array();
+                
+                    if($row['cant']==0){
+                     $this->db->where('id_inventario', $id);
+                    $this->db->delete('inventario'); 
+                     $resultado='Inventario Eliminado con Exito';
+                    }else{
+                     $resultado='Inventario Asociado a Pedidos no Puede Ser Eliminado';
+                    }
+                 
+
+              }
+
+  return $resultado;       
 
 
     }

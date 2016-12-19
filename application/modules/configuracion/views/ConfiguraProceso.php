@@ -96,7 +96,7 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">PROCESO NUEVO BADENT</div>
+    <div class="panel-heading">ADICIONAR NUEVO PROCESO</div>
 
 	<div class="container">
 		<div class="row">
@@ -144,7 +144,7 @@
                                 PROCESO
                             </th>
                             <th>
-                                MsINUTOS
+                                MINUTOS
                             </th>
                             <th style="text-align:center">
                             	MODIFICAR

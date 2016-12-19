@@ -94,7 +94,7 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">INVENTARIO NUEVO BADENT</div>
+    <div class="panel-heading">ADICIONAR  NUEVO INVENTARIO</div>
 
   <div class="container">
     <div class="row">

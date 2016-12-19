@@ -182,6 +182,7 @@ public function ConfiguraInventario(){
   
   if ($this->session->userdata('loggeado')) 
         {   
+            
             $id = trim($this->input->post('id'));
             $resultado=$this->configura_maestros_model->eliminarInventario($id);
             echo json_encode($resultado);    

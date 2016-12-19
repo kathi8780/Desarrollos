@@ -94,14 +94,14 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">PRUEBA NUEVA BADENT</div>
+    <div class="panel-heading">ADICIONAR NUEVA PRUEBA</div>
 
   <div class="container">
     <div class="row">
           <!-- campo cliente -->
           <div class="col-md-7 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Nuevo Tipo Prueba<span class="required"> * </span></label> 
+                  <label class="control-label required" for="">Nueva Prueba<span class="required"> * </span></label> 
                   <input type="text" id="c_nuevo_prueba" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
               </div>
           </div>    
@@ -129,7 +129,7 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">TIPO DE PRUEBAS REGISTRADOS</div></div>
+    <div class="panel-heading">PRUEBAS REGISTRADOS</div></div>
     <div class="container">
       <div class="table-responsive">
         <table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
