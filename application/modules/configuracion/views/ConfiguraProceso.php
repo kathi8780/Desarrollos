@@ -23,7 +23,7 @@
                   <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
                   <input type='hidden' name='id' value=".$id."/>
                   <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="
-                  <?php echo $proceso_uno[0]['NOMBRE_PROCESO'];  ?>" />
+                  <?php echo $proceso_uno['NOMBRE_PROCESO'];  ?>" />
               </div>
           </div>
           <div class="col-md-3 col-sm-2 col-xs-12">
