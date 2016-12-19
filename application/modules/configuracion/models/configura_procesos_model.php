@@ -48,7 +48,7 @@ class configura_procesos_model extends CI_Model
          return $resultado;
 				
     }
-	//Trae los procesos por técnico
+	//Trae los procesos por tecnico
 	public function ProcesosPorTecnico($tecnico)
     {
    
