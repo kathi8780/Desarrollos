@@ -252,9 +252,7 @@
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
 
-			            var producto_iteracion_anterior="";
 						var laboratorio_iteracion_anterior="";
-						var principal_iteracion_anterior="";
 						
 						//CUERPO
 			            for (var i = 0; i < data.length; i++)
@@ -264,7 +262,7 @@
 							
 							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del laboratorio
                               {
-                                if(laboratorio==laboratorio_iteracion_anterior && producto!=producto_iteracion_anterior)
+                                if(laboratorio==laboratorio_iteracion_anterior)
                                 {
                                   laboratorio_iteracion_anterior=laboratorio;
                                   laboratorio="";

@@ -30,7 +30,7 @@ class configura_procesos_model extends CI_Model
 	public function ConfiguraProducto($laboratorio)
     {
    
-		 $select=array("pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","pl.CONFIGURACION_INCENTIVO insentivo");
+		 $select=array("pl.ID_PRODUCTO_LABORATORIO","pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","pl.CONFIGURACION_INCENTIVO insentivo");
 		 $this->db->select($select);
          $this->db->from("producto_laboratorio pl");
 		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
@@ -199,6 +199,26 @@ class configura_procesos_model extends CI_Model
     {
         $this->db->insert('tecnico_proceso', $data);
         return $this->db->insert_id();
+    }
+	public function EliminarConfiguraProducto($id)
+    { 
+		$query =$this->db->query("SELECT COUNT(*)cant FROM procesos  a where a.ID_PRODUCTO_LABORATORIO='$id'");
+		
+		if ($query->num_rows() > 0)
+		{
+				$row = $query->row_array();
+				
+				if($row['cant']==0){
+					$this->db->where('ID_PRODUCTO_LABORATORIO', $id);
+					$this->db->delete('producto_laboratorio');
+					$resultado='Proceso Eliminado con Exito';
+				}else{
+					$resultado='Producto con Procesos Asociados no puede ser Eliminado';
+				}
+		}
+		
+		return $resultado;
+		
     }
 	public function EliminarPruebasPorLaboratorio($id)
     {

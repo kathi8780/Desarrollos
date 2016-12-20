@@ -223,6 +223,20 @@ class configura_procesos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }	
 	}
+	public function EliminarConfiguraProducto(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {			
+            $id = trim($this->input->post('id'));
+			$resultado=$this->configura_procesos_model->EliminarConfiguraProducto($id);
+			echo json_encode($resultado);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
+	}
 	public function EliminarPruebasPorLaboratorio(){
 		
 		if ($this->session->userdata('loggeado')) 
