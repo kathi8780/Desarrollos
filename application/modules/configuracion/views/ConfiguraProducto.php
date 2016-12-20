@@ -74,11 +74,11 @@
 <div class="col-md-3 col-sm-3 col-xs-12">
  	<label class="control-label">Reporte por Laboratorio</label>
      <div class='input-group'>
-		<select id="fproducto" class="form-control" style="height:30px">
+		<select id="flaboratorio" class="form-control" style="height:30px">
 			<option value="">TODOS</option>
-             <?php foreach ($producto as $array) 
+             <?php foreach ($laboratorio as $array) 
              	{?>
-                	 <option value="<?php echo $array['PROD_COD_PROD']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
+                	 <option value="<?php echo $array['ID_LABORATORIO']; ?>" ><?php echo $array['NOMBRE_LABORATORIO']; ?></option>  
            <?php } ?>
 		</select>  
      </div>
@@ -183,7 +183,7 @@
 	}
 	function constultarPedidos(){
 		
-    	var producto = $("#fproducto").val().trim();
+    	var laboratorio = $("#flaboratorio").val().trim();
 
 				$.isLoading({
                       text: "Cargando",
@@ -194,8 +194,8 @@
 			             type: 'POST',
 			             async:false,
 			             dataType: 'json',
-			             data: {producto:producto},
-			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarPConfiguraProducto',
+			             data: {laboratorio:laboratorio},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/BuscarConfiguraProducto',
 			             success: function (data) 
 			             {     
 			                generarTablaDinamica(data); 							
@@ -220,17 +220,15 @@
 			            var celda2 = document.createElement("td");
 			            var celda3 = document.createElement("td");
 			            var celda4 = document.createElement("td");
-			            var celda5 = document.createElement("td");
 			            var celda11 = document.createElement("td");
 			            var celda12 = document.createElement("td");
 						
 		
 						var textoCelda0 = document.createTextNode("LABORATORIO");
 			            var textoCelda1 = document.createTextNode("PRODUCTO");
-			            var textoCelda2 = document.createTextNode("PRINCIPAL");
+			            var textoCelda2 = document.createTextNode("PROD. PRINCIPAL");
 			            var textoCelda3 = document.createTextNode("COMISIÓN");
-			            var textoCelda4 = document.createTextNode("PROD. PRINCIPAL");
-			            var textoCelda5 = document.createTextNode("INSENTIVO");
+			            var textoCelda4 = document.createTextNode("INSENTIVO");
 			            var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
 			            
@@ -239,7 +237,6 @@
 			            celda2.appendChild(textoCelda2);
 			            celda3.appendChild(textoCelda3);
 			            celda4.appendChild(textoCelda4);
-			            celda5.appendChild(textoCelda5);
 			            celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
 
@@ -249,7 +246,6 @@
 			            filaCabecera.appendChild(celda2);
 			            filaCabecera.appendChild(celda3);
 			            filaCabecera.appendChild(celda4);
-			            filaCabecera.appendChild(celda5);
 			            filaCabecera.appendChild(celda11);
 			            filaCabecera.appendChild(celda12);
 
@@ -282,12 +278,12 @@
                                 laboratorio_iteracion_anterior=laboratorio;
 					
 			               							
-			                var comision    = data[i]['comision'];
+			                var producto    = data[i]['producto'];
+							var comision    = data[i]['comision'];
 			                var principal   = data[i]['principal'];
 							var insentivo   = data[i]['insentivo'];
 							var id          = data[i]['ID_PRODUCTO_LABORATORIO'];
 
-			                
 			                var fila = document.createElement("tr");
 
 							var celda0 = document.createElement("td");
@@ -295,24 +291,20 @@
 			                var celda2 = document.createElement("td");
 			                var celda3 = document.createElement("td");
 			                var celda4 = document.createElement("td");
-			                var celda5 = document.createElement("td");
 			                var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td");   						
 
-							var textoCelda0 = document.createTextNode(producto);
-			                var textoCelda1 = document.createTextNode(laboratorio);
+							var textoCelda0 = document.createTextNode(laboratorio);
+			                var textoCelda1 = document.createTextNode(producto);
 			                var textoCelda2 = document.createTextNode(principal);
 			                var textoCelda3 = document.createTextNode(comision);
-			                var textoCelda4 = document.createTextNode(orden);
-			                var textoCelda5 = document.createTextNode(proceso);
+			                var textoCelda4 = document.createTextNode(insentivo);
              
-
 							celda0.appendChild(textoCelda0);
 			                celda1.appendChild(textoCelda1);   
 			                celda2.appendChild(textoCelda2); 
 			                celda3.appendChild(textoCelda3); 
 			                celda4.appendChild(textoCelda4); 
-			                celda5.appendChild(textoCelda5); 
 
 							var span2 = document.createElement("span");
 							span2.setAttribute("class", "glyphicon glyphicon-pencil");
@@ -346,7 +338,6 @@
 			                fila.appendChild(celda2);
 			                fila.appendChild(celda3);
 			                fila.appendChild(celda4);
-			                fila.appendChild(celda5);
 			                fila.appendChild(celda11);
 			                fila.appendChild(celda12);
 	
@@ -404,9 +395,8 @@
                                 { "aTargets": [ 2 ],"bSortable": true },
                                 { "aTargets": [ 3 ],"bSortable": true },
                                 { "aTargets": [ 4 ],"bSortable": true },
-                                { "aTargets": [ 5 ],"bSortable": true },
-                                { "aTargets": [ 6 ],"bSortable": false },
-								{ "aTargets": [ 7 ],"bSortable": false }
+                                { "aTargets": [ 5 ],"bSortable": false },
+								{ "aTargets": [ 6 ],"bSortable": false }
 								
                               ] 
 

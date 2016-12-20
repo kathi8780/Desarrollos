@@ -27,10 +27,10 @@ class configura_procesos_model extends CI_Model
 				
     }
 	//Trae los productos por Laboratorio
-	public function ProcesosPorProductor($laboratorio)
+	public function ConfiguraProducto($laboratorio)
     {
    
-		 $select=array("pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision");
+		 $select=array("pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","pl.CONFIGURACION_INCENTIVO insentivo");
 		 $this->db->select($select);
          $this->db->from("producto_laboratorio pl");
 		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
