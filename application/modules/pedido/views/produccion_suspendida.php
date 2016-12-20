@@ -107,7 +107,12 @@
                 <tr  
                     class="
                          <?php 
-                         if( intval(trim(substr(date_diff(date_create(date("Y-m-d"))  , date_create($pedidos_suspendidos[$i]['FECHA_SUSPENDIDO']))->format("%R%a "),1))) > 101)
+						 $start = new DateTime(date("Y-m-d"));
+						 $start->setTimezone(new DateTimeZone('UTC'));
+						 $end = new DateTime($pedidos_suspendidos[$i]['FECHA_SUSPENDIDO']);
+						 $end->setTimezone(new DateTimeZone('UTC'));
+						 $days = round(($end->format('U') - $start->format('U')) / (60*60*24));
+                         if( intval(trim(substr($days,1))) > 101)
                             echo "alert alert-danger";
                          ?>"
                 >
@@ -136,11 +141,11 @@
                          <?php echo $pedidos_suspendidos[$i]['OBSERVACION_SUSPENDIDO'] ?>
                      </td>
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_suspendidos[$i]['numero'] ?>')">
-                         <?php echo date_diff(date_create(date("Y-m-d"))  , date_create($pedidos_suspendidos[$i]['FECHA_SUSPENDIDO']))->format("%R%a days");    ?>
+                         <?php echo $days.' days';    ?>
                      </td>
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_suspendidos[$i]['numero'] ?>')">
                          <?php 
-                         echo intval(trim(substr(date_diff(date_create(date("Y-m-d"))  , date_create($pedidos_suspendidos[$i]['FECHA_SUSPENDIDO']))->format("%R%a "),1)))
+                         echo intval(trim(substr($days,1)))
                          ?>
                      </td>
                      <td style="text-align:center">
