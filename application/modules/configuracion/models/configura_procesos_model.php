@@ -72,7 +72,7 @@ class configura_procesos_model extends CI_Model
 	public function ProcesosPorTecnico($tecnico)
     {
    
-		 $select=array("T0.ID_TECNICO_PROCESO","T1.CEDULA as cedula","CONCAT(T1.APELLIDO_TECNICO,T1.NOMBRE_TECNICO)AS tecnico", "T1.DIRECCION as direccion","T2.NOMBRE_PROCESO as proceso","T3.NOMBRE_CATEGORIA as categoria", "T3.SIGLAS_CATEGORIA as siglas");
+		 $select=array("T0.ACTIVO","T0.ID_TECNICO_PROCESO","T1.CEDULA as cedula","CONCAT(T1.APELLIDO_TECNICO,T1.NOMBRE_TECNICO)AS tecnico", "T1.DIRECCION as direccion","T2.NOMBRE_PROCESO as proceso","T3.NOMBRE_CATEGORIA as categoria", "T3.SIGLAS_CATEGORIA as siglas");
 		 $this->db->select($select);
          $this->db->from("tecnico_proceso T0");
 		 $this->db->join("tecnico T1",'T0.ID_TECNICO=T1.ID_TECNICO');
@@ -181,6 +181,11 @@ class configura_procesos_model extends CI_Model
 		$resultado = $consulta->result_array();
 		return $resultado;				
     }
+	public function EstadoProcesosPorTecnico($data,$id)
+	{
+		$this->db->query("UPDATE tecnico_proceso SET activo=if(ACTIVO='S','N','S') WHERE ID_TECNICO_PROCESO=$id");
+
+	}
 	public function InsertarConfiguraProducto($data)
     {
         $this->db->insert('producto_laboratorio', $data);

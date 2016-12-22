@@ -207,9 +207,10 @@
 			            var celda3 = document.createElement("td");
 			            var celda4 = document.createElement("td");
 			            var celda5 = document.createElement("td");
+						var celda6 = document.createElement("td");
 			            var celda11 = document.createElement("td");
 			            var celda12 = document.createElement("td");
-						
+						var celda13 = document.createElement("td");
 		
 						var textoCelda0 = document.createTextNode("CEDULA");
 			            var textoCelda1 = document.createTextNode("TÉCNICO");
@@ -217,8 +218,10 @@
 			            var textoCelda3 = document.createTextNode("PROCESO");
 			            var textoCelda4 = document.createTextNode("CATEGORIA");
 			            var textoCelda5 = document.createTextNode("SIGLAS");
+						var textoCelda6 = document.createTextNode("ACTIVO");
 			            var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
+						var textoCelda13 = document.createTextNode("ESTADO");
 			            
 						celda0.appendChild(textoCelda0);
 			            celda1.appendChild(textoCelda1);
@@ -226,9 +229,10 @@
 			            celda3.appendChild(textoCelda3);
 			            celda4.appendChild(textoCelda4);
 			            celda5.appendChild(textoCelda5);
+						celda6.appendChild(textoCelda6);
 			            celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
-
+						celda13.appendChild(textoCelda13);
 
 						filaCabecera.appendChild(celda0);
 			            filaCabecera.appendChild(celda1);
@@ -236,8 +240,10 @@
 			            filaCabecera.appendChild(celda3);
 			            filaCabecera.appendChild(celda4);
 			            filaCabecera.appendChild(celda5);
+						filaCabecera.appendChild(celda6);
 			            filaCabecera.appendChild(celda11);
 			            filaCabecera.appendChild(celda12);
+						filaCabecera.appendChild(celda13);
 
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
@@ -305,7 +311,7 @@
 			                var categoria = data[i]['categoria'];
 							var siglas    = data[i]['siglas'];
 							var id        = data[i]['ID_TECNICO_PROCESO'];
-
+							var activo    = data[i]['ACTIVO'];
 			                
 			                var fila = document.createElement("tr");
 
@@ -315,16 +321,18 @@
 			                var celda3 = document.createElement("td");
 			                var celda4 = document.createElement("td");
 			                var celda5 = document.createElement("td");
+							var celda6 = document.createElement("td");
 			                var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td");   						
-
+							var celda13 = document.createElement("td");
+							
 							var textoCelda0 = document.createTextNode(cedula);
 			                var textoCelda1 = document.createTextNode(tecnico);
 			                var textoCelda2 = document.createTextNode(direccion);
 			                var textoCelda3 = document.createTextNode(proceso);
 			                var textoCelda4 = document.createTextNode(categoria);
 			                var textoCelda5 = document.createTextNode(siglas);
-             
+							var textoCelda6 = document.createTextNode(activo);
 
 							celda0.appendChild(textoCelda0);
 			                celda1.appendChild(textoCelda1);   
@@ -332,7 +340,8 @@
 			                celda3.appendChild(textoCelda3); 
 			                celda4.appendChild(textoCelda4); 
 			                celda5.appendChild(textoCelda5); 
-
+							celda6.appendChild(textoCelda6); 
+							
 							var span2 = document.createElement("span");
 							span2.setAttribute("class", "glyphicon glyphicon-pencil");
 							
@@ -359,6 +368,24 @@
 			                celda12.appendChild(btn);
 			                celda12.setAttribute("style","text-align:center"); 
 		
+							var span3 = document.createElement("span");
+							span3.setAttribute("class", "glyphicon glyphicon-ok");
+							
+							var btn3 = document.createElement("button");
+							
+							if(activo=='S'){
+								btn3.setAttribute("class", "btn btn-success btn-sm");
+							}else{
+								btn3.setAttribute("class", "btn btn-danger btn-sm");
+							}
+							
+			                btn3.setAttribute("type", "button");
+			                btn3.setAttribute("value", "ESTADO");
+							btn3.setAttribute("onclick","ModificarEstado('"+id+"')");
+							btn3.appendChild(span3);
+							
+			                celda13.appendChild(btn3);
+			                celda13.setAttribute("style","text-align:center");
 														
 							fila.appendChild(celda0);
 			                fila.appendChild(celda1);
@@ -366,8 +393,10 @@
 			                fila.appendChild(celda3);
 			                fila.appendChild(celda4);
 			                fila.appendChild(celda5);
+							fila.appendChild(celda6);
 			                fila.appendChild(celda11);
 			                fila.appendChild(celda12);
+							fila.appendChild(celda13);
 	
 			                tbody.appendChild(fila);
 			            }
@@ -383,6 +412,29 @@
 			aplicarPaginado();
 			
         }
+		function ModificarEstado(id){
+			
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {id:id},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EstadoProcesosPorTecnico',
+			             success: function (data) 
+			             {     
+			                constultarPedidos();							
+			                $.isLoading("hide");                     
+			             }
+
+			    });
+			
+			
+		}
 		function aplicarPaginado(){
           
           var table = $('#tablaGenerada').dataTable(

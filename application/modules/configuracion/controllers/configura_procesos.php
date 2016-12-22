@@ -5,6 +5,17 @@ class configura_procesos extends MX_Controller {
         parent::__construct();
 		$this->load->model('configura_procesos_model');
     }
+	public function EstadoProcesosPorTecnico(){
+		
+		if ($this->session->userdata('loggeado'))
+		{	
+			$id = trim($this->input->post('id'));
+			$data['ACTIVO'] =$id;
+			
+			$resultado = $this->configura_procesos_model->EstadoProcesosPorTecnico($data,$id);
+            echo json_encode($resultado);  	
+		}	
+	}
 	public function ConfiguraProducto(){
 		
 		 if ($this->session->userdata('loggeado'))
