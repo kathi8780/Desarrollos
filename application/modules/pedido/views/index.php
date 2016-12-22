@@ -44,7 +44,7 @@
 				       <span onclick="realizarBusqueda()" class="input-group-addon btn btn-primary btn-sm"  id="btnBuscar"><span style="color: white" class="glyphicon glyphicon-search"></span> </span>
 			        </div>
 			    </div>
-				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('mostrarFormularioPedido/9');"> Nuevo Pre -Pedido </button>
+				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('mostrarFormularioPedido/9');"> Nuevo Pedido Online</button>
 				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedido/2');">Nuevo Pedido</button>
 				<!--
 				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidos');">
@@ -55,13 +55,13 @@
 				</button> -->
 
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('consultarPrePedidos');">
-					<span class="badge pull-left" id="indicador_pre_pedido"> 0 </span> Pre-Pedido
+					<span class="badge pull-left" id="indicador_pre_pedido"> 0 </span>Pedidos Online
 				</button>		
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosTransito');">
-					<span class="badge pull-left" id="indicador_transito"> 0 </span> Pedidos en Tránsito
+					<span class="badge pull-left" id="indicador_transito"> 0 </span> Pruebas sin Retorno
 				</button>	
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarGestionRetiros');">
-					<span class="badge pull-left" id="indicador_retiros_pendientes"> 0 </span> Retiros Pendientes
+					<span class="badge pull-left" id="indicador_retiros_pendientes"> 0 </span>  Solicitud de Retiros 
 				</button>
 
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioRutaMotorizados');">
@@ -75,11 +75,11 @@
 				</button>		
 
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosEntregados');">
-					<span class="badge pull-left" id="indicador_entregados"> 0 </span> Pedidos Entregados
+					<span class="badge pull-left" id="indicador_entregados"> 0 </span> Producción
 				</button>
 				
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosFacturados');">
-				      <span class="badge pull-left" id="indicador_facturados"> 0 </span> Pedidos por Facturar
+				      <span class="badge pull-left" id="indicador_facturados"> 0 </span> Listos para Facturar
 				</button>
 				
 				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px; margin-top:20px;" onclick="direccionar('mostrarFormularioProduccionSuspendida');">
@@ -87,11 +87,11 @@
 				</button>
 
 				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasada');">
-					<span class="badge pull-left" id="indicador_atrasados_p"> 0 </span> Atrasados en Producción
+					<span class="badge pull-left" id="indicador_atrasados_p"> 0 </span>Producción Atrasada
 				</button>
 
 				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasadaCliente');">
-					<span class="badge pull-left" id="indicador_atrasados_c"> 0 </span> Atrasados en Entregar
+					<span class="badge pull-left" id="indicador_atrasados_c"> 0 </span>Entregas Atrasadas
 				</button>
 				
 				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioControlCalidad');">

@@ -473,11 +473,11 @@
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido/2">Nuevo Pedido</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidos">Consultar Pedidos</a></li>   
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioProduccionSuspendida">Producción Suspendida</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pedidos en tránsito</a></li> 
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pruebas sin Retorno</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosEmpacados">Pedidos Empacado</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosEntregados">Pedidos Entregado</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioRutaMotorizados">Retiros y Entregas</a></li>  
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosFacturados">Pedidos Facturados </a></li>           
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosFacturados">Listos para Facturar </a></li>           
                             </ul>
                         </li>    
 
@@ -534,6 +534,7 @@
 								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraPruebas">Gestión de Pruebas</a></li> 								
                                 <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraInventario">Gestión de Inventario</a></li>
 								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ConfiguraProducto">Gestión de Productos</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraLaboratorio">Gestión de Laboratorios</a></li>
 								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorTecnico">Procesos por Técnicos</a></li>
 								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorProducto">Procesos por Producto</a></li>								
 								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/PruebasPorLaboratorio">Pruebas por Laboratorio</a></li>

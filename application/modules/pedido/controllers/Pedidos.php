@@ -25,10 +25,17 @@ class Pedidos extends MX_Controller {
         }
 	}
 	public function AgendaProduccion(){
-		
-		$this->load->view('templates/header');
-        $this->load->view('index');
-        $this->load->view('templates/footer');
+			
+		if ($this->session->userdata('loggeado')) 
+        {
+			$this->load->view('templates/header');
+			$this->load->view('index');
+			$this->load->view('templates/footer');
+		}
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
 				
 	}
 	public function validaProcesoCreado()
