@@ -78,6 +78,7 @@ class configura_procesos_model extends CI_Model
 		 $this->db->join("tecnico T1",'T0.ID_TECNICO=T1.ID_TECNICO');
 		 $this->db->join("procesos_nombre T2",'T0.ID_PROCESO_NOMBRE=T2.ID_PROCESO_NOMBRE');
 		 $this->db->join("categoria T3",'T0.ID_CATEGORIA=T3.ID_CATEGORIA');
+		 $this->db->order_by("T1.ID_TECNICO","DESC");
 		 
 		 if($tecnico!= ""){
 			 
