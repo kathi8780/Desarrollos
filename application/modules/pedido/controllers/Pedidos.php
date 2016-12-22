@@ -567,8 +567,8 @@ class Pedidos extends MX_Controller {
 
 
             //insertar pedido
-            //$data_sesion = $this->session->userdata()['loggeado'];
-            $id_usuario = $data_sesion["ID_USUARIO"];
+			
+            $id_usuario = $this->session->userdata['loggeado']['ID_USUARIO'];
             $numero_pedido="00".(intval($this->pedidos_model->obtenerUltimoNumPedido())+1);
 
             $data_pedido = array();

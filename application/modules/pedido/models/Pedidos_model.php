@@ -320,7 +320,7 @@ class Pedidos_model extends CI_Model
     {
 		 
 		     $this->db->select("COUNT(*) CANT_PRUEBA,tp.NOMBRE_PRUEBA,
-			 ( SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO) AS CANT_PRODUCTO");
+			 SUM((SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO)) AS CANT_PRODUCTO");
 
              $this->db->from("pedido p");
              $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO');
@@ -919,8 +919,8 @@ class Pedidos_model extends CI_Model
         $this->db->where('title', $data['title']);
         $this->db->delete('`events`'); 
 
-        $data['`start`']=strtotime($data['`start`']." 14:23")*1000;
-        $data['`end`']=strtotime($data['`end`']." 14:23")*1000;
+        $data['`start`']=strtotime($data['`start`']." 00:00")*1000;
+        $data['`end`']=strtotime($data['`end`']." 00:00")*1000;
 
         $this->db->insert('`events`', $data);
     } 
