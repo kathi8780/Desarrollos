@@ -1759,10 +1759,54 @@
 
     var identificador_filas=0;
     var arreglo_identificadores_filas = [];
+	
+	function modelo(categoria,dientes){
+
+		var s = dientes;
+
+		s = s.replace("11", "#d11");
+		s = s.replace("12", "#d12");
+		s = s.replace("13", "#d13");
+		s = s.replace("14", "#d14");
+		s = s.replace("15", "#d15");
+		s = s.replace("16", "#d16");
+		s = s.replace("17", "#d17");
+		s = s.replace("18", "#d18");
+
+		s = s.replace("21", "#d21");
+		s = s.replace("22", "#d22");
+		s = s.replace("23", "#d23");
+		s = s.replace("24", "#d24");
+		s = s.replace("25", "#d25");
+		s = s.replace("26", "#d26");
+		s = s.replace("27", "#d27");
+		s = s.replace("28", "#d28");
+		
+		s = s.replace("41", "#d41");
+		s = s.replace("42", "#d42");
+		s = s.replace("43", "#d43");
+		s = s.replace("44", "#d44");
+		s = s.replace("45", "#d45");
+		s = s.replace("46", "#d46");
+		s = s.replace("47", "#d47");
+		s = s.replace("48", "#d48");
+		
+		s = s.replace("31", "#d31");
+		s = s.replace("32", "#d32");
+		s = s.replace("33", "#d33");
+		s = s.replace("34", "#d34");
+		s = s.replace("35", "#d35");
+		s = s.replace("36", "#d36");
+		s = s.replace("37", "#d37");
+		s = s.replace("38", "#d38");
+		
+
+		alert(categoria + s);
+	}
     function adicionarProducto()
     {
         var dientes ="1,2,3";
-        var categoria = "corona";
+        var categoria = "1";
         var producto_seleccionado =$("#formulario_pedido_item").val();
         var cantidad=$("#formulario_pedido_cantidad").val().trim();
         var guia_colores = $("#formulario_pedido_guiacolores").val();
@@ -1852,9 +1896,9 @@
         activarContenedor("contenedor-fechas");
 
         var cadena_html='<tr class="filas_producto" id="'+'f'+identificador_filas+'">'
-                            +'<td>'
+                            +'<td><label onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'")>'
                                  +'img'
-                            +'</td>'
+                            +'</label></td>'
                             +'<td  id="'+'catf'+identificador_filas+'">'
                                 +categoria
                             +'</td>'
