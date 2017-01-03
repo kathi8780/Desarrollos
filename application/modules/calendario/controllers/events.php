@@ -7,7 +7,7 @@ class Events extends CI_Controller {
 		$this->load->helper('form');
 
 		$this->load->view('templates/header');
-			$this->load->view("add_event");
+	    $this->load->view("add_event");
         $this->load->view('templates/footer');
 
 
