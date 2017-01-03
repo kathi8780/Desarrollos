@@ -188,6 +188,7 @@ class Pedidos_model extends CI_Model
          $this->db->distinct();
          $this->db->select("NOMBRE_APELLIDO");
          $this->db->from("paciente p");
+		 $this->db->limit(3);
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
          return $resultado;
@@ -198,6 +199,7 @@ class Pedidos_model extends CI_Model
          $this->db->distinct();
          $this->db->select("PEDF_NUM_PREIMP, ID_PEDIDO");
          $this->db->from("pedido p");
+		 $this->db->limit(3);
 
          if($id_estado!="")
          {
@@ -261,15 +263,16 @@ class Pedidos_model extends CI_Model
     {
         $sql="SELECT 
                 p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
-                    p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
-            (
-                select SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO  
-            ) AS CANTID
+                p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
+            SUM(pd.CANTIDAD) AS CANTID
             from pedido p
             INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
             INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
             INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
-            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA where 1=1 ";
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
+			INNER JOIN producto_laboratorio l on pd.ID_PRODUCTO_LABORATORIO = l.ID_PRODUCTO_LABORATORIO
+			WHERE pb.ID_ESTADOS = 3 AND p.ID_ESTADOS = 2 AND l.PRINCIPAL='S'";
 
             if($estado != "-1")
             {
@@ -288,7 +291,8 @@ class Pedidos_model extends CI_Model
                 $sql.=" and p.PEDF_NUM_PREIMP  =".$numped." " ;             
             }
 
-            $query= $this->db->query($sql);
+            $sql.="GROUP BY p.PEDF_NUM_PREIMP,tp.NOMBRE_PRUEBA";
+			$query= $this->db->query($sql);
             $ds = $query->result_array();
             return $ds; 
     }
@@ -319,12 +323,30 @@ class Pedidos_model extends CI_Model
     public function pruebasGeneralPedido($f_inicio, $f_fin, $numped)
     {
 		 
-		     $this->db->select("COUNT(*) CANT_PRUEBA,tp.NOMBRE_PRUEBA,
-			 SUM((SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO)) AS CANT_PRODUCTO");
+		     $select=array("select pp.ID_PEDIDO_DESCRIPCION from proceso_pedido pp, pedido p1,
+                                                                                    pedido_descripcion pd2, pruebas pr2, producto_laboratorio l where
+                                                                                    p1.ID_PEDIDO = pd2.ID_PEDIDO and
+                                                                                    pd2.ID_PEDIDO_DESCRIPCION = pp.ID_PEDIDO_DESCRIPCION and
+                                                                                    p1.ID_PEDIDO = pr2.ID_PEDIDO and
+                                                                                    pd2.ID_PRODUCTO_LABORATORIO = l.ID_PRODUCTO_LABORATORIO and
+                                                                                    l.PRINCIPAL = 'S' and
+                                                                                    pr2.ID_ESTADOS = 3 and
+                                                                                    p1.ID_ESTADOS = 2 and
+                                                                                    p1.EMPR_COD_EMPR = '1' group by pp.ID_PEDIDO_DESCRIPCION");
+			 
+			 $this->db->select("COUNT(*) CANT_PRUEBA,tp.NOMBRE_PRUEBA,
+			 SUM(pd.CANTIDAD) AS CANT_PRODUCTO");
+			 //SUM((SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO)) AS CANT_PRODUCTO");
 
              $this->db->from("pedido p");
              $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO');
              $this->db->join("tipo_prueba tp",'tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA','left');
+			 $this->db->join("pedido_descripcion pd",'p.ID_PEDIDO=pd.ID_PEDIDO');
+			 $this->db->join("producto_laboratorio l",'pd.ID_PRODUCTO_LABORATORIO = l.ID_PRODUCTO_LABORATORIO');
+			 $this->db->where("pb.ID_ESTADOS =",'3');
+			 $this->db->where("p.ID_ESTADOS =",'2');
+			 $this->db->where("l.PRINCIPAL =",'S');
+			 //$this->db->where_in("pd.ID_PEDIDO_DESCRIPCION",$select);  
 			 
 			 if($numped != "")
             {

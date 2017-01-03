@@ -39,7 +39,12 @@ class Events_model extends CI_Model
 	*/
 	public function getAll()
 	{
-		$query = $this->db->get('events');
+		//$query = $this->db->get('events');
+		$mes=date('m');
+		$ano=date('Y');
+		
+		$this->db->select('start, end');
+		$query = $this->db->get_where('events', array('mes' => '12','ano'=>'2016'));
 		if($query->num_rows() > 0)
 		{
 			return $query->result();

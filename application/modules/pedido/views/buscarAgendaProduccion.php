@@ -1,3 +1,51 @@
+ <!-- DETALLE DE PEDIDO -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_detalle_pedido">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Detalles del pedido</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+	      	<div class="table table-responsive">
+	      		<table class="table table-responsive table-hover" style="border:none">
+	      			<tr>
+	      				<td style="font-weight:bold">
+	      					Paciente: 
+	      				</td>
+	      				<td>
+	      					<div id="dp_paciente" style="text-align: left"></div>
+	      				</td>
+	      				<td style="font-weight:bold">
+	      					Nº Pedido:
+	      				</td>
+	      				<td>
+	      					<div id="dp_pedido"  style="text-align: left"></div>
+	      				</td>
+	      			</tr>
+	      		</table>
+	      	</div>
+
+		    <div class="panel panel-primary">
+		        <div class="panel-heading">PRUEBAS</div>
+		        <div class="panel-body">
+					<div id="pd_pruebas" class="table table-responsive"></div>
+		        </div>
+		    </div>
+
+		    <div class="panel panel-primary">
+		        <div class="panel-heading">PROCESOS</div>
+		        <div class="panel-body">
+					<div id="pd_procesos" class="table table-responsive"></div>
+		        </div>
+		    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
  <style type="text/css">
    	#fila_cabecera
     {
@@ -141,8 +189,175 @@
 	    		$("#btn_buscar").click();
 	    	}
 	    } 
+		function detallePedido(nro_pedido)
+    {
 
-    	function constultarPedidos()
+                //busco las pruebas para el detalle del pedido
+                $.isLoading({
+                              text: "Cargando",
+                              position: "overlay"
+                           });
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {nro_pedido:nro_pedido},
+                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/pruebasDetallePedido',
+                         success: function (data) 
+                         {    
+                            var paciente = data[0]['NOMBRE_APELLIDO'];
+                            $("#dp_paciente").html(paciente);
+                            $("#dp_pedido").html(nro_pedido);
+
+                                var html=''
+                                    +'<table class="table table-condensed table-hover">'
+                                    +'  <tr style="font-weight: bold">'
+                                    +'      <td>'
+                                    +'          Prueba'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Fecha de Salida'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Fecha de Retorno'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Estado'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Despachado'
+                                    +'      </td>'
+                                    +'  </tr>'
+
+                            //TOMO LAS PRUEBAS DEL PRODUCTO DETALLE Y LAS PONGO EN UNA TABLA
+                            for (var i = 0; i < data.length; i++)
+                            {
+                                var nombre_prueba = data[i]['NOMBRE_PRUEBA'];
+                                var fecha_salida = data[i]['FECHA_SALIDA'];
+                                var fecha_regreso = data[i]['FECHA_REGRESO'];
+
+                                var nombre_estado = data[i]['NOMBRE_ESTADO'];
+                                var despachado = data[i]['DESPACHADO'];
+                                if(despachado=='S') despachado="Si";
+
+                                if(nombre_estado=="TERMINADO")
+                                    var estilo =" class='alert alert-success' ";
+                                else
+                                    var estilo="";
+
+                                html+=' <tr '+estilo+' >';
+                                html+='     <td>';
+                                html+=          nombre_prueba;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          fecha_salida;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          fecha_regreso;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          nombre_estado;
+                                html+='     </td>';
+                                html+='     <td style="text-align:center">';
+                                html+=          despachado;
+                                html+='     </td>';
+                                html+=' </tr>';
+                            }
+                            html+=' </table>';
+                            $('#pd_pruebas').html("");
+                            $('#pd_pruebas').append(html);                       
+                  
+                         }
+                });  
+        
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {nro_pedido:nro_pedido},
+                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/procesosDetallePedido',
+                         success: function (data) 
+                         {    
+                                var html=''
+                                    +'<table class="table table-condensed table-hover">'
+                                    +'  <tr style="font-weight: bold">'
+                                    +'      <td>'
+                                    +'          Producto'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Código'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Proceso'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Fecha'
+                                    +'      </td>'
+                                    +'      <td>'
+                                    +'          Estado'
+                                    +'      </td>'
+                                    +'  </tr>'
+
+                            //TOMO LOS PROCESOS DEL PRODUCTO DETALLE Y LAS PONGO EN UNA TABLA
+                            var producto_iteracion_anterior="";
+                            for (var i = 0; i < data.length; i++)
+                            {
+                              var producto = data[i]['PROD_NOM_PROD'];
+                              if(i!=0)//aqui controlo que se muestre solo una celda con el nombre del producto
+                              {
+                                if(producto==producto_iteracion_anterior)
+                                {
+                                  producto_iteracion_anterior=producto;
+                                  producto="";
+                                }
+                                else
+                                {
+                                  producto_iteracion_anterior=producto;
+                                }
+                              }
+                              else
+                                producto_iteracion_anterior=producto;
+
+                                var codigo = data[i]['PROD_COD_PROD'];
+                                var proceso = data[i]['NOMBRE_PROCESO'];
+                                var fecha = data[i]['FECHA'];
+                                    if(fecha==null)
+                                        fecha="";
+                                var estado = data[i]['NOMBRE_ESTADO'];
+
+                                if(estado=="TERMINADO")
+                                    var estilo =" class='alert alert-success' ";
+                                else
+                                    var estilo="";
+
+                                html+=' <tr '+estilo+' >';
+                                html+='     <td>';
+                                html+=          producto;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          codigo;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          proceso;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          fecha;
+                                html+='     </td>';
+                                html+='     <td>';
+                                html+=          estado;
+                                html+='     </td>';
+                                html+=' </tr>';
+                            }
+                            html+=' </table>';
+                            $('#pd_procesos').html("");
+                            $('#pd_procesos').append(html);                      
+
+                            $.isLoading("hide");   
+                            $('#modal_detalle_pedido').modal('show');                   
+                         }
+                });  
+    }
+    function constultarPedidos()
     	{
     		var f_inicio = $("#fecha_inicio").val().trim();
     		var f_fin = $("#fecha_fin").val().trim();
@@ -194,6 +409,7 @@
 
             //cabecera
             var filaCabecera = document.createElement("tr");
+			 
 						var celda0 = document.createElement("td");
 			            var celda1 = document.createElement("td");
 			            var celda2 = document.createElement("td");
@@ -240,6 +456,7 @@
 						//filaCabecera.appendChild(celda14);
 			            
 			            filaCabecera.setAttribute("id","fila_cabecera");
+						
 			            thead.appendChild(filaCabecera);
 
 			            //CUERPO
@@ -280,6 +497,7 @@
 							//var celda14 = document.createElement("td"); 							
 
 							var textoCelda0 = document.createTextNode(i+1);
+							
 			                var textoCelda1 = document.createTextNode(numero);
 			                var textoCelda2 = document.createTextNode(cliente);
 			                var textoCelda3 = document.createTextNode(paciente);
@@ -324,7 +542,8 @@
 							fila.appendChild(celda13);
 			                fila.appendChild(celda12);
 							//fila.appendChild(celda14);
-
+							fila.setAttribute("onclick","detallePedido('"+numero+"')");
+							
 			                tbody.appendChild(fila);
 			            }
 

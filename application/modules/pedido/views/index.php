@@ -133,8 +133,7 @@
 									<center>
 										<div id="calendar" class="no-seleccionable"></div>
 									</center><br>
-								</div>	
-	
+								</div>		
 				</div>
 
 		</div>
@@ -175,8 +174,9 @@
 		var dd  = (date.getDate()).toString().length == 1 ? "0"+(date.getDate()).toString() : (date.getDate()).toString();
 
 		//establecemos los valores del calendario
+		
 		var options = {
-			events_source: '<?php echo base_url() ?>index.php/calendario/events/getAll',
+			events_source: '<?php echo base_url() ?>index.php/calendario/events/getAll/',
 			view: 'month',
 			language: 'es-ES',
 			tmpl_path: '<?php echo base_url() ?>bower_components/bootstrap-calendar/tmpls/',
@@ -262,7 +262,6 @@
 			);
 		});
 	}(jQuery));
-
 
     //borro los punticos de los eventos 
     function elimiarEventos()
