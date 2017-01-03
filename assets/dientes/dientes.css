@@ -1,0 +1,25 @@
+#dientes_all{ width: 320px; position:relative; }
+#op_puente{ width:40px; position:absolute; top:50%; left:50%; margin-left:-13px; margin-top: -25px; }
+#op_removible{ width:40px; position:absolute; top:50%; left:50%; margin-left:-20px; margin-top: -81px; }
+#down_rmv{ margin-top: 71px; }
+#btn_puente{ width: 43px; height: 43px; }
+.puente_op_on{ background: url('img/puente_op_on.png') no-repeat;}
+.puente_op_off{ background: url('img/puente_op_off.png') no-repeat;}
+
+#corona,#implante,#puente,#removible,#up_rmv,#down_rmv,#btn_puente{ border:0; cursor:pointer; outline:0; }
+
+.corona_off{ background: url('img/crown.png') no-repeat;}
+.corona_on{ background: url('img/crown_hover.png') no-repeat;}
+
+.implante_on{ background: url('img/implant_hover.png') no-repeat;}
+.implante_off{ background: url('img/implant.png') no-repeat;}
+
+.puente_on{ background: url('img/bridge_hover.png') no-repeat;}
+.puente_off{ background: url('img/bridge.png') no-repeat;}
+
+.removible_off{background: url('img/removable.png') no-repeat;}
+.removible_on { background: url('img/removable_hover.png') no-repeat bottom; }
+#corona,#implante,#puente,#removible{ width: 54px; height: 54px;}
+#up_rmv,#down_rmv{ width: 43px; height: 43px; }
+.rmv_off{ background: url('img/up_off.png') no-repeat; }
+.rmv_on{ background: url('img/up_on.png') no-repeat; }

@@ -24,7 +24,7 @@
         <link href="https://cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.css') ?>" rel="stylesheet" type="text/css"/>
-
+		<link href="<?= base_url('assets/dientes/dientes.css') ?>" rel="stylesheet" type="text/css"/>
         <style type="text/css">
             
             .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
@@ -414,7 +414,8 @@
         <script src="<?= base_url('assets/librerias/js/dataTables.bootstrap.js') ?>" type="text/javascript"></script>
 
         <script src="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.js') ?>" type="text/javascript"></script>
-
+        <script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
+        <script src="<?= base_url('assets/dientes/script.js') ?>" type="text/javascript"></script>
     </head>
     <body>
         

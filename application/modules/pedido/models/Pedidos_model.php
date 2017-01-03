@@ -7,7 +7,19 @@ class Pedidos_model extends CI_Model
         $this->load->database();
 		date_default_timezone_set('UTC');
     }
-   	//Crea el Tranking Producto
+   	public function ObtenerColor($laboratorio){
+		
+		$this->db->select("l.COLOR as color");
+        $this->db->from("laboratorio l");
+		$this->db->where("l.ID_LABORATORIO =",$laboratorio);
+        $consulta = $this->db->get();
+		$ds = $consulta->row_array();
+        $resultado = $ds['color'];
+
+        return $resultado;
+		
+	}
+	//Crea el Tranking Producto
 	public function TrackingCreado($nro_pedido, $proceso, $tproceso)
     {
    

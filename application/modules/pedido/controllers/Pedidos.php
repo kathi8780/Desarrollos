@@ -6,7 +6,14 @@ class Pedidos extends MX_Controller {
     {
         parent::__construct();
         $this->load->model('pedidos_model');
-    }  
+    }
+	public function ObtenerColor(){
+		
+		$laboratorio   = trim($this->input->post('categoria'));
+		$color = $this->pedidos_model->ObtenerColor($laboratorio);
+        echo json_encode($color);
+		
+	}	
 	public function TrackingCreado()
 	{
 		if ($this->session->userdata('loggeado')) 
