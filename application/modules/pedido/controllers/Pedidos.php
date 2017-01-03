@@ -594,6 +594,12 @@ class Pedidos extends MX_Controller {
             $data_pedido['PRIORIDAD']=$prioridad;
             $data_pedido['MEDICO_TRATANTE']=$medico_tra;
             $id_pedido = $this->pedidos_model->insertarPedido($data_pedido);
+			
+			$mes= explode($fecha_produccion);
+			$mes[1]; // imprimiría el mes 
+			
+			$ano= explode($fecha_produccion);
+			$ano[2];
 
             //inserto el pedido en la agenda de produccion
             $data_agenda_prod = array();
@@ -601,6 +607,9 @@ class Pedidos extends MX_Controller {
             $data_agenda_prod['body']=$numero_pedido;
             $data_agenda_prod['`start`']=$fecha_produccion;
             $data_agenda_prod['`end`']=$fecha_produccion;
+			$data_agenda_prod['`ano`']=$ano[2];
+			$data_agenda_prod['`mes`']=$mes[1];
+			
             $this->pedidos_model->insertarPedidoEnAgendaProd($data_agenda_prod);
 
             //inserto inventario recibido
@@ -931,6 +940,19 @@ class Pedidos extends MX_Controller {
             $datos['cant_retiros_asignados']  = $cant_retiros_asignados;
 			$datos['cant_control_calidad']    = $cant_control_calidad;
 			$datos['cant_pre_pedido']         = $cant_pre_pedido;
+			
+			//$datos['cant_suspendidos']               = 1;
+            //$datos['cant_atrasados_produccion']      = 1;
+            //$datos['cant_atrasados_entrega_cliente'] = 1;
+            //$datos['cant_pedidos_transito']          = 1;
+            //$datos['cant_pedidos_ruta']              = 1;
+            //$datos['cant_pedidos_empacados']         = 1;
+            //$datos['cant_pedidos_facturados']        = 1;
+            //$datos['cant_pedidos_entregados']        = 1;
+            //$datos['cant_retiros_pendientes']        = 1;
+            //$datos['cant_retiros_asignados']         = 1;
+			//$datos['cant_control_calidad']           = 1;
+			//$datos['cant_pre_pedido']                = 1;
 
             //obtengo los pacientes y los pedidos para el autocompletar de la busqueda en la vista
             $datos['pacientes'] = $this->pedidos_model->obtenerPacientes();

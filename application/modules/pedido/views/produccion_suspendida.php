@@ -111,8 +111,8 @@
 						 $start->setTimezone(new DateTimeZone('UTC'));
 						 $end = new DateTime($pedidos_suspendidos[$i]['FECHA_SUSPENDIDO']);
 						 $end->setTimezone(new DateTimeZone('UTC'));
-						 $days = round(($end->format('U') - $start->format('U')) / (60*60*24));
-                         if( intval(trim(substr($days,1))) > 101)
+						 $days = round(($start->format('U')-$end->format('U')) / (60*60*24));
+                         if( $days > 5)
                             echo "alert alert-danger";
                          ?>"
                 >
@@ -144,9 +144,7 @@
                          <?php echo $days.' days';    ?>
                      </td>
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_suspendidos[$i]['numero'] ?>')">
-                         <?php 
-                         echo intval(trim(substr($days,1)))
-                         ?>
+                         <?php echo 'SAP';   ?>
                      </td>
                      <td style="text-align:center">
                         <input data-toggle="toggle" data-on="Si" data-off="No" type="checkbox" data-size="small" data-offstyle="danger" id="<?php echo $pedidos_suspendidos[$i]['numero'] ?>" class="btn-toggle">
