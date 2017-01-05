@@ -54,6 +54,9 @@ class Events_model extends CI_Model
 		$this->db->join("tipo_prueba tp","tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA");
 		$this->db->join("pedido_descripcion pd","p.ID_PEDIDO=pd.ID_PEDIDO");
 		$this->db->join("producto_laboratorio l","pd.ID_PRODUCTO_LABORATORIO = l.ID_PRODUCTO_LABORATORIO");
+		$this->db->where("pb.ID_ESTADOS =",'3');
+		$this->db->where("p.ID_ESTADOS =",'2');
+		$this->db->where("l.PRINCIPAL =",'S');
 		$this->db->group_by("p.PEDF_NUM_PREIMP");
 		
 		$query = $this->db->get();

@@ -70,12 +70,12 @@
 					Retiros y Entregas
 				</button>
 
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosEmpacados');">
+				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasada');">
 					<span class="badge pull-left" id="indicador_empacados"> 0 </span> Pedidos Empacados
 				</button>		
 
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosEntregados');">
-					<span class="badge pull-left" id="indicador_entregados"> 0 </span> Producción
+				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccion');">
+					<span class="badge pull-left" id="indicador_ped_produccion"> 0 </span> Producción
 				</button>
 				
 				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosFacturados');">
@@ -347,6 +347,7 @@
              var retiros_asignados = data.cant_retiros_asignados;
 			 var control_calidad = data.cant_control_calidad;
 			 var pre_pedido = data.cant_pre_pedido;
+			 var ped_produccion = data.cant_ped_produccion;
 
              $('#indicador_suspendido').html(suspendidos);
              $('#indicador_atrasados_p').html(atrasados_p);
@@ -360,6 +361,7 @@
              $('#indicador_retiros_asignados').html(retiros_asignados);
 			 $('#indicador_control_calidad').html(control_calidad);
 			 $('#indicador_pre_pedido').html(pre_pedido);
+			 $('#indicador_ped_produccion').html(ped_produccion);
 
              //obtengo los pacientes y pedidos para el autocompletar del campo buscar
             var arreglo_asociativo_pacientes = data.pacientes; // esto me da un arreglo asociativo y yo necesito uno lineal

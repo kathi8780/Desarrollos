@@ -271,6 +271,24 @@ class Pedidos_model extends CI_Model
             $ds = $query->result_array();
             return $ds; 
     }
+	public function obtenerPedidoProduccion()
+    {
+        $sql="SELECT 
+                p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+                p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
+            pb.FECHA_SALIDA as FECHA_PRUEBA 
+            from pedido p
+            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN kpiproduccion k on k.ID_PEDIDO=p.ID_PEDIDO
+			WHERE pb.ID_ESTADOS = 3";
+
+			$query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds; 
+    }
     public function buscarPedidosAgProd($estado, $f_inicio, $f_fin, $numped)
     {
         $sql="SELECT 
@@ -686,23 +704,28 @@ class Pedidos_model extends CI_Model
         $ds = $query->result_array();
         return $ds;
     }
-
     public function cantidadPedidosFacturados() 
     {
              $fecha = date("Y-m-d"); 
 
              $this->db->select("count(*) as cantidad");
              $this->db->from("kpiporfacturar p");
-             
-			 //$this->db->join("paciente pac",'pac.ID_PACIENTE= p.ID_PACIENTE');
-             //$this->db->join("estados et",'et.ID_ESTADOS=p.ID_ESTADOS');
-             //$this->db->where("Date(p.FECHA_FACTURA) =", Date($fecha) );  
-			 
+
              $consulta = $this->db->get();
              $resultado = $consulta->row_array();
              return $resultado['cantidad'];
     }
+    public function cantidadPedProduccion() 
+    {
+             $fecha = date("Y-m-d"); 
 
+             $this->db->select("count(*) as cantidad");
+             $this->db->from("kpiproduccion p");
+
+             $consulta = $this->db->get();
+             $resultado = $consulta->row_array();
+             return $resultado['cantidad'];
+    }
     public function obtenerPedidosFacturados($f_inicio, $f_fin) 
     {
          $this->db->select("
@@ -772,16 +795,6 @@ class Pedidos_model extends CI_Model
              $this->db->where("pb.ID_ESTADOS =", '8'); 
              $this->db->where("pb.DESPACHADO =", 'S'); 
 				
-				/*
-                if($f_inicio!= "")
-                {
-                    $this->db->where("Date(pb.FEC_HOR_ENTR)  >=", Date($f_inicio) );  
-                }
-                if($f_fin!= "")
-                {
-                    $this->db->where("Date(pb.FEC_HOR_ENTR)  <=",Date($f_fin) );  
-                } 
-				*/
 
              $consulta = $this->db->get();
              $resultado = $consulta->result_array();

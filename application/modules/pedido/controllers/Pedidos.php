@@ -38,6 +38,7 @@ class Pedidos extends MX_Controller {
 			$this->load->view('templates/header');
 			$this->load->view('index');
 			$this->load->view('templates/footer');
+			
 		}
         else 
         {
@@ -190,7 +191,22 @@ class Pedidos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
     }
+	public function mostrarFormularioProduccion() 
+    {
+        if ($this->session->userdata('loggeado')) 
+        {    
 
+            $datos['pedido_produccion'] = $this->pedidos_model->obtenerPedidoProduccion(); 
+            
+            $this->load->view('templates/header');
+            $this->load->view('pedido_produccion',$datos);
+            $this->load->view('templates/footer');
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+    }
     public function mostrarFormularioProduccionAtrasada() 
     {
         if ($this->session->userdata('loggeado')) 
@@ -934,6 +950,7 @@ class Pedidos extends MX_Controller {
 			$cant_control_calidad = $this->pedidos_model->cantidadControlCalidad();
 			//$cant_control_calidad = 2;
 			$cant_pre_pedido= $this->pedidos_model->cantidadPrePedido();
+			$cant_ped_produccion= $this->pedidos_model->cantidadPedProduccion();
 			
             $datos['cant_suspendidos'] = $cant_suspendidos;
             $datos['cant_atrasados_produccion'] = $cant_atrasados_produccion;
@@ -947,20 +964,8 @@ class Pedidos extends MX_Controller {
             $datos['cant_retiros_asignados']  = $cant_retiros_asignados;
 			$datos['cant_control_calidad']    = $cant_control_calidad;
 			$datos['cant_pre_pedido']         = $cant_pre_pedido;
+			$datos['cant_ped_produccion']     = $cant_ped_produccion;
 			
-			//$datos['cant_suspendidos']               = 1;
-            //$datos['cant_atrasados_produccion']      = 1;
-            //$datos['cant_atrasados_entrega_cliente'] = 1;
-            //$datos['cant_pedidos_transito']          = 1;
-            //$datos['cant_pedidos_ruta']              = 1;
-            //$datos['cant_pedidos_empacados']         = 1;
-            //$datos['cant_pedidos_facturados']        = 1;
-            //$datos['cant_pedidos_entregados']        = 1;
-            //$datos['cant_retiros_pendientes']        = 1;
-            //$datos['cant_retiros_asignados']         = 1;
-			//$datos['cant_control_calidad']           = 1;
-			//$datos['cant_pre_pedido']                = 1;
-
             //obtengo los pacientes y los pedidos para el autocompletar de la busqueda en la vista
             $datos['pacientes'] = $this->pedidos_model->obtenerPacientes();
             $datos['pedidos'] = $this->pedidos_model->obtenerNumPedidos();
