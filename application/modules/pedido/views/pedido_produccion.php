@@ -49,16 +49,10 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
-
-
 <div style="min-height:500px">
     <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">Consultar Pedidos en Produccion</div>
+        <div class="panel-heading">Pedidos en Produccion</div>
     </div>
-
-
     <div class="container">
     	<div id="tabla" class="table-responsive" style="font-size:11px; cursor: pointer">
          <table class="table table-condensed table-striped table-responsive" id="tablaGenerada">
@@ -106,10 +100,13 @@
 						 $end = new DateTime($pedido_produccion[$i]['FECHA_PRUEBA']);
 						 $end->setTimezone(new DateTimeZone('UTC'));
 						 $days = round(($end->format('U')-$start->format('U')) / (60*60*24));
-                         if( $days < 0 || $days > 7)
+						 
+                         if( $days < 0 )
                             echo "alert alert-danger";
-						else 
-							echo "alert alert alert-success";
+						else if($days == 0)
+								echo "alert alert-warning";
+							 else
+								echo "alert alert alert-success";
                          ?>"
                 >
                      <td style="cursor:pointer; text-align:center" onclick="detallePedido('<?php echo $pedido_produccion[$i]['numero'] ?>')">
@@ -144,14 +141,7 @@
                }
             ?>
          </table>
-
-        <center>
-            <button class="btn btn-primary btn-sm" type="button" onclick="reanudarPedidos();">
-                <span class="glyphicon glyphicon-repeat"></span>
-                Reanudar
-            </button>
-        </center>    <br>
-
+		<br>
         </div>
     </div>
 </div>
@@ -422,46 +412,4 @@
                          }
                 });  
     }
-    function reanudarPedidos()
-    {
-        var cadena_nros_pedidos="";
-        var btns_ped = $(".btn-toggle");
-        btns_ped.each(function()
-        {
-            if( $(this).prop('checked') )
-            {
-                var id_pedido = $(this).attr("id");
-                cadena_nros_pedidos+=id_pedido+"&&";
-            }
-
-        });  
-
-        if(cadena_nros_pedidos!="")
-            cadena_nros_pedidos=cadena_nros_pedidos.substring(0,cadena_nros_pedidos.length-2); 
-        else
-        {
-            var text = 'No ha marcado ningún pedido';
-            $.notific8(text, params); 
-            return;
-        }
-
-        $.isLoading({
-            text: "Cargando",
-            position: "overlay"
-        });
-
-        $.ajax({
-                type: 'POST',
-                async:false,
-                dataType: 'json',
-                data: {cadena_nros_pedidos:cadena_nros_pedidos},
-                url: '<?php echo base_url(); ?>index.php/pedido/pedidos/reanudarPedidos',
-                success: function (data) 
-                {
-                        $.isLoading("hide");
-                        window.location.reload();
-                }
-        });
-    }
-
 </script>

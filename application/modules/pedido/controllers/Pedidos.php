@@ -215,12 +215,10 @@ class Pedidos extends MX_Controller {
             $this->load->library('form_validation');       
             $this->form_validation->CI =& $this;
 
-            $datos=array();
-            $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
-            $datos['pedidos_atrasados'] = $this->pedidos_model->obtenerPedidosAtrasadosEnProduccion(); 
+            $datos['pedido_produccion'] = $this->pedidos_model->obtenerPedidosAtrasadosEnProduccion(); 
             
             $this->load->view('templates/header');
-            $this->load->view('produccion_atrasada',$datos);
+            $this->load->view('pedido_produccion',$datos);
             $this->load->view('templates/footer');
         }
         else 
@@ -239,8 +237,7 @@ class Pedidos extends MX_Controller {
 
             $datos=array();
             $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
-            $datos['pedidos_atrasados_cliente'] = $this->pedidos_model->obtenerPedidosAtrasadosEnEntrega(); 
-            
+            $datos['pedidos_empacados'] = $this->pedidos_model->obtenerPedidosAtrasadosEnEntrega();
 
             $this->load->view('templates/header');
             $this->load->view('produccion_atrasada_entregar',$datos);

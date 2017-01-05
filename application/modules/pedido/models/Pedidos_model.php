@@ -283,7 +283,7 @@ class Pedidos_model extends CI_Model
             INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
             INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
 			INNER JOIN kpiproduccion k on k.ID_PEDIDO=p.ID_PEDIDO
-			WHERE pb.ID_ESTADOS = 3";
+			WHERE pb.ID_ESTADOS IN (3,8)";
 
 			$query= $this->db->query($sql);
             $ds = $query->result_array();
@@ -476,99 +476,73 @@ class Pedidos_model extends CI_Model
 
     public function cantidadPedidosAtrasadosEnProduccion() 
     {
-        $fecha_actual = date("Y-m-d");
+        $sql="SELECT COUNT(*) AS cantidad
+            from pedido p
+            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN kpiproduccion k on k.ID_PEDIDO=p.ID_PEDIDO
+			WHERE pb.ID_ESTADOS IN (3,8) AND DATEDIFF(pb.FECHA_SALIDA,CURDATE())<0";        
 
-        $this->db->select(" count(*) as cantidad");
-
-        $this->db->from("pedido p");
-        $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO'); 
-        $this->db->join("estados e",'e.ID_ESTADOS=pb.ID_ESTADOS');
-        $this->db->join("estados ep",'ep.ID_ESTADOS=p.ID_ESTADOS');
-
-
-        $this->db->where("pb.DESPACHADO=",'N');  //CUANDO LA PRUEBA NO ESTA DESPACHADO Y ESTE EN PROCESO 
-        $this->db->where("e.NOMBRE_ESTADO =", 'PROCESO' );
-        $this->db->where("pb.ENTREGADO =", 'N' );
-        $this->db->where("Date(pb.FECHA_SALIDA)  <", Date($fecha_actual) );  
-
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'TERMINADO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'ANULADO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'SUSPENDIDO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'EMPACADO' );
-		$this->db->where("ep.NOMBRE_ESTADO !=", 'FACTURADO' );         
-
-        $consulta = $this->db->get();
-        $resultado = $consulta->row_array();
-        return $resultado['cantidad'];
+			
+		$query= $this->db->query($sql);
+        $ds = $query->row_array();
+        $resultado = $ds['cantidad'];
+        return $resultado;
+	
     }
 
     public function obtenerPedidosAtrasadosEnProduccion() 
     {
-        $fecha_actual = date("Y-m-d");
+        $sql="SELECT 
+                p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+                p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
+            pb.FECHA_SALIDA as FECHA_PRUEBA 
+            from pedido p
+            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN kpiproduccion k on k.ID_PEDIDO=p.ID_PEDIDO
+			WHERE pb.ID_ESTADOS IN (3,8) AND DATEDIFF(pb.FECHA_SALIDA,CURDATE())<0";
 
-        $this->db->select(" 
-                            p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
-                            p.FECHA_COTIZACION fing,'Sin Dato' as total,'Sin Dato' as flete, 'Sin Dato' as recargo, 'Sin Dato' as abono, 'Sin Dato' as saldo,ep.NOMBRE_ESTADO as estado, p.FACTURA as facturado,'Sin Datos' as motivo
-                        ");
-
-        $this->db->from("pedido p");
-        $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO'); 
-        $this->db->join("estados e",'e.ID_ESTADOS=pb.ID_ESTADOS');
-        $this->db->join("estados ep",'ep.ID_ESTADOS=p.ID_ESTADOS');
-
-        $this->db->join("paciente pac",'pac.ID_PACIENTE= p.ID_PACIENTE');
-
-        $this->db->where("pb.DESPACHADO=",'N');  //CUANDO LA PRUEBA NO ESTA DESPACHADO Y ESTE EN PROCESO 
-        $this->db->where("e.NOMBRE_ESTADO =", 'PROCESO' );
-        $this->db->where("pb.ENTREGADO =", 'N' );
-        $this->db->where("Date(pb.FECHA_SALIDA)  <", Date($fecha_actual) );  
-
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'TERMINADO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'ANULADO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'SUSPENDIDO' ); 
-        $this->db->where("ep.NOMBRE_ESTADO !=", 'EMPACADO' ); 
-		$this->db->where("ep.NOMBRE_ESTADO !=", 'FACTURADO' ); 		
-
-        $consulta = $this->db->get();
-        $resultado = $consulta->result_array();
-        return $resultado;
+			$query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds;
     }
 
     public function cantidadPedidosAtrasadosEnEntrega() 
     {
-        $sql = "SELECT count(*) as cantidad ";
+        
+		$sql = "SELECT count(*) as cantidad ";
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
         $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
         $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
         $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
         $sql .= "AND pb.ENTREGADO ='N' ";
-
-        $sql .= "AND ep.NOMBRE_ESTADO <> 'ANULADO' ";
-        $sql .= "AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' ";
-        //$sql .= "AND (CASE when DAYOFWEEK(pb.FECHA_SALIDA)=6 THEN DATE_ADD(pb.FECHA_SALIDA, INTERVAL 3 DAY) ELSE pb.FECHA_SALIDA END)  < CURDATE() ";
+        $sql .= "AND pb.DESPACHADO ='N' AND DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE)>1";     
 
         $query= $this->db->query($sql);
         $ds = $query->row_array();
         $resultado = $ds['cantidad'];
         return $resultado;
     }
-
     public function obtenerPedidosAtrasadosEnEntrega() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing,'Sin Dato' as total,'Sin Dato' as flete, 'Sin Dato' as recargo, 'Sin Dato' as abono, 'Sin Dato' as saldo,ep.NOMBRE_ESTADO as estado, p.FACTURA as facturado,'Sin Datos' as motivo ";
+        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
-        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";//e es estado de la prueba
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
         $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
         $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+
         $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
         $sql .= "AND pb.ENTREGADO ='N' ";
-
-        $sql .= "AND ep.NOMBRE_ESTADO <> 'ANULADO' ";
-        $sql .= "AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' ";
-        //$sql .= "AND (CASE when DAYOFWEEK(DATE_ADD(pb.FECHA_SALIDA,INTERVAL 1 DAY))=6 THEN DATE_ADD(pb.FECHA_SALIDA, INTERVAL 3 DAY) ELSE pb.FECHA_SALIDA END)  < CURDATE() ";
+        $sql .= "AND pb.DESPACHADO ='N' AND DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE)>1";     
 
         $query= $this->db->query($sql);
         $ds = $query->result_array();

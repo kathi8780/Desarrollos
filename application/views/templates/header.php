@@ -20,8 +20,12 @@
         <link href="<?= base_url('assets/librerias/css/jquery.notific8.min.css') ?>" rel="stylesheet" type="text/css"/>
         
         <!--<link href="<?= base_url('assets/librerias/css/dataTables.bootstrap.css') ?>" rel="stylesheet" type="text/css"/>-->
-        <!--<link href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/> -->
-        <!--<link href="https://cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.min.css" rel="stylesheet" type="text/css"/> -->
+        
+		<!--<link href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="https://cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.min.css" rel="stylesheet" type="text/css"/>--> 
+
+		<link href="<?= base_url('assets/librerias/tabletools/2.2.4/css/jquery.dataTables.min.css')?>" rel="stylesheet" type="text/css">
+        <link href="<?= base_url('assets/librerias/tabletools/2.2.4/css/dataTables.tableTools.min.css')?>" rel="stylesheet" type="text/css"/>
 
         <link href="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.css') ?>" rel="stylesheet" type="text/css"/>
 		<link href="<?= base_url('assets/dientes/dientes.css') ?>" rel="stylesheet" type="text/css"/>
@@ -412,10 +416,10 @@
         <script src="<?= base_url('assets/librerias/js/jquery.notific8.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/jquery.dataTables.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/dataTables.bootstrap.js') ?>" type="text/javascript"></script>
-
         <script src="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.js') ?>" type="text/javascript"></script>
-        <script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
+		<script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/dientes/script.js') ?>" type="text/javascript"></script>
+
     </head>
     <body>
         

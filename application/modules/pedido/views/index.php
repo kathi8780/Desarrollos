@@ -70,7 +70,7 @@
 					Retiros y Entregas
 				</button>
 
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasada');">
+				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosEmpacados');">
 					<span class="badge pull-left" id="indicador_empacados"> 0 </span> Pedidos Empacados
 				</button>		
 

@@ -1,3 +1,5 @@
+<!-- <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"> -->
+
 <!-- DETALLE DE PEDIDO -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal_detalle_pedido">
   <div class="modal-dialog modal-lg">
@@ -8,7 +10,7 @@
       </div>
       <div class="modal-body" id="modal-body">
 	      	<div class="table table-responsive">
-	      		<table class="table table-responsive table-hover" style="border:none">
+	      		<table class="table table-responsive table-hover table-condensed" style="border:none">
 	      			<tr>
 	      				<td style="font-weight:bold">
 	      					Paciente: 
@@ -52,27 +54,31 @@
         {
             font-weight: bold;
         }
+
     </style>
 
 <div style="min-height:500px">
     <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">Pedidos Atrasados en Entrega</div>
+        <div class="panel-heading">Entregas Atrasadas</div>
     </div>
 
     <div class="container">
-        <div class="row">
-            
-        </div>
-
-        <div id="tabla" class="table-responsive" style="font-size:11px; cursor: pointer">
+        <div id="tabla" class="table-responsive" style="font-size:12px;">
          <table class="table table-condensed table-striped table-responsive" id="tablaGenerada">
             <thead>
              <tr style="font-weight:bold">
                  <td>
-                    Nº 
+                    Nº  
                  </td>
                  <td>
                     PEDIDO 
+                 </td>
+
+                 <td>
+                     FECHA DE PEDIDO
+                 </td>
+                 <td>
+                     CIUDAD
                  </td>
                  <td>
                      CLIENTE
@@ -84,106 +90,65 @@
                      MEDICO TRATANTE
                  </td>
                  <td>
-                     FECHA DE INGRESO
+                     PRUEBA
                  </td>
                  <td>
-                     TOTAL PEDIDO
+                     FECHA EMPAQUE
                  </td>
                  <td>
-                     FLETE
-                 </td>
-                 <td>
-                     RECARGO 20%
-                 </td>
-                 <td>
-                     ABONO
-                 </td>
-                 <td>
-                     SALDO
-                 </td>
-                 <td>
-                     ESTADO
-                 </td>
-                 <td>
-                     FACTURADO
-                 </td>
-                 <td>
-                     MOTIVO
+                     DIAS
                  </td>
              </tr>
              </thead>
             
             <?php              
-                for($i=0;$i<count($pedidos_atrasados_cliente);$i++)
+                for($i=0;$i<count($pedidos_empacados);$i++)
                 {
             ?>
-                <tr onclick="detallePedido('<?php echo $pedidos_atrasados_cliente[$i]['numero'] ?>')" >
-                     <td>
-                          <?php echo $i+1 ?>
+                <tr >
+                    <td style="text-align:center; cursor:pointer" onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $i+1; ?>
                      </td>
-                     <td>
-                          <?php echo $pedidos_atrasados_cliente[$i]['numero'] ?>
+                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $pedidos_empacados[$i]['numero'] ?>
                      </td>
-                     <td>
-                          <?php echo $pedidos_atrasados_cliente[$i]['cliente'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['fing'] ?>
                      </td>
-                     <td>
-                          <?php echo $pedidos_atrasados_cliente[$i]['paciente'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $pedidos_empacados[$i]['ciudad'] ?>
                      </td>
-                     <td>
-                          <?php echo $pedidos_atrasados_cliente[$i]['medico'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $pedidos_empacados[$i]['cliente'] ?>
                      </td>
-                     <td>
-                         <?php echo $pedidos_atrasados_cliente[$i]['fing'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $pedidos_empacados[$i]['paciente'] ?>
                      </td>
-                     <td>
-                         <?php echo $pedidos_atrasados_cliente[$i]['total'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                          <?php echo $pedidos_empacados[$i]['medico'] ?>
                      </td>
-                     <td>
-                         <?php echo $pedidos_atrasados_cliente[$i]['flete'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['NOMBRE_PRUEBA'] ?>
                      </td>
-                     <td>
-                     <?php echo $pedidos_atrasados_cliente[$i]['recargo'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['FECHA_EMPAQUE']." ".$pedidos_empacados[$i]['HORA_EMPAQUE']?>
                      </td>
-                     <td>
-                        <?php echo $pedidos_atrasados_cliente[$i]['abono'] ?>
-                     </td>
-                     <td >
-                       <?php echo $pedidos_atrasados_cliente[$i]['saldo'] ?>
-                     </td>
-                     <td >
-                       <?php 
-                            if($pedidos_atrasados_cliente[$i]['estado']=="PENDIENTE" )
-                                $pedidos_atrasados_cliente[$i]['estado']="PRODUCCIÓN";
-                       echo $pedidos_atrasados_cliente[$i]['estado'] 
-                       ?>
-                     </td>
-                     <td style="text-align:center">
-                        <?php 
-                            if($pedidos_atrasados_cliente[$i]['facturado']=='N')
-                                echo 'NO';
-                            else
-                                echo 'SI';
-                        ?>
-                     </td>
-                     <td >
-                       <?php echo $pedidos_atrasados_cliente[$i]['motivo'] ?>
+                     <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['DIAS']; ?>
                      </td>
                 </tr>
             <?php                 
                }
             ?>
+
          </table>
         </div>
     </div>
-
-
 </div>
-
-
 
     <script src="<?php echo base_url() ?>assets/librerias/js/jquery.dataTables.min.js"></script>
      <script src="<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/js/dataTables.tableTools.min.js"/></script>
+    <!-- <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> -->
     <script type="text/javascript">
         
     //INICIALIZO DATEPICKER
@@ -202,7 +167,7 @@
                   onClose: function(notification, data) {}
               };                                
                params.heading = 'Notificación';
-               params.theme = 'teal'; //ruby
+               params.theme = 'ruby'; //ruby
                params.life = '4000';//4segundos 
 
                 //var text = 'Debe abrir la caja.';
@@ -263,34 +228,34 @@
                                 { "aTargets": [ 6 ],"bSortable": true },
                                 { "aTargets": [ 7 ],"bSortable": true },
                                 { "aTargets": [ 8 ],"bSortable": true },
-                                { "aTargets": [ 9 ],"bSortable": false }
+                                { "aTargets": [ 9 ],"bSortable": true }
+
                               ] 
           });
 
             var tableTools = new $.fn.dataTable.TableTools(table, {
                 'aButtons': [
-                    {
-                        'sExtends': 'xls',
-                        'sButtonText': 'Exportar a Excel',
-                        'sFileName': 'Reporte de Producción Atrasada en Entregar.xls'
-                    }/*,
-                    {
-                        'sExtends': 'print',
-                        'bShowAll': true,
-                        'sButtonText': 'Imprimir'
-                    }*/,
-                    {
-                        'sExtends': 'pdf',
-                        'bFooter': false,
-                        'sButtonText': 'Imprimir desde PDF',
-                        'sFileName': 'Reporte de Producción Atrasada en Entregar.pdf'
-                    }
+	                    {
+	                        'sExtends': 'xls',
+	                        'sButtonText': 'Exportar a Excel',
+	                        'sFileName': 'Reporte de Pedidos Empacados.xls'
+	                    }/*,
+	                    {
+	                        'sExtends': 'print',
+	                        'bShowAll': true,
+	                        'sButtonText': 'Imprimir'
+	                    }*/,
+	                    {
+	                        'sExtends': 'pdf',
+	                        'bFooter': false,
+	                        'sButtonText': 'Imprimir desde PDF',
+	                        'sFileName': 'Reporte de Pedidos Empacados.pdf'
+	                    }
                 ],
                 'sSwfPath': '<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf'
             });
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
     }
-
 
     function detallePedido(nro_pedido)
     {
@@ -455,10 +420,153 @@
                             $('#pd_procesos').html("");
                             $('#pd_procesos').append(html);                      
 
-                            $.isLoading("hide");   
+                            $.isLoading("hide") ;  
                             $('#modal_detalle_pedido').modal('show');                   
                          }
                 });  
+    }
+
+    function despacharPruebas()
+    {
+        var btns_desp = $(".dt");
+        var cadena ="";
+        btns_desp.each(function()
+        {
+            if( $(this).prop('checked') )
+            {
+              var id_btn_desp = $(this).attr("id");
+              cadena+=id_btn_desp+"&&";
+            }
+        }); 
+
+      if(cadena!="")
+      {
+          $('#modal-despacho-pruebas').modal('show');
+      }
+      else
+      {
+            var text = 'Seleccione al menos una PRUEBA';
+            $.notific8(text, params); 
+            return;  
+      }
+         
+    }
+
+    function toggleDespacho()
+    {
+      var despacho = $("#s_despacho").val().trim();
+
+      if(despacho==1)
+      {
+        $("#fila-courier").attr("style","display:table-row");
+        $("#fila-recibe").attr("style","display:table-row");
+        $("#fila-flete").attr("style","display:table-row");
+
+        $("#fila-mensajeros").attr("style","display:none");
+      }
+      else if(despacho==2)
+      {
+        $("#fila-mensajeros").attr("style","display:table-row");
+        $("#fila-flete").attr("style","display:none");
+
+        $("#fila-courier").attr("style","display:none");
+        $("#fila-recibe").attr("style","display:none");
+      }   
+      else
+      {
+        $("#fila-mensajeros").attr("style","display:none");
+        $("#fila-flete").attr("style","display:none");
+        $("#fila-courier").attr("style","display:none");
+        $("#fila-recibe").attr("style","display:none");
+      } 
+    }
+
+    function realizarDespacho()
+    {
+          var btns_desp = $(".dt");
+          var cadena ="";
+          btns_desp.each(function()
+          {
+              if( $(this).prop('checked') )
+              {
+                var id_btn_desp = $(this).attr("id");
+                cadena+=id_btn_desp+"&&";
+              }
+          }); 
+
+        if(cadena!="")
+        {
+          cadena=cadena.substring(0,cadena.length-2);         
+        }
+
+        //realizo validaciones
+        var despacho =$("#s_despacho").val().trim();
+        if(despacho=="")
+        {
+            var text = 'Seleccione DESPACHO';
+            $.notific8(text, params); 
+            return; 
+        }
+        else if(despacho==1)
+        {
+          if($("#s_courier").val().trim()=="")
+          {
+              var text = 'Seleccione COURIER';
+              $.notific8(text, params); 
+              return; 
+          }
+          else if($("#c_recibe").val().trim()=="")
+          {
+              var text = 'Campo RECIBE está vacío';
+              $.notific8(text, params); 
+              return;   
+          }
+          else if($("#c_flete").val().trim()=="")
+          {
+              var text = 'Campo FLETE está vacío';
+              $.notific8(text, params); 
+              return;   
+          }
+        }
+        else if(despacho==2)
+        {
+            if($("#s_mensajero").val().trim()=="")
+            {
+                var text = 'Seleccione MENSAJERO';
+                $.notific8(text, params); 
+                return; 
+            }
+        }
+
+        //obtengo los datos
+        var courier = $("#s_courier").val().trim();
+        var recibe = $("#c_recibe").val().trim();
+        var flete = $("#c_flete").val().trim();
+        var mensajero = $("#s_mensajero").val().trim();
+
+        var tipoMensajeria = $("#s_despacho").val().trim();
+        if(tipoMensajeria==1)
+          tipoMensajeria="Courier";
+        else
+          tipoMensajeria="Interna";
+
+                $.isLoading({
+                              text: "Cargando",
+                              position: "overlay"
+                           });
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {cadena:cadena,courier:courier,recibe:recibe,flete:flete,mensajero:mensajero,tipoMensajeria:tipoMensajeria},
+                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/DespacharPruebas',
+                         success: function (data) 
+                         {                           
+                            $.isLoading("hide") ;   
+                            window.location.reload();
+                         }
+                });            
+
     }
 
     </script>
