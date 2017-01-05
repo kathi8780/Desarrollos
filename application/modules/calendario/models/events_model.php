@@ -39,12 +39,25 @@ class Events_model extends CI_Model
 	*/
 	public function getAll()
 	{
-		//$query = $this->db->get('events');
-		$mes=date('m');
-		$ano=date('Y');
 		
-		$this->db->select('start, end');
-		$query = $this->db->get_where('events', array('mes' => '12','ano'=>'2016'));
+		//$mes=date('m');
+		//$ano=date('Y');
+		
+		//$this->db->select('start, end');
+		//$query = $this->db->get_where('events', array('mes' => '12','ano'=>'2016'));
+
+		$array=array("UNIX_TIMESTAMP(concat('',pb.FECHA_SALIDA,' 00:00'))*1000 as start","UNIX_TIMESTAMP(concat('',pb.FECHA_SALIDA,' 00:00'))*1000 as end");
+		$this->db->select($array);
+		$this->db->from("pedido p");
+		$this->db->join("estados et","et.ID_ESTADOS=p.ID_ESTADOS");
+		$this->db->join("pruebas pb","pb.ID_PEDIDO=p.ID_PEDIDO");
+		$this->db->join("tipo_prueba tp","tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA");
+		$this->db->join("pedido_descripcion pd","p.ID_PEDIDO=pd.ID_PEDIDO");
+		$this->db->join("producto_laboratorio l","pd.ID_PRODUCTO_LABORATORIO = l.ID_PRODUCTO_LABORATORIO");
+		$this->db->group_by("p.PEDF_NUM_PREIMP");
+		
+		$query = $this->db->get();
+		
 		if($query->num_rows() > 0)
 		{
 			return $query->result();
