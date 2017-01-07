@@ -4,7 +4,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">MODIFICAR PROCESO</h4>
+                        <h4 class="modal-title">MODIFICAR LABORATORIO</h4>
                     </div>
                     <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
             <div class="table-responsive">
@@ -17,20 +17,13 @@
                 <tr>
                   <td>
                     <div class="col-md-9 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
+					<div class="form-group form-group-sm">                
                   <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
                   <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
-              </div>
-          </div>
-          <div class="col-md-3 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
-                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-                  
-                </tr>
+                  <input type="text" id="c_laboratorio" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
+					</div>
+					</div>
+				</tr>
               </table>
             </div>
                     </div>
@@ -123,7 +116,6 @@
     </div>    
   </div>
 </div>
-
 
 <div class="panel panel-primary" >
     <div class="panel-heading">LABORATORIOS REGISTRADOS</div></div>
@@ -327,15 +319,15 @@
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
         }
 
-    var id_editar_proceso="";
-    function editarProceso(id_proceso)
+    var id_editar_laboratorio="";
+    function editarLaboratorio(id_laboratorio)
     {
 
-      document.getElementById("c_proceso").value=nombre;
+      document.getElementById("c_laboratorio").value=nombre;
 	  
-      id_editar_proceso=id_proceso;
-      id=id_proceso;
-      $("#modal-editar-prueba").modal('show');
+      id_editar_laboratorio=id_laboratorio;
+      id=id_laboratorio;
+      $("#modal-editar-laboratorio").modal('show');
 
     }
     //abrir eliminar proceso
@@ -366,9 +358,9 @@
 	function tablaReload(){
 
 	var usuario = data['NOMBRE_PROCESO'];
-                    var id_proceso = data['id_laboratorio'];
+                    var id_laboratorio = data['id_laboratorio'];
                     //ADICIONO UNA LINEA DE PRUEBA
-                    var cadena_html='<tr class="fila-retiro" id="r'+id_proceso+'" >'
+                    var cadena_html='<tr class="fila-retiro" id="r'+id_laboratorio+'" >'
                                         +'<td>'
                                             +laboratorio
                                         +'</td>'
@@ -376,12 +368,12 @@
                                             +activo
                                         +'</td>'
                                         +'<td>'
-                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="editarLaboratorio(this.id)" >'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_laboratorio+'" style="width:50px" onclick="editarLaboratorio(this.id)" >'
                                                   +'<span class="glyphicon glyphicon-pencil"></span>'
                                             +'</button></center>'
                                         +'</td>'
                                         +'<td>'
-                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_proceso+'" style="width:50px" onclick="eliminarLaboratorio(this.id)" >'
+                                            +'<center><button type="button" class="btn btn-primary btn-sm" id="'+id_laboratorio+'" style="width:50px" onclick="eliminarLaboratorio(this.id)" >'
                                                   +'<span class="glyphicon glyphicon-trash"></span>'
                                             +'</button></center>'
                                         +'</td>'
