@@ -6,7 +6,12 @@ class configura_maestros_model extends CI_Model
     public function __construct() {
         $this->load->database();
     }
+	public function ActualizaLaboratorio($data, $id)
+    {
+        $this->db->where('laboratorio.ID_LABORATORIO', $id);
+        $this->db->update('laboratorio', $data);
 
+    }
 	// Insertar Proceso Nuevo
     public function insertarNuevoProcesoNombre($data,$nombre){
 
@@ -28,13 +33,19 @@ class configura_maestros_model extends CI_Model
               }
 
 		return $resultado;
-    }  
-	public function obtenerLaboratorio()
+    }
+	public function obtenerLaboratorio($id)
     {
            	
 		$array=array("l.ID_LABORATORIO id_laboratorio", "l.NOMBRE_LABORATORIO nombre_laboratorio","l.ACTIVO as activo");
 		$this->db->select($array);
 		$this->db->from("laboratorio AS l");
+		
+		if($id!="")
+         {
+            $this->db->where("l.ID_LABORATORIO =", $id);  
+         }
+		
 		$this->db->order_by("l.ID_LABORATORIO","DESC");
 		
 		$consulta = $this->db->get();
@@ -248,5 +259,9 @@ class configura_maestros_model extends CI_Model
         $this->db->where('id_inventario', $id);
         $this->db->update('inventario', $data);
     }
-}
+	public function EstadoConfiguraLaboratorio($id)
+	{
+		$this->db->query("UPDATE laboratorio SET activo=if(ACTIVO='S','N','S') WHERE id_laboratorio=$id");
 
+	}
+}

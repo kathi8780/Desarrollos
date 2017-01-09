@@ -5,6 +5,21 @@ class configura_procesos extends MX_Controller {
         parent::__construct();
 		$this->load->model('configura_procesos_model');
     }
+	public function ActualizaProcesoTecnico(){
+
+        if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('ID_TECNICO_PROCESO'));
+            $data = array();
+            $data['ID_CATEGORIA']=trim($this->input->post('ID_CATEGORIA'));
+            $actualiza=$this->configura_procesos_model->ActualizaProcesoTecnico($data,$id);
+			echo json_encode($actualiza);
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+    }
 	public function EstadoProcesosPorTecnico(){
 		
 		if ($this->session->userdata('loggeado'))
@@ -117,6 +132,22 @@ class configura_procesos extends MX_Controller {
 			$this->load->view('templates/header');
             $this->load->view('ProcesosPorTecnico', $datos);
             $this->load->view('templates/footer');
+						 
+		 }
+		
+	}
+	public function ObtenerProcesosPorTecnico(){
+		
+		 if ($this->session->userdata('loggeado'))
+		 {
+			$id = trim($this->input->post('ID_TECNICO_PROCESO'));
+			$datos=array();
+			//$datos['tecnico']   = $this->configura_procesos_model->obtenerTecnico();
+			//$datos['proceso']   = $this->configura_procesos_model->obtenerProcesos();
+			//$datos['categoria'] = $this->configura_procesos_model->obtenerCategoria();
+			$datos['procesos_tecnicos']  = $this->configura_procesos_model->ObtenerProcesosPorTecnico($id);
+			
+            echo json_encode($datos);             
 						 
 		 }
 		

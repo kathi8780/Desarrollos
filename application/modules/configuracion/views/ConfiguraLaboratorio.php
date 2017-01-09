@@ -18,18 +18,19 @@
                   <td>
                     <div class="col-md-9 col-sm-2 col-xs-12">
 					<div class="form-group form-group-sm">                
-                  <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-                  <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_laboratorio" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
+						<label class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
+						<input type='hidden' value="" id="id_laboratorio"/>
+						<input type="text" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"  value="" id="nlaboratorio"/>
 					</div>
 					</div>
+				  </td>
 				</tr>
               </table>
             </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="ModificarLaboratorio()">
                             <span class="glyphicon glyphicon-pencil"></span> Actualizar
                         </button>
                     </div>
@@ -37,53 +38,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-
-
 <!--fin ventana modal para editar proceso-->
-
-
-<!--inicio ventana modal para eliminar proceso-->
-
-<div class="modal fade" id="modal-eliminar-proceso">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">ELIMINAR PROCESO</h4>
-                    </div>
-                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
-            <div class="table-responsive">
-              <table class="table table-condensed table-striped table-bordered">
-                <tr style="font-weight: bold">
-                  <td colspan="2" class="bg-primary" style="text-align: center">
-                    Esta seguro que desea eliminar el proceso..?
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="col-md-9 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-                  <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-                  
-                </tr>
-              </table>
-            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="realizarEliminacion()">
-                            <span class="glyphicon glyphicon-trash"></span> Eliminar
-                        </button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-<!--fin ventana modal para eliminar proceso-->
-
 
 <div class="panel panel-primary" >
     <div class="panel-heading">ADICIONAR  NUEVO LABORATORIO</div>
@@ -139,6 +94,9 @@
                             <th style="text-align:center">
                               ELIMINAR
                             </th>
+							<th style="text-align:center">
+                              ESTADO
+                            </th>
                         </tr>
               </thead>
                         <?php 
@@ -165,18 +123,31 @@
                                       </button>
                                   </center>
                               </td>
-                              <td style="text-align:center">
+						      <td style="text-align:center">
                                   <center>
                                     <button id="<?php echo $laboratorio[$i]['id_laboratorio']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarLaboratorio(this.id)">
                                           <span class="glyphicon glyphicon-trash"></span>
                                       </button>
                                   </center>
                               </td>
+                              <td style="text-align:center">
+							  <?php
+								
+								if($laboratorio[$i]['activo']=='S')
+									$class='btn btn-success btn-sm';
+								else
+									$class='btn btn-danger btn-sm';
+							  ?>
+                                  <center>
+                                    <button id="<?php echo $laboratorio[$i]['id_laboratorio']; ?>" class="<?php echo $class ?>" type="button" style="width:50px" onclick="ModificarEstado(this.id)">
+                                          <span class="glyphicon glyphicon-ok"></span>
+                                      </button>
+                                  </center>
+                              </td>
                           </tr>
                         <?php     
                           }
-                         ?>
-
+                ?>
         </table>
       </div>
     </div>
@@ -204,7 +175,6 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
-
 
     function crearLaboratorio()
     {
@@ -317,18 +287,75 @@
                 'sSwfPath': '<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf'
             });
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
-        }
+    }
 
-    var id_editar_laboratorio="";
+    //var id_editar_laboratorio="";
     function editarLaboratorio(id_laboratorio)
     {
-
-      document.getElementById("c_laboratorio").value=nombre;
 	  
-      id_editar_laboratorio=id_laboratorio;
-      id=id_laboratorio;
-      $("#modal-editar-laboratorio").modal('show');
+	   $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id_laboratorio:id_laboratorio},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/obtenerLaboratorio',
+                success: function (data) 
+                {  
 
+					var nombre_laboratorio = data[0]['nombre_laboratorio'];			
+					$("#id_laboratorio").val(id_laboratorio);
+					$("#nlaboratorio").val(nombre_laboratorio);
+                }
+
+       });
+	  
+	   $("#modal-editar-laboratorio").modal('show');
+    }
+	function ModificarEstado(id_laboratorio){
+			
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {id_laboratorio:id_laboratorio},
+					     url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/EstadoConfiguraLaboratorio',
+			             success: function (data) 
+			             {     
+								$.isLoading("hide");  
+								location.reload();
+								//tablaReload();                    
+			             }
+
+			    });
+			
+			
+	}
+	function ModificarLaboratorio()
+    {
+	  
+	   
+	  var id_laboratorio = $("#id_laboratorio").val().trim();
+      var nombre_laboratorio =$("#nlaboratorio").val().trim(); 
+	   
+	   $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id_laboratorio:id_laboratorio,nombre_laboratorio:nombre_laboratorio},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ActualizaLaboratorio',
+                success: function (data) 
+                {  
+					//alert('Actualizado')
+					location.reload();
+                }
+       });
+	  
+	   $("#modal-editar-laboratorio").modal('hide');
     }
     //abrir eliminar proceso
     function eliminarLaboratorio(id){
@@ -346,11 +373,9 @@
                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/eliminarConfiguraLaboratorio',
                 success: function (data) 
                 {     
-                   alert(data);
-					$.isLoading("hide"); 
-					//constultarPedidos(); 
+                    alert(data);
+					$.isLoading("hide");  
 					location.reload();
-                    //alert(data['USUARIO_NOMBRE']);  
                     tablaReload();
                 }
        });
@@ -394,43 +419,4 @@
     {
       aplicarPaginado();
     }
-
-    function realizarAsignacion()
-    {
-        var id_mensajero = $("#s_mensajeros").val().trim();
-        if(id_mensajero=="")
-        {
-            var text = 'Seleccione un MENSAJERO';
-            $.notific8(text, params); 
-            return;
-        }
-        else
-        {
-          //ACTUALIZO EL RETIRO
-            $.isLoading({
-                        text: "Cargando",
-                        position: "overlay"
-                    });
-
-
-                    $.ajax({
-                             type: 'POST',
-                             async:false,
-                             dataType: 'json',
-                             data: {id_retiro_a_asignar:id_retiro_a_asignar, id_mensajero:id_mensajero},
-                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/asignarRetiroMensajero',
-                             success: function (data) 
-                             {    
-                              $("#r"+id_retiro_a_asignar).remove();
-                              $('#modal-asignar-mensajero').modal('hide');
-                              $.isLoading("hide") ;  
-                             }
-                    }); 
-        }
-    }
-    $("#modal-asignar-mensajero").on('hidden.bs.modal', function () 
-    {
-        $("#s_mensajeros option[value='']").prop('selected', true);
-    });
-
 </script>

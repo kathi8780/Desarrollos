@@ -1,3 +1,49 @@
+<!--ventana modal para editar proceso-->
+<div class="modal fade" id="modal-editar-procesotecnico">
+    <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">MODIFICAR POR PROCESO POR TECNICO</h4>
+                    </div>
+        <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">
+                    EDITAR
+                  </td>
+                </tr>
+				<tr>
+				  <td>
+					<div class="col-md- col-sm-8 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Categoria<span class="required"> * </span></label> 
+							<input type='hidden' value="" id="ID_TECNICO_PROCESO"/>
+							<select id="ID_CATEGORIA" class="form-control" style="height:30px">
+								<option value="">TODOS</option>
+								<?php foreach ($categoria as $array) 
+									{?>
+										<option value="<?php echo $array['ID_CATEGORIA']; ?>" ><?php echo $array['SIGLAS_CATEGORIA']; ?></option>  
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				  </td>
+				</tr>
+              </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="ModificarProcesoTecnico()">
+                <span class="glyphicon glyphicon-pencil"></span> Actualizar
+            </button>
+        </div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
+<!--fin ventana modal para editar proceso-->
 <div class="panel panel-primary" >
     <div class="panel-heading">ADICIONAR NUEVO TÉCNICO A PROCESO</div>
 
@@ -135,16 +181,83 @@
                  {     
 				   alert('Técnico Asociado a Proceso con Exito');
 				   $.isLoading("hide"); 
-				   location.reload();
+				   
                  }
         }); 
+		
+		constultarPedidos();
 							
     }
-	function ModificarRegistro(id){
-		
-		alert(id);
-		
+	function ModificarRegistro(ID_TECNICO_PROCESO)
+    {
+	  
+	   $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {ID_TECNICO_PROCESO:ID_TECNICO_PROCESO},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ObtenerProcesosPorTecnico',
+                success: function (data) 
+                {    
+
+					var ID_CATEGORIA = data['procesos_tecnicos'][0]['ID_CATEGORIA'];
+										
+					$("#ID_CATEGORIA").val(ID_CATEGORIA);
+					$("#ID_TECNICO_PROCESO").val(ID_TECNICO_PROCESO);
+       
+                }
+       
+       });
+	   
+	   $("#modal-editar-procesotecnico").modal('show');
+    }
+	function ModificarEstado(id_laboratorio){
+			
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {id_laboratorio:id_laboratorio},
+					     url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/EstadoConfiguraLaboratorio',
+			             success: function (data) 
+			             {     
+								$.isLoading("hide");  
+								location.reload();
+								//tablaReload();                    
+			             }
+
+			    });
+			
+			
 	}
+	function ModificarProcesoTecnico()
+    {
+	     
+	  var ID_TECNICO_PROCESO  = $("#ID_TECNICO_PROCESO").val().trim();
+      var ID_CATEGORIA        = $("#ID_CATEGORIA").val().trim();
+ 
+	   
+	   $.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {ID_TECNICO_PROCESO:ID_TECNICO_PROCESO,ID_CATEGORIA:ID_CATEGORIA},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ActualizaProcesoTecnico',
+                success: function (data) 
+                {  
+					//alert('Actualizado')
+					//location.reload();
+                }
+       });
+	  
+	   $("#modal-editar-procesotecnico").modal('hide');
+	   constultarPedidos();
+    }
 	function EliminarRegistro(id){
 		
 		$.isLoading({

@@ -6,6 +6,12 @@ class configura_procesos_model extends CI_Model
     public function __construct() {
         $this->load->database();
     }
+	public function ActualizaProcesoTecnico($data, $id)
+    {
+        $this->db->where('tecnico_proceso.ID_TECNICO_PROCESO', $id);
+        $this->db->update('tecnico_proceso', $data);
+
+    }
    	//Trae las Pruebas Por Laboratorio
 	public function PruebasPorLaboratorio($laboratorio)
     {
@@ -62,6 +68,22 @@ class configura_procesos_model extends CI_Model
 			 
              $this->db->where("pl.PROD_COD_PROD=", $producto);  
          }
+		 
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+				
+    }
+	public function ObtenerProcesosPorTecnico($id)
+    {
+ 
+		 $this->db->select("*");
+         $this->db->from("tecnico_proceso T0");
+		 
+		 //if($id!= ""){
+			 
+             $this->db->where("T0.ID_TECNICO_PROCESO=", $id);  
+         //}
 		 
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();

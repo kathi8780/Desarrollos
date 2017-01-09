@@ -774,7 +774,6 @@ class Pedidos_model extends CI_Model
              $resultado = $consulta->result_array();
              return $resultado;
     }
-
     public function obtenerInventarios()
     {
              $this->db->select("*");
@@ -787,7 +786,6 @@ class Pedidos_model extends CI_Model
              $resultado = $consulta->result_array();
              return $resultado;
     }
-
     public function obtenerProductos()
     {
              //$this->db->limit(9);
@@ -804,7 +802,6 @@ class Pedidos_model extends CI_Model
              $resultado = $consulta->result_array();
              return $resultado;
     }
-
     public function obtenerPruebas()
     {
              $fecha_actual = date("Y-m-d H:i:s");
@@ -839,7 +836,6 @@ class Pedidos_model extends CI_Model
 
              return $resultado;
     }
-
     public function suma_Dias_A_Fecha($dias)
     {
         $fecha_actual = date("Y-m-d H:i:s");
@@ -848,7 +844,6 @@ class Pedidos_model extends CI_Model
         $nuevafecha = date ( 'Y-m-d H:i:s' , $nuevafecha );
         return $nuevafecha;
     }
-
     public function calcular_fecha_produccion($dias_prueba)
     {
         $fecha_actual = date("Y-m-d H:i:s");
@@ -884,19 +879,16 @@ class Pedidos_model extends CI_Model
         }
         return  $dias_sumados;
     }
-
     public function insertarPaciente($data)
     {
         $this->db->insert('paciente', $data);
         return $this->db->insert_id();
     }
-
     public function actualizarPaciente($data,$idPaciente) 
     {
         $this->db->where('paciente.ID_PACIENTE', $idPaciente);
         $this->db->update('paciente', $data);
     }
-
     public function getIdPaciente($numped)
     {
              $this->db->select("ID_PACIENTE");
@@ -907,21 +899,16 @@ class Pedidos_model extends CI_Model
              $resultado = $consulta->row_array();
              return $resultado['ID_PACIENTE'];
     }
-
-
-
     public function insertarFoto($data)
     {
         $this->db->insert('fotos', $data);
         return $this->db->insert_id();
     }
-
     public function insertarPedido($data)
     {
         $this->db->insert('pedido', $data);
         return $this->db->insert_id();
     }
-
     public function actualizarPedido($data, $numped)
     {
         $this->db->where('pedido.PEDF_NUM_PREIMP', $numped);

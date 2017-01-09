@@ -25,6 +25,31 @@ class configura_maestro extends MX_Controller {
           redirect('admin/login', 'refresh');
         } 
     }
+	public function EstadoConfiguraLaboratorio(){
+		
+		if ($this->session->userdata('loggeado'))
+		{	
+			$id = trim($this->input->post('id_laboratorio'));
+			
+			$resultado = $this->configura_maestros_model->EstadoConfiguraLaboratorio($id);
+            echo json_encode($resultado);  	
+		}	
+	}
+	public function ActualizaLaboratorio(){
+
+        if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('id_laboratorio'));
+            $data = array();
+            $data['NOMBRE_LABORATORIO']=trim($this->input->post('nombre_laboratorio'));
+            $actualiza=$this->configura_maestros_model->ActualizaLaboratorio($data,$id);
+			echo json_encode($actualiza);
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+    }
 	public function insertarTipoPrueba(){
 
         if ($this->session->userdata('loggeado')) 
@@ -34,7 +59,6 @@ class configura_maestro extends MX_Controller {
             $data_pruebas['NOMBRE_PRUEBA']=trim($this->input->post('prueba'));
             $data_pruebas['DIAS']=trim($this->input->post('dias')); 
             $pruebas_datos = $this->configura_maestros_model->insertarNuevoPrueba($data_pruebas,$nombre);
-
             echo json_encode($pruebas_datos);   
         }
         else 
@@ -185,11 +209,21 @@ class configura_maestro extends MX_Controller {
         
          if ($this->session->userdata('loggeado'))
          {
-            
-            $datos['laboratorio'] = $this->configura_maestros_model->obtenerLaboratorio();
+            $id=trim($this->input->post('id'));
+            $datos['laboratorio'] = $this->configura_maestros_model->obtenerLaboratorio($id);
 			$this->load->view('templates/header');
             $this->load->view('ConfiguraLaboratorio',$datos);
             $this->load->view('templates/footer');
+         }
+        
+    }
+	public function obtenerLaboratorio(){
+        
+         if ($this->session->userdata('loggeado'))
+         {
+            $id=trim($this->input->post('id_laboratorio'));
+            $datos= $this->configura_maestros_model->obtenerLaboratorio($id);
+			echo json_encode($datos); 
          }
         
     }
