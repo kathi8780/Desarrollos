@@ -473,7 +473,7 @@
                                 <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Pedido<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido">Nuevo Pedido</a></li> 
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido/2">Nuevo Pedido</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidos">Consultar Pedidos</a></li>   
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioProduccionSuspendida">Producción Suspendida</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pedidos en tránsito</a></li> 
