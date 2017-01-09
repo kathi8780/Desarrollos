@@ -1423,142 +1423,9 @@
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
 
-	window.onload=function alcargar(){
-		modelo_todos();
-	}
-	function limpiarFecha(id){ $("#"+id).val("");}
+    function limpiarFecha(id){ $("#"+id).val("");}
 
-    function modelo(categoria,dientes){
-
-		var s = dientes;
-
-		s = s.replace("11", "#d11");
-		s = s.replace("12", "#d12");
-		s = s.replace("13", "#d13");
-		s = s.replace("14", "#d14");
-		s = s.replace("15", "#d15");
-		s = s.replace("16", "#d16");
-		s = s.replace("17", "#d17");
-		s = s.replace("18", "#d18");
-
-		s = s.replace("21", "#d21");
-		s = s.replace("22", "#d22");
-		s = s.replace("23", "#d23");
-		s = s.replace("24", "#d24");
-		s = s.replace("25", "#d25");
-		s = s.replace("26", "#d26");
-		s = s.replace("27", "#d27");
-		s = s.replace("28", "#d28");
-		
-		s = s.replace("41", "#d41");
-		s = s.replace("42", "#d42");
-		s = s.replace("43", "#d43");
-		s = s.replace("44", "#d44");
-		s = s.replace("45", "#d45");
-		s = s.replace("46", "#d46");
-		s = s.replace("47", "#d47");
-		s = s.replace("48", "#d48");
-		
-		s = s.replace("31", "#d31");
-		s = s.replace("32", "#d32");
-		s = s.replace("33", "#d33");
-		s = s.replace("34", "#d34");
-		s = s.replace("35", "#d35");
-		s = s.replace("36", "#d36");
-		s = s.replace("37", "#d37");
-		s = s.replace("38", "#d38");
-		
-		$.ajax({
-                 type: 'POST',
-                 async:false,
-                 dataType: 'json',
-                 data: {categoria:categoria},
-                 url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
-                 success: function (data) 
-                 {    
-						//alert(categoria + s + data);
-                        paint_tooth(categoria,s);     
-                 }
-        }); 
-		
-	}
-	function modelo_todos(){
-		
-        //VALIDAR CANT DE PROD
-        var filas_producto = $("tr[class=filas_producto]"); //tomo las filas de producto 
-        //console.log(filas_producto.length);
-		if(filas_producto.length >=0){
-			
-            //recorro las filas de pedido
-            var cadena_producto="";            
-            var iterador_arreglo_identificadores_filas=0;
-            filas_producto.each(function(){
-                console.log("no entre");
-                var iterador =arreglo_identificadores_filas[iterador_arreglo_identificadores_filas];
-                var categoria = $("#catf"+iterador).html().trim();
-                var dientes = $("#dief"+iterador).html().trim(); 
-				var s = dientes;
-
-				s = s.replace("11", "#d11");
-				s = s.replace("12", "#d12");
-				s = s.replace("13", "#d13");
-				s = s.replace("14", "#d14");
-				s = s.replace("15", "#d15");
-				s = s.replace("16", "#d16");
-				s = s.replace("17", "#d17");
-				s = s.replace("18", "#d18");
-		
-				s = s.replace("21", "#d21");
-				s = s.replace("22", "#d22");
-				s = s.replace("23", "#d23");
-				s = s.replace("24", "#d24");
-				s = s.replace("25", "#d25");
-				s = s.replace("26", "#d26");
-				s = s.replace("27", "#d27");
-				s = s.replace("28", "#d28");
-				
-				s = s.replace("41", "#d41");
-				s = s.replace("42", "#d42");
-				s = s.replace("43", "#d43");
-				s = s.replace("44", "#d44");
-				s = s.replace("45", "#d45");
-				s = s.replace("46", "#d46");
-				s = s.replace("47", "#d47");
-				s = s.replace("48", "#d48");
-				
-				s = s.replace("31", "#d31");
-				s = s.replace("32", "#d32");
-				s = s.replace("33", "#d33");
-				s = s.replace("34", "#d34");
-				s = s.replace("35", "#d35");
-				s = s.replace("36", "#d36");
-				s = s.replace("37", "#d37");
-				s = s.replace("38", "#d38");
-				$.ajax({
-					
-					type: 'POST',
-					async:false,
-					dataType: 'json',
-					data: {categoria:categoria},
-					url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
-					success: function (data) 
-					{    
-                        //console.log(data);
-                        paint_tooth(categoria,s);
-						//cadena_producto += categoria + s + data;					
-					}
-				}); 
-
-                //cadena_producto += categoria+s;
-				
-                iterador_arreglo_identificadores_filas++;
-				
-            });
-			//console.log(cadena_producto);
-			//alert(cadena_producto);
-        }     
-	}
-	function getSize() 
+    function getSize() 
     {
               var myWidth = 0, myHeight = 0;
               if( typeof( window.innerWidth ) == 'number' ) 
@@ -2178,7 +2045,7 @@
         activarContenedor("contenedor-fechas");
 
         var cadena_html='<tr style="font-size:12px" class="filas_producto" id="'+'f'+identificador_filas+'">'
-                            +'<td onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'")>'
+                            +'<td>'
                                  +'img'
                             +'</td>'
                             +'<td  id="'+'catf'+identificador_filas+'">'
@@ -2221,7 +2088,6 @@
         $("#mensaje-tabla-vacia").remove();
         $("#filas_producto").append(cadena_html);
         $('#modal-adicionar-producto').modal('hide');
-		modelo_todos();
     }
 
     function adicionarProductoAlCargar()

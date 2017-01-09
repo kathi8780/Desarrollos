@@ -19,12 +19,16 @@
         <link href="<?= base_url('assets/librerias/css/prettify.css') ?>" rel="stylesheet" type="text/css"/> 
         <link href="<?= base_url('assets/librerias/css/jquery.notific8.min.css') ?>" rel="stylesheet" type="text/css"/>
         
+        <!--<link href="<?= base_url('assets/librerias/css/dataTables.bootstrap.css') ?>" rel="stylesheet" type="text/css"/>-->
+        
+		<!--<link href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="https://cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.min.css" rel="stylesheet" type="text/css"/>--> 
+
 		<link href="<?= base_url('assets/librerias/tabletools/2.2.4/css/jquery.dataTables.min.css')?>" rel="stylesheet" type="text/css">
         <link href="<?= base_url('assets/librerias/tabletools/2.2.4/css/dataTables.tableTools.min.css')?>" rel="stylesheet" type="text/css"/>
 
         <link href="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.css') ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?= base_url('assets/dientes/dientes.css') ?>" rel="stylesheet" type="text/css"/>
-
+		<link href="<?= base_url('assets/dientes/dientes.css') ?>" rel="stylesheet" type="text/css"/>
         <style type="text/css">
             
             .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
@@ -412,10 +416,8 @@
         <script src="<?= base_url('assets/librerias/js/jquery.notific8.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/jquery.dataTables.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/dataTables.bootstrap.js') ?>" type="text/javascript"></script>
-
         <script src="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.js') ?>" type="text/javascript"></script>
-        <script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
-        <script src="<?= base_url('assets/dientes/additional.js') ?>" type="text/javascript"></script>
+		<script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/dientes/script.js') ?>" type="text/javascript"></script>
 
     </head>
@@ -465,7 +467,7 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">                            
-                            <a href="<?php echo base_url(); ?>index.php/index/index"><span class="glyphicon glyphicon-home"></span> INICIO</a>
+                            <a href="<?php echo base_url(); ?>index.php/pedido/pedidos/AgendaProduccion"><span class="glyphicon glyphicon-home"></span> INICIO</a>
                         </li>   
 
                         <li class="dropdown">
@@ -473,14 +475,14 @@
                                 <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Pedido<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido">Nuevo Pedido</a></li> 
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido/2">Nuevo Pedido</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidos">Consultar Pedidos</a></li>   
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioProduccionSuspendida">Producción Suspendida</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pedidos en tránsito</a></li> 
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pruebas sin Retorno</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosEmpacados">Pedidos Empacado</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosEntregados">Pedidos Entregado</a></li> 
                                 <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioRutaMotorizados">Retiros y Entregas</a></li>  
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosFacturados">Pedidos Facturados </a></li>           
+                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosFacturados">Listos para Facturar </a></li>           
                             </ul>
                         </li>    
 
@@ -531,19 +533,24 @@
                         </li> 
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                 Configuración<b class="caret"></b>
-                            </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarConfiguracionProcesos">Procesos</a></li>        
-                            </ul>
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraProcesos">Gestión de Procesos</a></li> 
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraPruebas">Gestión de Pruebas</a></li> 								
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraInventario">Gestión de Inventario</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ConfiguraProducto">Gestión de Productos</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraLaboratorio">Gestión de Laboratorios</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorTecnico">Procesos por Técnicos</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorProducto">Procesos por Producto</a></li>								
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/PruebasPorLaboratorio">Pruebas por Laboratorio</a></li>
+							</ul>
                         </li> 
    
 
                    <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <?php if ($this->session->userdata('loggeado')){echo $this->session->userdata('loggeado')['USUARIO']; } ?>
+                                <?php if ($this->session->userdata('loggeado')){echo $this->session->userdata['loggeado']['USUARIO'];} ?>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">

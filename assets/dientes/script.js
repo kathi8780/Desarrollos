@@ -1,20 +1,7 @@
-var l,
-    s,
-    sup = new Array(),
-    inf = new Array(),
-    corona = new Array(),
-    implante = new Array(),
-    puente = new Array(),
-    removible = new Array(),
-    color = "#239bd9";
-
-var superior = new Array("#d18", "#d17", "#d16", "#d15", "#d14", "#d13", "#d12", "#d11", "#d21", "#d22", "#d23", "#d24", "#d25", "#d26", "#d27", "#d28");
-var inferior = new Array("#d48", "#d47", "#d46", "#d45", "#d44","#d43","#d42","#d41","#d31","#d32","#d33","#d34","#d35","#d36","#d37","#d38");
-var dientes = new Array();
-
 $(document).ready(function(){ 
     s = Snap("#svgload");
     s2 = Snap("#svgload2");
+
     for(var i = 0; i<superior.length; i++){  
         sup[i] = s.select(superior[i]); 
     }
@@ -23,290 +10,349 @@ $(document).ready(function(){
         inf[i] = s.select(inferior[i]);  
     }
 
-    for(var i = 0; i<superior.length; i++){  
+    for(var i = 0; i<circle_sup.length; i++){  
+        csup[i] = s.select(circle_sup[i]); 
+    }
+    
+    for(var i = 0; i<circle_inf.length; i++){  
+        cinf[i] = s.select(circle_inf[i]);  
+    }
+
+    /*SUPERIOR*/
+    for(var i = 0; i<superior.length; i++){
         sup[i].click(function () {
             switch(this.attr("data-type")){
-                case "1":
-                    if(this.attr("fill")=="rgb(255, 255, 255)"){
-                        this.attr({fill: color});
-                        this.attr({stroke: color});
-                        corona.push(this.attr("id"));
-                    }else {
-                        this.attr({fill: "#FFFFFF"});
-                        this.attr({stroke: "#000000"});
-                    }    
+                case "2"://1-ESTETICA
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
                 break;
-                case "2":
-                    if(this.attr("fill")=="rgb(255, 255, 255)"){
-                        this.attr({fill: color});
-                        this.attr({stroke: color});
-                    }else{
-                        this.attr({fill: "#FFFFFF"});
-                        this.attr({stroke: "#000000"});
-                    }
+                case "5":
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
+                break;
+                case "8":
+                    set_removible(this,convert_boolean(this.attr("data-removible")),get_hex(this.attr("fill")));
                 break;
                 case "3":
-                    if(this.attr("data-puente")=="true"){
-                        if(this.attr("fill")=="rgb(255, 255, 255)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else if(this.attr("fill")=="rgb(215, 233, 221)"){
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"}); 
-                        }else if(this.attr("fill")=="rgb(46, 154, 68)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else{
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"}); 
-                        }
-                    }else{
-                        if(this.attr("fill")=="rgb(255, 255, 255)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else if(this.attr("fill")=="rgb(46, 154, 68)"){
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"});
-                        }else if(this.attr("fill")=="rgb(215, 233, 221)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else{
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"});
-                        }
-                    }
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
+                break;
+                case "12"://FERULA
+                    set_removible(this,convert_boolean(this.attr("data-removible")),get_hex(this.attr("fill")));
+                break;
+                case "7"://VIRTUAL
+                    set_removible(this,convert_boolean(this.attr("data-removible")),get_hex(this.attr("fill")));
+                break;
+                case "6"://IMPRESION
+                    set_removible(this,convert_boolean(this.attr("data-removible")),get_hex(this.attr("fill")));
                 break;
                 case "4":
-                    if(this.attr("data-removible")=="true"){
-                            if(this.attr("fill") == "rgb(240, 150, 30)"){
-                                this.attr({fill: color});
-                                this.attr({stroke: "#f0961e"});
-                            }else{
-                                this.attr({fill: "#f0961e"});
-                                this.attr({stroke: "#fad4a6"});
-                            }
-                    }
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
                 break;
             }
-            var value = this.attr("id").split("d");
-            var index = dientes.indexOf(value[1]);
-            
-            if (index >= 0) {
-                dientes.splice( index, 1 );
-            }else{
-                dientes.push(value[1]);
-            }
-            if(this.attr("data-type") == "1" || this.attr("data-type") == "2" || this.attr("data-type")=="3"){
-                $("#dientes_label").text("");
-                $("#dientes_label").append(dientes.join( "," ));                
-            }else if(this.attr("data-type") == "4" && this.attr("data-removible")=="true"){
-                $("#dientes_label").text("");
-                $("#dientes_label").append(dientes.join( "," ));  
-            }
+            set_label(this);
         });
     }
-
-    for(var i = 0; i<inferior.length; i++){  
+    for(var i = 0; i<circle_sup.length; i++){
+        csup[i].click(function () {
+            set_paint_circle(this,get_hex(this.attr("fill")));
+        });
+    }
+    /*INFERIOR*/
+    for(var i = 0; i<inferior.length; i++){
         inf[i].click(function () {
             switch(this.attr("data-type")){
-                case "1":
-                    if(this.attr("fill")=="rgb(255, 255, 255)"){
-                        this.attr({fill: color});
-                        this.attr({stroke: color});
-                        corona.push(this.attr("id"));
-                    }else {
-                        this.attr({fill: "#FFFFFF"});
-                        this.attr({stroke: "#000000"});
-                    }    
+                case "2"://1-ESTETICA
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
                 break;
-                case "2":
-                    if(this.attr("fill")=="rgb(255, 255, 255)"){
-                        this.attr({fill: color});
-                        this.attr({stroke: color});
-                    }else{
-                        this.attr({fill: "#FFFFFF"});
-                        this.attr({stroke: "#000000"});
-                    }
+                case "5":
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
+                break;
+                case "8":
+                    set_removible(this,convert_boolean(this.attr("data-removible-down")),get_hex(this.attr("fill")));
                 break;
                 case "3":
-                    if(this.attr("data-puente")=="true"){
-                        if(this.attr("fill")=="rgb(255, 255, 255)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else if(this.attr("fill")=="rgb(215, 233, 221)"){
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"}); 
-                        }else if(this.attr("fill")=="rgb(46, 154, 68)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else{
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"}); 
-                        }
-                    }else{
-                        if(this.attr("fill")=="rgb(255, 255, 255)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else if(this.attr("fill")=="rgb(46, 154, 68)"){
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"});
-                        }else if(this.attr("fill")=="rgb(215, 233, 221)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: color});
-                        }else{
-                            this.attr({fill: "#FFFFFF"});
-                            this.attr({stroke: "#000000"});
-                        }
-                    }
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
+                break;
+                case "12"://FERULA
+                    set_removible(this,convert_boolean(this.attr("data-removible-down")),get_hex(this.attr("fill")));
+                break;
+                case "7"://VIRTUAL
+                    set_removible(this,convert_boolean(this.attr("data-removible-down")),get_hex(this.attr("fill")));
+                break;
+                case "6"://IMPRESION
+                    set_removible(this,convert_boolean(this.attr("data-removible-down")),get_hex(this.attr("fill")));
                 break;
                 case "4":
-                    if(this.attr("data-removible-down")=="true"){
-                        if(this.attr("fill") == "rgb(240, 150, 30)"){
-                            this.attr({fill: color});
-                            this.attr({stroke: "#f0961e"});
-                        }else{
-                            this.attr({fill: "#f0961e"});
-                            this.attr({stroke: "#fad4a6"});
-                        }
-                    }
+                    set_puente(this,convert_boolean(this.attr("data-puente")),get_hex(this.attr("fill")));
                 break;
             }
-            var value = this.attr("id").split("d");
-            var index = dientes.indexOf(value[1]);
-            if (index >= 0) {
-                dientes.splice( index, 1 );
-            }else{
-                dientes.push(value[1]);
-            }
-            if(this.attr("data-type") == "1" || this.attr("data-type") == "2" || this.attr("data-type")=="3"){
-                $("#dientes_label").text("");
-                $("#dientes_label").append(dientes.join( "," ));                
-            }else if(this.attr("data-type") == "4" && this.attr("data-removible-down")=="true"){
-                $("#dientes_label").text("");
-                $("#dientes_label").append(dientes.join( "," ));  
-            }
-
+            set_label(this);
+        });
+    }
+    for(var i = 0; i<circle_inf.length; i++){
+        cinf[i].click(function () {
+            set_paint_circle(this,get_hex(this.attr("fill")));
         });
     }
 
-    $("#btn-corona").click(function(e) {
+    /*for(var i = 0; i<circle_inf.length; i++){
+        cinf[i].click(function () {
+            set_paint_circle(this,get_hex(this.attr("fill")));
+        });
+    }*/
+    //console.log(colors.estetica.color1);
+
+    /*FUNCION ONCLICK*/
+    $("#btn-estetica").click(function(e) {
         dientes = [];
-        color = "#239bd9";
-        clear_tooth();   
+        set_clear_dientes();
+        set_clear_circle();
+        set_show_circle();
+        set_type(2);
+        color = colors.estetica.color1;
+        $("#op_1").css("background",colors.estetica.color1);
+        $("#op_2").css("background",colors.estetica.color2);
 
-        $("#op_puente").hide();
-        $("#op_removible").hide();
-        $("#dientes_label").text("");
-        change_type(1);
-        $(this).removeClass("corona_off").addClass("corona_on");
-        $("#removible").removeClass("removible_on").addClass("removible_off");  
-        $("#puente").removeClass("puente_on").addClass("puente_off"); 
-        $("#implante").removeClass("implante_on").addClass("implante_off");      
-    });
-    $("#btn-implant").click(function(e) {
-        dientes = [];
-        color = "#7651a0";
-        clear_tooth();  
-
-        $("#op_puente").hide();
-        $("#op_removible").hide();
-        $("#dientes_label").text("");
-        change_type(2);
-
-        $(this).removeClass("implante_off").addClass("implante_on");
-        $("#removible").removeClass("removible_on").addClass("removible_off");  
-        $("#puente").removeClass("puente_on").addClass("puente_off"); 
-        $("#corona").removeClass("corona_on").addClass("corona_off");    
-    });
-    $("#btn-puente").click(function(e) {
-        dientes = [];
-        color = "#2e9a44";
-        clear_tooth();
-
+        $("#text_001").show();
         $("#op_puente").show();
         $("#op_removible").hide();
         $("#dientes_label").text("");
-        change_type(3);
-
-        $("#btn_puente").removeClass("puente_op_on").addClass("puente_op_off"); 
-        $(this).removeClass("puente_off").addClass("puente_on");
-        $("#removible").removeClass("removible_on").addClass("removible_off");
-        $("#implante").removeClass("implante_on").addClass("implante_off");
-        $("#corona").removeClass("corona_on").addClass("corona_off"); 
+        $("#btn_puente2").removeClass("puente_op_on").addClass("puente_op_off");
+        type = 2;
     });
+
+    $("#btn-metal").click(function(e) {
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_show_circle();
+        set_type(5);
+        color = colors.metal.color1;
+        $("#op_1").css("background",colors.metal.color1);
+        $("#op_2").css("background",colors.metal.color2);
+        
+        $("#text_001").show();
+        $("#op_puente").show();
+        $("#op_removible").hide();
+        $("#dientes_label").text("");
+        $("#btn_puente2").removeClass("puente_op_on").addClass("puente_op_off");   
+        type = 5;   
+    });
+
     $("#btn-removible").click(function(e) {
         dientes = [];
-        color = "#fad4a6";
-        clear_tooth();
+        set_clear_dientes();
+        set_clear_circle();
+        set_hide_circle();
+        set_type(8);
+        color = colors.removible.color1;
+        set_removible_default(colors.removible.color1,colors.removible.color1);
 
+        $("#text_001").hide();
         $("#op_removible").show();
         $("#op_puente").hide();
         $("#dientes_label").text("");
-        change_type(4);
+        $("#up_rmv").removeClass("rmv_off").addClass("rmv_on");
+        type = 8;
+    });
 
-        $("#up_rmv").removeClass("rmv_off").addClass("rmv_on"); 
+    $("#btn-implant").click(function(e) {
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_show_circle();
+        set_type(3);
+        color = colors.implantes.color1;
+        $("#op_1").css("background",colors.implantes.color1);
+        $("#op_2").css("background",colors.implantes.color2);
 
-        for(var i = 0; i<superior.length; i++){
-            sup[i].attr({fill:"#f0961e"});
-            sup[i].attr({stroke: "#f0961e"});
-            sup[i].attr({"data-removible":"true"});          
-        }
-        for(var i = 0; i<inferior.length; i++){
-            inf[i].attr({fill:"#FFFFFF"});
-            inf[i].attr({stroke: "#000000"});
-        }
+        $("#text_001").show();
+        $("#op_puente").show();
+        $("#op_removible").hide();
+        $("#dientes_label").text("");
+        $("#btn_puente2").removeClass("puente_op_on").addClass("puente_op_off"); 
+        type = 3;
+    });
 
-        $(this).removeClass("removible_off").addClass("removible_on");
-        $("#puente").removeClass("puente_on").addClass("puente_off");
-        $("#implante").removeClass("implante_on").addClass("implante_off");
-        $("#corona").removeClass("corona_on").addClass("corona_off"); 
-    });  
-      
-    $("#btn_puente").click(function(e) {
-        if(sup[0].attr("data-puente")=="true"){
+    $("#btn-ferula").click(function(e) {//FERULA
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_hide_circle();
+        set_type(12);
+        color = colors.removible.color1;
+        set_removible_default(colors.ferula.color1,colors.ferula.color1);
+
+        $("#text_001").hide();
+        $("#op_removible").show();
+        $("#op_puente").hide();
+        $("#dientes_label").text("");
+        $("#up_rmv").removeClass("rmv_off").addClass("rmv_on");
+        type = 12;
+    });
+
+    $("#btn-virtual").click(function(e) {//VIRTUAL
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_hide_circle();
+        set_type(7);
+        color = colors.virtual.color1;
+        set_removible_default(colors.virtual.color1,colors.virtual.color1);
+
+        $("#text_001").hide();
+        $("#op_removible").show();
+        $("#op_puente").hide();
+        $("#dientes_label").text("");
+        $("#up_rmv").removeClass("rmv_off").addClass("rmv_on");
+        type = 7;
+    });
+
+    $("#btn-print").click(function(e) {//print
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_hide_circle();
+        set_type(6);
+        color = colors.impresion.color1;
+        set_removible_default(colors.impresion.color1,colors.impresion.color1);
+
+        $("#text_001").hide();
+        $("#op_removible").show();
+        $("#op_puente").hide();
+        $("#dientes_label").text("");
+        $("#up_rmv").removeClass("rmv_off").addClass("rmv_on");
+        type = 6;
+    });
+
+    $("#btn-zfx").click(function(e) {
+        dientes = [];
+        set_clear_dientes();
+        set_clear_circle();
+        set_show_circle();
+        set_type(4);
+        color = colors.zfx.color1;
+        $("#op_1").css("background",colors.zfx.color1);
+        $("#op_2").css("background",colors.zfx.color2);
+
+        $("#text_001").show();
+        $("#op_puente").show();
+        $("#op_removible").hide();
+        $("#dientes_label").text("");
+        $("#btn_puente2").removeClass("puente_op_on").addClass("puente_op_off"); 
+        type = 4;
+    });
+
+    /*ADICIONALES*/
+    $("#btn_puente2").click(function(e) {
+        if(convert_boolean(sup[0].attr("data-puente"))){
             for(var i = 0; i<superior.length; i++){  
-                sup[i].attr({"data-puente":false});
+                sup[i].attr({"data-puente":"false"});
             }
             for(var i = 0; i<inferior.length; i++){  
-                inf[i].attr({"data-puente":false});  
+                inf[i].attr({"data-puente":"false"});  
             }
-            color = "#2e9a44";
+            switch(sup[0].attr("data-type")){
+                case "2":
+                    color = colors.estetica.color1;                
+                break;
+                case "5":
+                    color = colors.metal.color1;
+                break;
+                case "3":
+                    color = colors.implantes.color1;                
+                break;
+                case "4":
+                    color = colors.zfx.color1;
+                break;
+            }
             $(this).removeClass("puente_op_on").addClass("puente_op_off"); 
         }else{
             for(var i = 0; i<superior.length; i++){  
                 sup[i].attr({"data-puente":"true"});
             }
             for(var i = 0; i<inferior.length; i++){  
-                inf[i].attr({"data-puente":true});  
+                inf[i].attr({"data-puente":"true"});  
             }
-            color = "#d7e9dd";
+            switch(inf[0].attr("data-type")){
+                case "2":
+                    color = colors.estetica.color2;                
+                break;
+                case "5":
+                    color = colors.metal.color2;
+                break;
+                case "3":
+                    color = colors.implantes.color2;                
+                break;
+                case "4":
+                    color = colors.zfx.color2;
+                break;
+            }
             $(this).removeClass("puente_op_off").addClass("puente_op_on"); 
         }
     });
 
     $("#up_rmv").click(function(e) {
-        if(sup[0].attr("data-removible")=="true"){
+        dientes = [];
+        $("#dientes_label").text("");
+        switch(sup[0].attr("data-type")){
+            case "8":
+                color = colors.removible.color2;
+                color2 = colors.removible.color1;
+            break;
+            case "12":
+                color = colors.ferula.color2;
+                color2 = colors.ferula.color1;
+            break;
+            case "7":
+                color = colors.virtual.color2;
+                color2 = colors.virtual.color1;
+            break;
+            case "6":
+                color = colors.impresion.color2;
+                color2 = colors.impresion.color1;
+            break;
+        } 
+        
+        if(convert_boolean(sup[0].attr("data-removible"))){
             $(this).removeClass("rmv_on").addClass("rmv_off"); 
             for(var i = 0; i<superior.length; i++){
                 sup[i].attr({"data-removible":"false"}); 
             }
-            color = "#fad4a6";
             clear_tooth_up();
         }else{
             for(var i = 0; i<superior.length; i++){
                 sup[i].attr({"data-removible":"true"}); 
             }
             $(this).removeClass("rmv_off").addClass("rmv_on");
-            tooth_removibles_up();
+            tooth_removibles_up(color2);
         }
     });
+
     $("#down_rmv").click(function(e) {
-        if(inf[0].attr("data-removible-down")=="true"){
+        dientes = [];
+        $("#dientes_label").text("");
+        switch(sup[0].attr("data-type")){
+            case "8":
+                color = colors.removible.color2;
+                color2 = colors.removible.color1;
+            break;
+            case "12":
+                color = colors.ferula.color2;
+                color2 = colors.ferula.color1;
+            break;
+            case "7":
+                color = colors.virtual.color2;
+                color2 = colors.virtual.color1;
+            break;
+            case "6":
+                color = colors.impresion.color2;
+                color2 = colors.impresion.color1;
+            break;
+        }
+        if(convert_boolean(inf[0].attr("data-removible-down"))){
             $(this).removeClass("rmv_on").addClass("rmv_off"); 
             for(var i = 0; i<inferior.length; i++){
                 inf[i].attr({"data-removible-down":"false"}); 
             }
-            color = "#fad4a6";
             clear_tooth_down();
             //dientes.splice( index, 1 );
         }else{
@@ -314,86 +360,7 @@ $(document).ready(function(){
                 inf[i].attr({"data-removible-down":"true"}); 
             }
             $(this).removeClass("rmv_off").addClass("rmv_on");
-            tooth_removibles_down();
+            tooth_removibles_down(color2);
         }
     });
-
 });
-function change_type(type){
-    for(var i = 0; i<superior.length; i++){  
-        sup[i].attr({"data-type":type});
-    }
-    
-    for(var i = 0; i<inferior.length; i++){  
-        inf[i].attr({"data-type":type});
-    }
-}
-function removeA(arr) {
-    var what, a = arguments, L = a.length, ax;
-    while (L > 1 && arr.length) {
-        what = a[--L];
-        while ((ax= arr.indexOf(what)) !== -1) {
-            arr.splice(ax, 1);
-        }
-    }
-    return arr;
-}
-function clear_tooth(){
-    for(var i = 0; i<superior.length; i++){
-        sup[i].attr({fill:"#FFFFFF"});
-        sup[i].attr({stroke: "#000000"});          
-    }
-    for(var i = 0; i<inferior.length; i++){
-        inf[i].attr({fill:"#FFFFFF"});
-        inf[i].attr({stroke: "#000000"});
-    }    
-}
-function clear_tooth_up(){
-    for(var i = 0; i<superior.length; i++){
-        sup[i].attr({fill:"#FFFFFF"});
-        sup[i].attr({stroke: "#000000"});          
-    }
-}
-function clear_tooth_down(){
-    for(var i = 0; i<inferior.length; i++){
-        inf[i].attr({fill:"#FFFFFF"});
-        inf[i].attr({stroke: "#000000"});
-    }    
-}
-function tooth_removibles_up(){
-    for(var i = 0; i<superior.length; i++){
-        sup[i].attr({fill:"#f0961e"});
-        sup[i].attr({stroke: "#f0961e"});          
-    }
-}
-function tooth_removibles_down(){
-    for(var i = 0; i<inferior.length; i++){
-        inf[i].attr({fill:"#f0961e"});
-        inf[i].attr({stroke: "#f0961e"});
-    }
-}
-function paint_tooth(type,dientes){
-    var array = dientes.split(',');
-    for(var i = 0; i<array.length; i++){
-        d = s2.select(array[i]);
-        d.attr({fill:select_color(type)});
-        d.attr({stroke:"#FFFFFF" });          
-    }   
-}
-function select_color(type){
-    switch(type){
-        case 1:
-            color = "#239bd9";
-        break;
-        case 2:
-            color = "#7651a0";
-        break;
-        case 3:
-            color = "#2e9a44";
-        break;
-        case 4:
-            color = "#fad4a6";
-        break;
-    }
-    return color;
-}

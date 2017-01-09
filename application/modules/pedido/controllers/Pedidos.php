@@ -615,22 +615,22 @@ class Pedidos extends MX_Controller {
             $data_pedido['MEDICO_TRATANTE']=$medico_tra;
             $id_pedido = $this->pedidos_model->insertarPedido($data_pedido);
 			
-			$mes= explode($fecha_produccion);
-			$mes[1]; // imprimiría el mes 
+			//$mes= explode($fecha_produccion);
+			//$mes[1]; // imprimiría el mes 
 			
-			$ano= explode($fecha_produccion);
-			$ano[2];
+			//$ano= explode($fecha_produccion);
+			//$ano[2];
 
             //inserto el pedido en la agenda de produccion
-            $data_agenda_prod = array();
-            $data_agenda_prod['title']=$numero_pedido;
-            $data_agenda_prod['body']=$numero_pedido;
-            $data_agenda_prod['`start`']=$fecha_produccion;
-            $data_agenda_prod['`end`']=$fecha_produccion;
-			$data_agenda_prod['`ano`']=$ano[2];
-			$data_agenda_prod['`mes`']=$mes[1];
+            //$data_agenda_prod = array();
+            //$data_agenda_prod['title']=$numero_pedido;
+            //$data_agenda_prod['body']=$numero_pedido;
+            //$data_agenda_prod['`start`']=$fecha_produccion;
+            //$data_agenda_prod['`end`']=$fecha_produccion;
+			//$data_agenda_prod['`ano`']=$ano[2];
+			//$data_agenda_prod['`mes`']=$mes[1];
 			
-            $this->pedidos_model->insertarPedidoEnAgendaProd($data_agenda_prod);
+            //$this->pedidos_model->insertarPedidoEnAgendaProd($data_agenda_prod);
 
             //inserto inventario recibido
             $data_inventario_recibido = array();
