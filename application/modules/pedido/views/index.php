@@ -417,7 +417,7 @@
     	if(pestana_activa=="pedido")//busco por numero de pedido
     	{
     		var numped = $("#formulario_pedido_Buscar").val().trim();
-    		direccionar("buscarEnAgendaProduccion/sinfecha/sinfecha/"+numped);
+    		direccionar("ConsultarPedidosAG/sinfecha/sinfecha/"+numped);
     	}
     	else //busco por cliente
     	{

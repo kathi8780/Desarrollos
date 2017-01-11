@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
+
         <link rel="icon" href="<?= base_url('assets/librerias/images/favicon.png') ?>" type="image/gif">
 
         <link href="<?= base_url('assets/librerias/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css"/>
@@ -464,7 +465,7 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active">                            
-                            <a href="<?php echo base_url(); ?>index.php/pedido/pedidos/AgendaProduccion"><span class="glyphicon glyphicon-home"></span> INICIO</a>
+                            <a href="<?php echo base_url(); ?>index.php/index/index"><span class="glyphicon glyphicon-home"></span> INICIO</a>
                         </li>   
 
                         <li class="dropdown">

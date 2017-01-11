@@ -256,7 +256,7 @@ class Pedidos extends MX_Controller {
 			$datos['pedidos_prepedido'] = $this->pedidos_model->ObtenerPedidosControlCalidad();            
             
 			$this->load->view('templates/header');
-            $this->load->view('Consultar_prepedidos',$datos);
+            $this->load->view('Control_Calidad',$datos);
             $this->load->view('templates/footer');
         }
         else 
@@ -361,7 +361,27 @@ class Pedidos extends MX_Controller {
         {
           redirect('admin/login', 'refresh');
         }
-    } 
+    }
+	public function ConsultarPedidosAG($fechaI='', $fechaF='',$NumPed='') 
+    {
+        if ($this->session->userdata('loggeado')) 
+        {
+
+            $datos=array();
+
+            $datos['fechai']= $fechaI; 
+            $datos['fechaf']= $fechaF;
+            $datos['numped']= $NumPed;
+            
+            $this->load->view('templates/header');
+            $this->load->view('ConsultarPedidos',$datos);
+            $this->load->view('templates/footer');
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+    } 	
 
     public function buscarEnAgendaProduccion($fechaI='', $fechaF='',$NumPed='') 
     {
@@ -412,7 +432,22 @@ class Pedidos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
     }
+	public function ObtenerConsultarPedidos() 
+    {
+        if ($this->session->userdata('loggeado')) 
+        {
+            $numped = trim($this->input->post('numped'));
+            $f_inicio = trim($this->input->post('f_inicio'));
+            $f_fin = trim($this->input->post('f_fin'));
 
+            $pedidos = $this->pedidos_model->ObtenerConsultarPedidos($f_inicio, $f_fin,$numped);
+            echo json_encode($pedidos);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+    }
     public function obtenerPedidos() 
     {
         if ($this->session->userdata('loggeado')) 

@@ -289,6 +289,38 @@ class Pedidos_model extends CI_Model
             $ds = $query->result_array();
             return $ds; 
     }
+	public function ObtenerConsultarPedidos($f_inicio, $f_fin, $numped)
+    {
+        $sql="SELECT 
+                p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+                p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
+            SUM(pd.CANTIDAD) AS CANTID
+            from pedido p
+            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO";
+
+
+            if($f_inicio!= "")
+            {
+                $sql.=" and Date(pb.FECHA_SALIDA)  >= Date('".$f_inicio."') "  ;  
+            }
+            if($f_fin!= "")
+            {
+               $sql.=" and Date(pb.FECHA_SALIDA)  <= Date('".$f_fin."') "  ; 
+            }
+            if($numped != "")
+            {
+                $sql.=" and p.PEDF_NUM_PREIMP  =".$numped." " ;             
+            }
+
+            $sql.="GROUP BY p.PEDF_NUM_PREIMP,tp.NOMBRE_PRUEBA";
+			$query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds; 
+    }
     public function buscarPedidosAgProd($estado, $f_inicio, $f_fin, $numped)
     {
         $sql="SELECT 
@@ -1434,36 +1466,18 @@ class Pedidos_model extends CI_Model
     }
 	public function ObtenerPedidosControlCalidad() 
 	{
-		/*
-	    $sql="SELECT p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
-                    p.FECHA_COTIZACION fing,e.NOMBRE_ESTADO as estado, IFNULL(tp.NOMBRE_PRUEBA,'Sin prueba') as NOMBRE_PRUEBA,
-            (
-                SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO  
-            ) AS CANTIDAD,e.ID_ESTADOS as estado
-            from pedido p
-            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
-            INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
-            INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
-            INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
-            INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
-            LEFT JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
-            LEFT JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA
-            WHERE pro.ID_PROCESO_NOMBRE=9 AND e.ID_ESTADOS <>4
-		    GROUP BY p.PEDF_NUM_PREIMP";*/
 			
-		$sql="SELECT p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
-                    p.FECHA_COTIZACION fing,IFNULL(tp.NOMBRE_PRUEBA,'Sin prueba') as NOMBRE_PRUEBA,
-            (
-                SELECT SUM(pdi.CANTIDAD) from pedido_descripcion pdi where pdi.ID_PEDIDO =p.ID_PEDIDO  
-            ) AS CANTIDAD,p.ID_ESTADOS as estado, pd.ID_PEDIDO_DESCRIPCION
+		$sql="SELECT 
+                p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+                p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA, 1 CANTIDAD, 'cc' modulo
             from pedido p
             INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
-            INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
-            INNER JOIN kpicontrolcalidad cc on pd.ID_PEDIDO_DESCRIPCION = cc.ID_PEDIDO_DESCRIPCION
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
             LEFT JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
-            LEFT JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA
-            order by pd.ID_PEDIDO_DESCRIPCION asc";
-    
+            LEFT JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN kpicontrolcalidad cc on cc.ID_PEDIDO=p.ID_PEDIDO		
+			WHERE pb.ID_ESTADOS = 3 AND p.ID_ESTADOS = 2";
+		    
         $query= $this->db->query($sql);
         $ds = $query->result_array();
         return $ds;
@@ -1471,15 +1485,16 @@ class Pedidos_model extends CI_Model
     }
 	public function cantidadControlCalidad() 
 	{
-		/*
-	    $sql="SELECT COUNT(*) cantidad FROM (SELECT pd.ID_PEDIDO
-            FROM  pedido_descripcion pd
-            INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
-            INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
-            WHERE pro.ID_PROCESO_NOMBRE=9 AND pp.ID_ESTADOS <>4
-            GROUP BY pd.ID_PEDIDO) T0";*/
 		
-		$sql="SELECT COUNT(*) cantidad FROM kpicontrolcalidad";	
+		$sql="SELECT 
+                COUNT(*)cantidad
+            from pedido p
+            INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
+            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
+            LEFT JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+            LEFT JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
+			INNER JOIN kpicontrolcalidad cc on cc.ID_PEDIDO=p.ID_PEDIDO		
+			WHERE pb.ID_ESTADOS = 3 AND p.ID_ESTADOS = 2";	
 			
         $query= $this->db->query($sql);
         $ds = $query->row_array();

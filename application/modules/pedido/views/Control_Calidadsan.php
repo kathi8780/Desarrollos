@@ -56,7 +56,7 @@
 
 <div style="min-height:500px">
     <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">Consultar</div>
+        <div class="panel-heading">Consultar Pre-Pedido</div>
         <div class="panel-body">
         </div>
     </div>
@@ -86,6 +86,15 @@
                  <td>
                      PRUEBA
                  </td>
+                 <td>
+                     CANTIDAD
+                 </td>
+                 <td>
+                     EDITAR
+                 </td>
+				<td>
+                     ELIMINAR
+                 </td>
              </tr>
              </thead>
             
@@ -114,6 +123,15 @@
                      </td>
                      <td>
                          <?php echo $pedidos_prepedido[$i]['NOMBRE_PRUEBA'] ?>
+                     </td>
+                     <td>
+                         <?php echo $pedidos_prepedido[$i]['CANTIDAD'] ?>
+                     </td>
+                     <td>
+                        <button class="btn btn-primary btn-xs" onclick="modificarPedido(<?php echo $pedidos_prepedido[$i]['numero'] ?>)">EDITAR</button>
+                     </td>
+                     <td>
+                        <button class="btn btn-primary btn-xs" onclick="eliminarPedido()">ElIMINAR</button>
                      </td>
                 </tr>
             <?php                 
@@ -145,11 +163,7 @@
 	           params.theme = 'teal'; //ruby
 	           params.life = '4000';//4segundos 
 
-	    window.onload=function alcargar()
-		{
-        aplicarPaginado();
-		}
-		function poner_cargando()
+	    function poner_cargando()
 	    {
             $.isLoading({
                           text: "Cargando",
@@ -205,7 +219,9 @@
                                 { "aTargets": [ 4 ],"bSortable": true },
 
                                 { "aTargets": [ 5 ],"bSortable": true },
-                                { "aTargets": [ 6 ],"bSortable": true }
+                                { "aTargets": [ 6 ],"bSortable": true },
+                                { "aTargets": [ 7 ],"bSortable": true }
+                                
                               ] 
           });
 
@@ -404,14 +420,12 @@
                          }
                 });  
     }
-    function modificarPedido(numped='')
-    {
-    	//alert(numped);
-		$(location).attr('href','<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioEditarPedido/'+numped);
-    }
-	function eliminarPedido(numped='')
-    {
-    	alert('Functión no Programada');
-		//$(location).attr('href','<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioEditarPedido/'+numped);
-    }
-</script>
+
+        function modificarPedido(numped)
+        {
+        	//alert(numped);
+			$(location).attr('href','<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioEditarPedido/'+numped);
+        }
+
+
+    </script>
