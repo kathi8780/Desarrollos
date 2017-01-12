@@ -9,13 +9,21 @@ class Pedidos_model extends CI_Model
     }
    	public function ObtenerColor($laboratorio){
 		
-		$this->db->select("l.COLOR as color");
-        $this->db->from("laboratorio l");
-		$this->db->where("l.ID_LABORATORIO =",$laboratorio);
-        $consulta = $this->db->get();
-		$ds = $consulta->row_array();
-        $resultado = $ds['color'];
-
+		//$this->db->select("l.COLOR1 as color1","l.COLOR2 as color2");
+        //$this->db->from("laboratorio l");
+		//$this->db->where("l.ID_LABORATORIO =",$laboratorio);
+        //$consulta = $this->db->get();
+		//$ds = $consulta->row_array();
+        //$resultado = $ds['color1'];
+		//$resultado .= $ds['color2'];
+		//$ds = $query->result_array();
+		
+		$sql="SELECT l.COLOR1 ,l.COLOR2 FROM laboratorio l WHERE l.ID_LABORATORIO =".$laboratorio;
+		
+		$query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+		
         return $resultado;
 		
 	}
@@ -1073,11 +1081,12 @@ class Pedidos_model extends CI_Model
     public function obtenerProductosDeUnPedido($numped)
     {
              $this->db->select("
-                                pd.CATEGORIA, pd.DETALLE, pd.PROD_NOM_PROD, pd.CANTIDAD, pd.GUIACOLORES, pd.COLORES, pd.OBSERVACIONES
+                                pl.ID_LABORATORIO AS CATEGORIA, pd.DETALLE, pd.PROD_NOM_PROD, pd.CANTIDAD, pd.GUIACOLORES, pd.COLORES, pd.OBSERVACIONES
                              ");
 
              $this->db->from("pedido p");
              $this->db->join("pedido_descripcion pd",'p.ID_PEDIDO = pd.ID_PEDIDO');
+			 $this->db->join("producto_laboratorio pl","pd.ID_PRODUCTO_LABORATORIO=pl.ID_PRODUCTO_LABORATORIO"); 
              $this->db->where("p.PEDF_NUM_PREIMP =", $numped); 
 
              $consulta = $this->db->get();

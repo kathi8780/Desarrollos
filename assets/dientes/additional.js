@@ -316,7 +316,7 @@ function paint_tooth(type,dientes){
         d = s2.select(array[i]);
         color_set = select_color(type);
         d.attr({fill:color_set});
-        d.attr({stroke:"#FFFFFF" });
+        d.attr({stroke: black });
     }
 }
 function paint_hover_tooth(type,dientes,direccion){
@@ -461,13 +461,15 @@ function dientes_todos(type){
 function set_clear_dientes2(){
 	for(var i = 0; i<superior.length; i++){
 		d = s2.select(superior[i]);
-        d.attr({fill:"#FFFFFF"});
-        d.attr({stroke: "#000000"});
+        d.attr({fill: white});
+        d.attr({stroke: black});
+        d.attr({'fill-opacity':'1'});
     }
     for(var i = 0; i<inferior.length; i++){
     	d = s2.select(inferior[i]);
-        d.attr({fill:"#FFFFFF"});
-        d.attr({stroke: "#000000"});
+        d.attr({fill: white});
+        d.attr({stroke: black});
+        d.attr({'fill-opacity':'1'});
     } 	
 }
 

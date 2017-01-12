@@ -21,35 +21,33 @@
                                     </button>
                                 </div>
                             <div id="contenedor2_1" style="margin-top:3px; margin-bottom:3px; font-size: 10px">
-                                <center><button nombre="crown" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-corona" style="width:43px; height:43px; border:none;"></button></center>
-                                <label>CORONA </label>
+                                <!--<input type="button" value="" id="corona" class="corona_on"/>
+                                <input type="button" value="" id="implante" class="implante_off"/>
+                                <input type="button" value="" id="puente" class="puente_off"/>
+                                <input type="button" value="" id="removible" class="removible_off"/>-->
+                                <center><button nombre="crown" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-estetica" style="width:43px; height:43px; border:none;"></button></center>
+                                <label>ESTETICA </label>
 
-                                <center><button nombre="bridge" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-puente" style="width:45px; height:45px; border:none"></button></center>
-                                <label>BRIDGE </label>
+                                <center><button nombre="bridge" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-metal" style="width:45px; height:45px; border:none"></button></center>
+                                <label>METAL / CERAMICA </label>
 
                                 <center><button nombre="removable" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-removible" style="width:45px; height:45px; border:none"></button></center>
                                 <label>REMOVABLE </label>
 
                                 <center><button nombre="implant" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-implant" style="width:45px; height:45px; border:none"></button></center>
-                                <label>IMPLANT </label>
+                                <label>IMPLANTES Y ATACHES </label>
 
-                                <center><button nombre="appliance" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-appliance" style="width:45px; height:45px; border:none"></button></center>
-                                <label>APPLIANCE </label>
+                                <center><button nombre="ferula" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-ferula" style="width:45px; height:45px; border:none"></button></center>
+                                <label>FERULA PREVENTIVA </label>
 
-                                <center><button nombre="1" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-protesis" style="width:45px; height:45px; border:none"></button></center>
-                                <label>IMPLANT PROSTHETICS </label>
+                                <center><button nombre="virtual" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-virtual" style="width:45px; height:45px; border:none"></button></center>
+                                <label>VIRTUAL LAB </label>
 
-                                <center><button nombre="add" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-add" style="width:45px; height:45px; border:none"></button></center>
-                                <label>ADDITIONAL </label>
+                                <center><button nombre="impresion" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-print" style="width:45px; height:45px; border:none"></button></center>
+                                <label>IMPRESION 3D </label>
 
-                                <center><button nombre="add" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-add" style="width:45px; height:45px; border:none"></button></center>
-                                <label>8 </label>
-
-                                <center><button nombre="add" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-add" style="width:45px; height:45px; border:none"></button></center>
-                                <label>9 </label>
-
-                                <center><button nombre="add" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-add" style="width:45px; height:45px; border:none"></button></center>
-                                <label>10 </label>                            
+                                <center><button nombre="zfx" onclick="activarCategoria(this.id)" type="button" class="btn categ" id="btn-zfx" style="width:45px; height:45px; border:none"></button></center>
+                                <label>CENTRO DE FRESADO ZFX</label>
                             </div>
                                 <div class="form-horizontal"> 
                                     <button style="width:100%" type="button" class="btn btn-primary btn-xs"  id="btn-scroll-arriba" onclick="scrollDiv(-100,-100)">
@@ -61,18 +59,288 @@
                 </div><!-- fin contenedor 2 -->
 
                 <!-- contenedor 3 -->
-                <div class="col-md-3 col-sm-3 col-xs-7" id="contenedor3" style="border: 2px solid gray">
+                <div class="col-md-4 col-sm-4 col-xs-7" id="contenedor3" style="border: 2px solid gray">
                     <div align="center">
                         <div class="table-responsive">
-                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash4/cabs/swflash.cab#version=4,0,0,0"> 
-                            <param name="MOVIE" value="formulario.swf">
-                            <param name="PLAY" value="true">
-                            <param name="LOOP" value="true">
-                            <param name="QUALITY" value="high">
-                            <param name="wmode" value="transparent">
-
-                            <embed src="<?= base_url('assets/librerias/images/swf/formulario.swf')?>" loop="true"  play="true" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi? P1_Prod_Version=ShockwaveFlash" width="313" height="529" wmode="transparent"/>
-                            </object>                    
+                            <div id="dientes_all">
+                                <div id="svgload" style="width:320px;">
+                                    <svg version="1.1" id="sistema_x5F_dental" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="320.097px" height="521.372px" viewBox="0 0 320.097 521.372" enable-background="new 0 0 320.097 521.372" xml:space="preserve">
+                                        <g id="mandibula_x5F_superior">
+                                            <path fill="#D68D90" d="M313.745,233.826c0,0,13.422-194.066-105.951-228.061c0,0-133.853-41.762-178.704,99.507
+                                                c0,0-19.777,44.303-22.604,132.695c0,0,4.239,15.638,33.905,14.931h245.102C285.493,252.898,314.452,249.365,313.745,233.826z"/>
+                                            <path fill="#D48889" d="M236.76,161.672c0,0-14.416-51.489-44.397-73.891c0,0-33.382-18.034-30.819,47.244
+                                                c0,0-4.929-60.185-29.147-44.158c0,0-25.451,14.859-44.522,72.86c0,0-3.848-111.034,71.942-111.034
+                                                C159.815,52.694,236.76,44.045,236.76,161.672z"/>
+                                            <path fill="#CC6654" d="M16.406,237.967c0,0-3.816-226.724,143.935-231.979c0,0,147.049-6.668,145.637,231.979
+                                                c0,0-21.898,21.994-50.15-11.911l-19.779-47.855c0,0,3.525-115.098-73.109-109.906c0,0-67.378-3.322-73.419,111.477
+                                                c0,0-13.812,56.587-49.129,65.21C40.391,244.981,19.609,249.836,16.406,237.967z"/>
+                                        </g>
+                                        <g id="mandibula_x5F_inferior">
+                                            <path fill="#D68D90" d="M4.015,286.545c0,0-13.421,194.066,105.951,228.061c0,0,133.853,41.762,178.705-99.507
+                                                c0,0,19.777-44.303,22.604-132.695c0,0-4.238-15.638-33.904-14.931H32.268C32.268,267.473,3.308,271.006,4.015,286.545z"/>
+                                            <path fill="#D48889" d="M80.882,349.153c0,0,14.416,51.489,44.397,73.892c0,0,33.381,18.034,30.819-47.245
+                                                c0,0,4.93,60.186,29.148,44.159c0,0,25.451-14.86,44.521-72.86c0,0,3.848,111.033-71.941,111.033
+                                                C157.827,458.131,80.882,466.78,80.882,349.153z"/>
+                                            <path fill="#CC6654" d="M301.354,282.404c0,0,3.816,226.724-143.936,231.979c0,0-147.047,6.668-145.635-231.979
+                                                c0,0,21.897-21.994,50.15,11.911l19.779,47.855c0,0-3.526,115.098,73.107,109.906c0,0,67.379,3.322,73.42-111.477
+                                                c0,0,13.812-56.587,49.129-65.21C277.37,275.39,298.151,270.535,301.354,282.404z"/>
+                                        </g>
+                                        <g id="dientes_x5F_superiores">
+                                            
+                                                <path id="d11" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M158.514,26.742c-0.101,4.566-0.714,6.308-1.601,8.483c-3.59,8.809-14.78,7.296-18.5,4.667c-5.833-4.333-6.255-14.839-6.671-16.438
+                                                c-0.423-3.819-2.664-8.66,7.288-13.232c3.945-1.345,11.028-2.421,14.704-0.717c5.379,3.138,4.792,8.357,4.792,8.357
+                                                S158.249,21.208,158.514,26.742z"/>
+                                            
+                                                <path id="d12" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M109.282,20.523c4.936-2.703,11.676-5.07,14.493-4.43c2.356,0.654,6.682,2.517,7.086,5.641c0.118,1.63,0.873,4.964,1.298,7.146
+                                                c1.285,5.676,3.724,8.721,2.423,13.588c-3.956,7.223-4.611,7.53-13.679,6.368c-2.1-0.86-5.995-3.386-9.018-7.056
+                                                c-2.763-3.354-4.711-7.852-5.651-9.119C103.392,25.082,103.895,23.964,109.282,20.523z"/>
+                                            
+                                                <path id="d13" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M112.516,61.198c-2.69,3.212-6.332,3.777-10.214,3.684c-1.941,0.031-10.66-6.637-14.701-8.896c-8.946-5.667-8.671-6.1-9.077-11.169
+                                                c0.925-4.431,3.851-7.146,7.663-9.23c2.849-1.561,8.639-5.61,9-5.587c4.343-2.778,7.758-1.934,10.474,2.477
+                                                c3.439,5.578,7.869,12.306,8.854,17.462C114.847,53.154,114.912,57.752,112.516,61.198z"/>
+                                            
+                                                <path id="d14" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M88.108,82.819c-6.339,3.231-14.664-1.381-20.877-6.696s-4.719-11.918-4.719-11.918s2.958-11.13,10.866-11.686
+                                                c3.754-0.678,7.348,0.076,10.9,1.226c3.229,2.451,7.774,4.814,10.801,10.319C97.905,72.261,95.234,78.354,88.108,82.819z"/>
+                                            
+                                                <path id="d15" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M46.371,98.548c-1.792-2.657-0.074-9.001,0.334-10.46C48.851,80.432,55.447,77.244,62.999,76c1.091-0.233,8.091,2.478,15.705,8.141
+                                                c4.99,4.629,4.398,4.304,5.637,10.402s-2.884,13.715-12.16,18.496c-3.354,0.137-16.401-4.614-19.422-7.311
+                                                C49.847,103.194,48.615,101.538,46.371,98.548z"/>
+                                            
+                                                <path id="d16" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M76.746,122.391c1.667,5.833-2.696,19.679-3.154,22.994c-1.657,3.155-3.855,4.852-7.013,5.84
+                                                c-10.689,3.436-16.138,0.896-24.781-3.192c-2.135-1.752-4.672-2.219-6.074-5.723c-1.791-2.395,0.355-11.585,1.762-23.131
+                                                c2.438-10.729,6.135-13.145,19.945-13.029c4.602,1.003,8.272,4.165,12.729,5.517C74.741,114.081,76.751,121.871,76.746,122.391z"/>
+                                            
+                                                <path id="d17" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M27.261,179.022c-1.632-4.696-1.545-9.503-1.124-14.38c0.605-7.042,4.247-11.835,10.442-14.897
+                                                c7.309-0.606,13.953,2.325,20.85,3.906c3.68,0.846,7.886,3.131,11.339,5.25s3.453,14.078,2.75,18.533
+                                                c-1.993,9.848-5.862,21.455-16.215,18.981C29.397,188.364,29.403,181.354,27.261,179.022z"/>
+                                            
+                                                <path id="d18" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M64.888,216.447c-2.792,6.393-2.475,13.977-8.645,19.126c-4.965,4.144-12.388,3.546-21.206,2.677
+                                                c-0.261-0.01-7.28-3.836-10.188-6.173c-4.472-3.592-7.425-8.141-6.825-14.271c1.884-8.41,2.662-17.173,8.769-24.11
+                                                c1.807-2.056,3.49-4.008,6.132-4.908c2.513-0.134,4.962-0.824,7.487-0.842c7.689,1.98,14.312,6.406,21.575,9.378
+                                                C69.161,205.185,65.928,213.037,64.888,216.447z"/>
+                                            
+                                                <path id="d21" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M158.514,26.742c0.004-2.96,0.006-5.925,0.011-8.881c-0.174-5.515,6.619-9.785,13.211-8.419s7.479,2.588,8.192,2.962
+                                                c8.817,5.154,3.967,15.78,3.967,15.78s-0.697,2.688-1.209,3.445c-3.945,7.635-5.635,7.611-10.055,9.43
+                                                c-6.004,2.469-11.717-4.345-12.206-6.471C159.819,32.782,159.429,30.459,158.514,26.742z"/>
+                                            
+                                                <path id="d22" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M210.002,22.172c0,0,2.577,4.219,0.343,8.257c-2.916,5.654-6.055,11.144-10.891,15.087c-1.425,1.161-3.023,2.256-5.438,2.875
+                                                c-6,0.438-10.383-6.818-10.383-6.818s-2.93-5.369,0.548-14.109c0.457-1.247,6.114-11.67,12.229-10.933
+                                                C207.136,17.822,210.002,22.172,210.002,22.172z"/>
+                                            
+                                                <path id="d23" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M204.075,49.097c-0.012-0.247-0.023-0.495-0.033-0.743c2.172-6.39,2.459-13.448,7.826-18.653c3.379-3.275,6.605-4.979,11.092-2.758
+                                                c-0.047,0.317,10.557,6.142,14.598,10.365c1.586,3.516,1.814,7.035,0.053,10.564c-0.377,2.003-1.146,3.836-2.346,5.491
+                                                c-2.73,2.308-5.826,4.085-8.768,6.1c-2.846,1.211-5.945,1.312-8.906,2.248C208.95,64.438,204.12,59.676,204.075,49.097z"/>
+                                            
+                                                <path id="d24" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M239.603,78.761c-10.389-0.415-11.854-1.479-14.92-10.836c-0.488-6.829,3.734-8.247,8.682-12.045
+                                                c2.068-1.645,7.184-4.657,9.246-6.295c9.174,0.659,12.555,3.47,16.842,11.607c0.311,10.401-0.547,11.529-12.795,15.871
+                                                C244.388,77.868,241.958,78.207,239.603,78.761z"/>
+                                            
+                                                <path id="d25" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M264.183,72.736c10.396,6.016,12.828,14.803,7.025,25.409c-2.82,6.283-8.656,8.173-14.539,9.984
+                                                c-1.668,0.06-7.487,1.368-9.922,1.178c-10.115-0.685-16.732-10.221-13.166-19.25c0.77-2.294,2.25-4.5,4.037-6.694
+                                                c5.781-5.091,14.48-9.36,20.617-10.851C261.043,71.831,262.193,71.984,264.183,72.736z"/>
+                                            
+                                                <path id="d26" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M246.194,124.591c0.004-3.396,0.406-6.672,2.863-9.314c5.9-4.888,12.404-8.672,19.816-10.81
+                                                c9.205-1.701,15.913-1.034,18.906,17.538c0.299,3.886,1.088,8.174-2.826,14.636c-4.694,5.617-3.541,4.216-11.428,7.969
+                                                c-1.887,1.261-16.645,3.087-17.188,2.63C246.468,141.57,246.567,134.87,246.194,124.591z"/>
+                                            
+                                                <path id="d27" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M275.663,190.637c-4.455,0.562-17.049,7.873-21.756-10.034c-6.17-10.966-6.314-21.339,2.188-29.889
+                                                c2.227-1.516,6.741-2.495,9.243-3.386c7.56-1.408,8.883-1.389,15.013-0.915c7.812,0.33,10.736,3.979,12.576,11.786
+                                                c0,0,2.215,10.868,1.973,16.231c-1.439,4.732-5.076,8.07-7.701,12.051c-1.945,1.635-4.514,2.095-6.59,3.484
+                                                C279.804,189.945,280.118,190.075,275.663,190.637z"/>
+                                            
+                                                <path id="d28" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M303.731,216.063c-1.428,8.851-5.143,13.315-14.035,19.069l-0.35,0.223c-1.721,0.315-17.934,12.203-27.437-5.639
+                                                c0,0-3.943-11.327-5.554-15.555s-6.11-16.77,7.902-21.282c7.541-2.562,11.656-2.922,11.656-2.922
+                                                c4.467-0.423,8.93-0.846,13.393-1.269c0,0,7.938-0.297,12.104,10.536C301.412,199.224,305.144,207.318,303.731,216.063z"/>
+                                        </g>
+                                        <g id="circulos_x5F_superiores">
+                                            
+                                                <circle id="c30" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="307.046" cy="183.729" r="2.941"/>
+                                            
+                                                <circle id="c29" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="298.313" cy="139.1" r="2.941"/>
+                                            
+                                                <circle id="c28" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="286.079" cy="93.438" r="2.941"/>
+                                            
+                                                <circle id="c27" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="270.933" cy="64.833" r="2.941"/>
+                                            
+                                                <circle id="c26" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="251.472" cy="39.703" r="2.941"/>
+                                            
+                                                <circle id="c25" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="219.519" cy="17.384" r="2.941"/>
+                                            
+                                                <circle id="c24" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="189.218" cy="7.238" r="2.941"/>
+                                            
+                                                <circle id="c23" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="157.4" cy="4.296" r="2.941"/>
+                                            
+                                                <circle id="c22" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="126.234" cy="8.501" r="2.941"/>
+                                            
+                                                <circle id="c21" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="99.585" cy="19.384" r="2.941"/>
+                                            
+                                                <circle id="c20" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="69.011" cy="46.823" r="2.941"/>
+                                            
+                                                <circle id="c19" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="52.46" cy="68.125" r="2.941"/>
+                                            
+                                                <circle id="c18" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="39.915" cy="97.433" r="2.941"/>
+                                            
+                                                <circle id="c17" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="24.233" cy="142.864" r="2.941"/>
+                                            
+                                                <circle id="c16" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="16.576" cy="183.384" r="2.941"/>
+                                        </g>
+                                        <g id="circulos_x5F_inferiores">
+                                            
+                                            <circle id="c15" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="301.185" cy="336.987" r="2.941"/>
+                                        
+                                            <circle id="c14" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="292.526" cy="380.507" r="2.941"/>
+                                        
+                                            <circle id="c13" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="280.845" cy="419.939" r="2.941"/>
+                                        
+                                            <circle id="c12" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="265.3" cy="450.247" r="2.941"/>
+                                        
+                                            <circle id="c11" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="247.749" cy="473.548" r="2.941"/>
+                                        
+                                            <circle id="c10" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="220.175" cy="499.987" r="2.941"/>
+                                        
+                                            <circle id="c9" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="190.526" cy="511.87" r="2.941"/>
+                                        
+                                            <circle id="c8" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="158.36" cy="517.075" r="2.942"/>
+                                        
+                                            <circle id="c7" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="125.543" cy="513.133" r="2.941"/>
+                                        
+                                            <circle id="c6" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="97.243" cy="501.987" r="2.941"/>
+                                        
+                                            <circle id="c5" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="68.288" cy="480.668" r="2.941"/>
+                                        
+                                            <circle id="c4" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="48.886" cy="455.48" r="2.941"/>
+                                        
+                                            <circle id="c3" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="30.623" cy="423.992" r="2.941"/>
+                                        
+                                            <circle id="c2" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="18.447" cy="381.271" r="2.941"/>
+                                        
+                                            <circle id="c1" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="10.773" cy="332.583" r="2.941"/>
+                                    </g>
+                                        <g id="dientes_x5F_inferiores">
+                                            
+                                                <path id="d38" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M252.53,302.034c2.792-6.393,2.475-13.977,8.645-19.126c4.965-4.144,12.388-3.546,21.206-2.677c0.261,0.01,7.28,3.836,10.188,6.173
+                                                c4.472,3.592,7.425,8.141,6.825,14.271c-1.884,8.41-2.662,17.173-8.769,24.11c-1.807,2.056-3.49,4.008-6.132,4.908
+                                                c-2.513,0.134-4.962,0.824-7.487,0.842c-7.689-1.98-14.312-6.406-21.575-9.378C248.257,313.295,251.49,305.444,252.53,302.034z"/>
+                                            
+                                                <path id="d37" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M292.157,340.458c1.632,4.696,1.545,9.503,1.124,14.381c-0.605,7.041-4.247,11.834-10.442,14.896
+                                                c-7.309,0.607-13.953-2.324-20.85-3.906c-3.68-0.846-7.886-3.131-11.339-5.25c-3.453-2.118-3.453-14.077-2.75-18.532
+                                                c1.993-9.849,5.862-21.455,16.215-18.981C290.021,331.117,290.015,338.126,292.157,340.458z"/>
+                                            
+                                                <path id="d36" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M243.672,396.089c-1.666-5.834,2.696-19.68,3.154-22.994c1.657-3.154,3.855-4.852,7.013-5.84
+                                                c10.689-3.436,16.139-0.896,24.781,3.191c2.135,1.753,4.672,2.22,6.074,5.724c1.791,2.396-0.355,11.585-1.763,23.132
+                                                c-2.438,10.729-6.135,13.145-19.945,13.029c-4.602-1.004-8.272-4.166-12.729-5.518C245.677,404.4,243.667,396.61,243.672,396.089z"
+                                                />
+                                            
+                                                <path id="d35" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M271.047,419.932c1.792,2.657,0.074,9.001-0.334,10.46c-2.146,7.656-8.742,10.845-16.294,12.088
+                                                c-1.091,0.233-8.091-2.478-15.705-8.141c-4.99-4.629-4.398-4.304-5.637-10.402c-1.238-6.098,2.884-13.715,12.16-18.496
+                                                c3.354-0.137,16.401,4.615,19.422,7.311C267.571,415.287,268.803,416.943,271.047,419.932z"/>
+                                            
+                                                <path id="d34" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M229.31,435.662c6.34-3.231,14.664,1.381,20.877,6.696c6.214,5.315,4.719,11.918,4.719,11.918s-2.957,11.13-10.866,11.686
+                                                c-3.754,0.678-7.348-0.076-10.9-1.226c-3.229-2.451-7.774-4.814-10.801-10.319C219.513,446.219,222.184,440.126,229.31,435.662z"/>
+                                            
+                                                <path id="d33" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M205.902,459.283c2.69-3.212,6.332-3.777,10.214-3.684c1.941-0.031,10.66,6.637,14.701,8.896c8.946,5.667,8.671,6.1,9.077,11.169
+                                                c-0.925,4.431-3.851,7.146-7.663,9.23c-2.849,1.561-8.639,5.61-9,5.587c-4.343,2.778-7.758,1.934-10.474-2.477
+                                                c-3.439-5.578-7.869-12.306-8.854-17.462C203.571,467.327,203.506,462.728,205.902,459.283z"/>
+                                            
+                                                <path id="d32" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M208.136,497.958c-4.936,2.703-11.676,5.07-14.492,4.43c-2.356-0.654-6.683-2.517-7.087-5.641c-0.118-1.63-0.873-4.964-1.298-7.146
+                                                c-1.285-5.676-3.724-8.721-2.423-13.588c3.956-7.223,4.611-7.53,13.679-6.368c2.1,0.86,5.995,3.386,9.018,7.057
+                                                c2.764,3.354,4.711,7.852,5.651,9.118C214.026,493.399,213.523,494.516,208.136,497.958z"/>
+                                            
+                                                <path id="d31" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M158.904,491.739c0.101-4.566,0.714-6.308,1.601-8.482c3.59-8.809,14.78-7.296,18.5-4.667c5.833,4.333,6.255,14.839,6.671,16.438
+                                                c0.423,3.819,2.664,8.66-7.287,13.232c-3.945,1.345-11.028,2.421-14.704,0.718c-5.379-3.138-4.791-8.357-4.791-8.357
+                                                S159.17,497.272,158.904,491.739z"/>
+                                            
+                                                <path id="d41" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M157.904,494.739c-0.004,2.96-0.006,5.925-0.011,8.881c0.174,5.516-6.619,9.785-13.211,8.419c-6.593-1.365-7.479-2.588-8.192-2.962
+                                                c-8.817-5.153-3.967-15.78-3.967-15.78s0.697-2.688,1.209-3.445c3.945-7.635,5.635-7.611,10.055-9.43
+                                                c6.004-2.469,11.717,4.346,12.206,6.472C156.599,488.699,156.989,491.022,157.904,494.739z"/>
+                                            
+                                                <path id="d42" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M105.417,499.308c0,0-2.577-4.219-0.343-8.257c2.916-5.654,6.055-11.144,10.891-15.087c1.425-1.161,3.023-2.256,5.438-2.875
+                                                c6-0.438,10.383,6.818,10.383,6.818s2.93,5.369-0.548,14.109c-0.457,1.247-6.114,11.67-12.229,10.933
+                                                C108.283,503.659,105.417,499.308,105.417,499.308z"/>
+                                            
+                                                <path id="d43" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M111.343,470.383c0.012,0.247,0.023,0.495,0.033,0.743c-2.172,6.39-2.459,13.448-7.826,18.653
+                                                c-3.379,3.275-6.605,4.979-11.092,2.758c0.047-0.317-10.557-6.142-14.598-10.365c-1.586-3.516-1.814-7.035-0.053-10.564
+                                                c0.377-2.003,1.146-3.836,2.346-5.491c2.73-2.308,5.826-4.085,8.768-6.1c2.846-1.211,5.945-1.312,8.906-2.248
+                                                C106.468,455.042,111.298,459.804,111.343,470.383z"/>
+                                            
+                                                <path id="d44" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M77.816,439.719c10.389,0.415,11.854,1.479,14.92,10.836c0.488,6.829-3.734,8.247-8.682,12.045
+                                                c-2.068,1.645-7.184,4.657-9.246,6.295c-9.174-0.659-12.555-3.47-16.842-11.607c-0.311-10.401,0.547-11.529,12.795-15.871
+                                                C73.031,440.613,75.46,440.274,77.816,439.719z"/>
+                                            
+                                                <path id="d45" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M53.236,445.745c-10.396-6.016-12.828-14.803-7.025-25.409c2.82-6.283,8.656-8.173,14.539-9.984
+                                                c1.668-0.06,7.487-1.367,9.922-1.178c10.115,0.685,16.732,10.221,13.166,19.25c-0.77,2.294-2.25,4.5-4.037,6.694
+                                                c-5.781,5.091-14.48,9.36-20.617,10.851C56.375,446.65,55.225,446.497,53.236,445.745z"/>
+                                            
+                                                <path id="d46" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M69.224,394.889c-0.004,3.396-0.406,6.672-2.863,9.314c-5.9,4.888-12.404,8.672-19.816,10.81
+                                                c-9.205,1.701-15.913,1.034-18.906-17.538c-0.299-3.886-1.088-8.174,2.826-14.636c4.694-5.617,3.541-4.216,11.428-7.969
+                                                c1.887-1.261,16.645-3.087,17.188-2.63C68.951,377.911,68.851,384.611,69.224,394.889z"/>
+                                            
+                                                <path id="d47" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M35.755,329.843c4.455-0.562,17.049-7.873,21.756,10.034c6.17,10.966,6.314,21.339-2.188,29.889
+                                                c-2.227,1.516-6.741,2.495-9.243,3.386c-7.56,1.408-8.883,1.389-15.013,0.915c-7.812-0.33-10.736-3.979-12.576-11.786
+                                                c0,0-2.215-10.868-1.973-16.231c1.439-4.732,5.076-8.07,7.701-12.051c1.945-1.635,4.514-2.095,6.59-3.484
+                                                C31.615,330.536,31.3,330.406,35.755,329.843z"/>
+                                            
+                                                <path id="d48" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                                M13.687,302.417c1.428-8.851,5.143-13.315,14.035-19.069l0.35-0.223c1.721-0.315,17.934-12.202,27.437,5.64
+                                                c0,0,3.943,11.326,5.554,15.555s6.11,16.77-7.902,21.282c-7.541,2.562-11.656,2.922-11.656,2.922
+                                                c-4.467,0.423-8.93,0.846-13.393,1.269c0,0-7.938,0.297-12.104-10.536C16.006,319.256,12.275,311.163,13.687,302.417z"/>
+                                        </g>
+                                        </svg>
+                                </div>
+                                <div id="op_puente" >
+                                    <input type="button" value="" id="btn_puente2" class="puente_op_off"/>
+                                </div>
+                                <div id="op_removible" style="display: none;">
+                                    <div class="color_txt">
+                                        <label><b>SUPERIOR</b></label>
+                                        <input type="button" value="" id="up_rmv" class="rmv_off"/>
+                                    </div> 
+                                    <div class="color_txt" id="box_down_rmv">
+                                        <input type="button" value="" id="down_rmv" class="rmv_off"/>
+                                        <label><b>INFERIOR</b></label>
+                                    </div>    
+                                </div>
+                                <div id="text_001" style="margin-bottom:10px;">
+                                    <div class="row">
+                                        <div class="col-md-4"><div class="circle-base" id="op_1"></div> Pilar</div>
+                                        <div class="col-md-4"><div class="circle-base" id="op_2"></div> Póntico</div>
+                                        <div class="col-md-4"><div class="circle-base" id="op_3"></div> Fertilizado</div>
+                                    </div>    
+                                </div>
+                                <label>DIENTES SELECCIONADOS</label>
+                                <label id="dientes_label"></label>
+                            </div>                   
                         </div>
 
                     </div>
@@ -80,7 +348,7 @@
 
                 <!-- contenedor 4 -->
                 <div class="row">
-                    <div class="col-md-7 col-sm-7 col-xs-12" id="contenedor4" style="border: 2px solid gray">
+                    <div class="col-md-6 col-sm-6 col-xs-12" id="contenedor4" style="border: 2px solid gray">
                          
                         <div class="col-md-7 col-sm-7 col-xs-12">
                             <div class="row">
@@ -470,11 +738,11 @@
 
 <!--ESTILOS-->
     <style type="text/css">
-        #btn-corona
+        #btn-estetica
         {
             background-image:url("<?= base_url('assets/librerias/images/pedido/crown.png') ?>");
         }
-        #btn-puente
+        #btn-metal
         {
             background-image:url("<?= base_url('assets/librerias/images/pedido/bridge.png') ?>");
         }
@@ -486,17 +754,21 @@
         {
             background-image:url("<?= base_url('assets/librerias/images/pedido/implant.png') ?>");
         }
-        #btn-appliance
+        #btn-ferula
         {
-            background-image:url("<?= base_url('assets/librerias/images/pedido/appliance.png') ?>");
+            background-image:url("<?= base_url('assets/librerias/images/pedido/ferula.png') ?>");
         }
-        #btn-protesis
+        #btn-virtual
         {
-            background-image:url("<?= base_url('assets/librerias/images/pedido/1.png') ?>");
+            background-image:url("<?= base_url('assets/librerias/images/pedido/virtual.png') ?>");
         }
-        #btn-add
+        #btn-print
         {
-            background-image:url("<?= base_url('assets/librerias/images/pedido/add.png') ?>");
+            background-image:url("<?= base_url('assets/librerias/images/pedido/impresion.png') ?>");
+        }
+        #btn-zfx
+        {
+            background-image:url("<?= base_url('assets/librerias/images/pedido/zfx.png') ?>");
         }
 
         #contenedor2_1
@@ -646,16 +918,261 @@
                 <div class="col-md-4 col-sm-4 col-xs-12" id="contenedor-dientes-principal">
                     <div align="center">
                         <div class="table-responsive" style="border-right: 1px solid #018CF1;">
-                            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash4/cabs/swflash.cab#version=4,0,0,0"> 
-                            <param name="MOVIE" value="formulario.swf">
-                            <param name="PLAY" value="true">
-                            <param name="LOOP" value="true">
-                            <param name="QUALITY" value="high">
-                            <param name="wmode" value="transparent"></param>
-
-                            <embed src="<?= base_url('assets/librerias/images/swf/formulario.swf')?>" loop="true"  play="true" quality="high" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi? P1_Prod_Version=ShockwaveFlash" width="313" height="400" wmode="transparent"/>
-                            <!-- 313 529-->
-                            </object>                        
+                            <div id="svgload2" style="width:320px;">
+                                <svg version="1.1" id="sistema_x5F_dental" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="320.097px" height="521.372px" viewBox="0 0 320.097 521.372" enable-background="new 0 0 320.097 521.372" xml:space="preserve">
+                                    <g id="mandibula_x5F_superior">
+                                        <path fill="#D68D90" d="M313.745,233.826c0,0,13.422-194.066-105.951-228.061c0,0-133.853-41.762-178.704,99.507
+                                            c0,0-19.777,44.303-22.604,132.695c0,0,4.239,15.638,33.905,14.931h245.102C285.493,252.898,314.452,249.365,313.745,233.826z"/>
+                                        <path fill="#D48889" d="M236.76,161.672c0,0-14.416-51.489-44.397-73.891c0,0-33.382-18.034-30.819,47.244
+                                            c0,0-4.929-60.185-29.147-44.158c0,0-25.451,14.859-44.522,72.86c0,0-3.848-111.034,71.942-111.034
+                                            C159.815,52.694,236.76,44.045,236.76,161.672z"/>
+                                        <path fill="#CC6654" d="M16.406,237.967c0,0-3.816-226.724,143.935-231.979c0,0,147.049-6.668,145.637,231.979
+                                            c0,0-21.898,21.994-50.15-11.911l-19.779-47.855c0,0,3.525-115.098-73.109-109.906c0,0-67.378-3.322-73.419,111.477
+                                            c0,0-13.812,56.587-49.129,65.21C40.391,244.981,19.609,249.836,16.406,237.967z"/>
+                                    </g>
+                                    <g id="mandibula_x5F_inferior">
+                                        <path fill="#D68D90" d="M4.015,286.545c0,0-13.421,194.066,105.951,228.061c0,0,133.853,41.762,178.705-99.507
+                                            c0,0,19.777-44.303,22.604-132.695c0,0-4.238-15.638-33.904-14.931H32.268C32.268,267.473,3.308,271.006,4.015,286.545z"/>
+                                        <path fill="#D48889" d="M80.882,349.153c0,0,14.416,51.489,44.397,73.892c0,0,33.381,18.034,30.819-47.245
+                                            c0,0,4.93,60.186,29.148,44.159c0,0,25.451-14.86,44.521-72.86c0,0,3.848,111.033-71.941,111.033
+                                            C157.827,458.131,80.882,466.78,80.882,349.153z"/>
+                                        <path fill="#CC6654" d="M301.354,282.404c0,0,3.816,226.724-143.936,231.979c0,0-147.047,6.668-145.635-231.979
+                                            c0,0,21.897-21.994,50.15,11.911l19.779,47.855c0,0-3.526,115.098,73.107,109.906c0,0,67.379,3.322,73.42-111.477
+                                            c0,0,13.812-56.587,49.129-65.21C277.37,275.39,298.151,270.535,301.354,282.404z"/>
+                                    </g>
+                                    <g id="dientes_x5F_superiores">
+                                        
+                                            <path id="d11" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M158.514,26.742c-0.101,4.566-0.714,6.308-1.601,8.483c-3.59,8.809-14.78,7.296-18.5,4.667c-5.833-4.333-6.255-14.839-6.671-16.438
+                                            c-0.423-3.819-2.664-8.66,7.288-13.232c3.945-1.345,11.028-2.421,14.704-0.717c5.379,3.138,4.792,8.357,4.792,8.357
+                                            S158.249,21.208,158.514,26.742z"/>
+                                        
+                                            <path id="d12" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M109.282,20.523c4.936-2.703,11.676-5.07,14.493-4.43c2.356,0.654,6.682,2.517,7.086,5.641c0.118,1.63,0.873,4.964,1.298,7.146
+                                            c1.285,5.676,3.724,8.721,2.423,13.588c-3.956,7.223-4.611,7.53-13.679,6.368c-2.1-0.86-5.995-3.386-9.018-7.056
+                                            c-2.763-3.354-4.711-7.852-5.651-9.119C103.392,25.082,103.895,23.964,109.282,20.523z"/>
+                                        
+                                            <path id="d13" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M112.516,61.198c-2.69,3.212-6.332,3.777-10.214,3.684c-1.941,0.031-10.66-6.637-14.701-8.896c-8.946-5.667-8.671-6.1-9.077-11.169
+                                            c0.925-4.431,3.851-7.146,7.663-9.23c2.849-1.561,8.639-5.61,9-5.587c4.343-2.778,7.758-1.934,10.474,2.477
+                                            c3.439,5.578,7.869,12.306,8.854,17.462C114.847,53.154,114.912,57.752,112.516,61.198z"/>
+                                        
+                                            <path id="d14" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M88.108,82.819c-6.339,3.231-14.664-1.381-20.877-6.696s-4.719-11.918-4.719-11.918s2.958-11.13,10.866-11.686
+                                            c3.754-0.678,7.348,0.076,10.9,1.226c3.229,2.451,7.774,4.814,10.801,10.319C97.905,72.261,95.234,78.354,88.108,82.819z"/>
+                                        
+                                            <path id="d15" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M46.371,98.548c-1.792-2.657-0.074-9.001,0.334-10.46C48.851,80.432,55.447,77.244,62.999,76c1.091-0.233,8.091,2.478,15.705,8.141
+                                            c4.99,4.629,4.398,4.304,5.637,10.402s-2.884,13.715-12.16,18.496c-3.354,0.137-16.401-4.614-19.422-7.311
+                                            C49.847,103.194,48.615,101.538,46.371,98.548z"/>
+                                        
+                                            <path id="d16" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M76.746,122.391c1.667,5.833-2.696,19.679-3.154,22.994c-1.657,3.155-3.855,4.852-7.013,5.84
+                                            c-10.689,3.436-16.138,0.896-24.781-3.192c-2.135-1.752-4.672-2.219-6.074-5.723c-1.791-2.395,0.355-11.585,1.762-23.131
+                                            c2.438-10.729,6.135-13.145,19.945-13.029c4.602,1.003,8.272,4.165,12.729,5.517C74.741,114.081,76.751,121.871,76.746,122.391z"/>
+                                        
+                                            <path id="d17" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M27.261,179.022c-1.632-4.696-1.545-9.503-1.124-14.38c0.605-7.042,4.247-11.835,10.442-14.897
+                                            c7.309-0.606,13.953,2.325,20.85,3.906c3.68,0.846,7.886,3.131,11.339,5.25s3.453,14.078,2.75,18.533
+                                            c-1.993,9.848-5.862,21.455-16.215,18.981C29.397,188.364,29.403,181.354,27.261,179.022z"/>
+                                        
+                                            <path id="d18" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M64.888,216.447c-2.792,6.393-2.475,13.977-8.645,19.126c-4.965,4.144-12.388,3.546-21.206,2.677
+                                            c-0.261-0.01-7.28-3.836-10.188-6.173c-4.472-3.592-7.425-8.141-6.825-14.271c1.884-8.41,2.662-17.173,8.769-24.11
+                                            c1.807-2.056,3.49-4.008,6.132-4.908c2.513-0.134,4.962-0.824,7.487-0.842c7.689,1.98,14.312,6.406,21.575,9.378
+                                            C69.161,205.185,65.928,213.037,64.888,216.447z"/>
+                                        
+                                            <path id="d21" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M158.514,26.742c0.004-2.96,0.006-5.925,0.011-8.881c-0.174-5.515,6.619-9.785,13.211-8.419s7.479,2.588,8.192,2.962
+                                            c8.817,5.154,3.967,15.78,3.967,15.78s-0.697,2.688-1.209,3.445c-3.945,7.635-5.635,7.611-10.055,9.43
+                                            c-6.004,2.469-11.717-4.345-12.206-6.471C159.819,32.782,159.429,30.459,158.514,26.742z"/>
+                                        
+                                            <path id="d22" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M210.002,22.172c0,0,2.577,4.219,0.343,8.257c-2.916,5.654-6.055,11.144-10.891,15.087c-1.425,1.161-3.023,2.256-5.438,2.875
+                                            c-6,0.438-10.383-6.818-10.383-6.818s-2.93-5.369,0.548-14.109c0.457-1.247,6.114-11.67,12.229-10.933
+                                            C207.136,17.822,210.002,22.172,210.002,22.172z"/>
+                                        
+                                            <path id="d23" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M204.075,49.097c-0.012-0.247-0.023-0.495-0.033-0.743c2.172-6.39,2.459-13.448,7.826-18.653c3.379-3.275,6.605-4.979,11.092-2.758
+                                            c-0.047,0.317,10.557,6.142,14.598,10.365c1.586,3.516,1.814,7.035,0.053,10.564c-0.377,2.003-1.146,3.836-2.346,5.491
+                                            c-2.73,2.308-5.826,4.085-8.768,6.1c-2.846,1.211-5.945,1.312-8.906,2.248C208.95,64.438,204.12,59.676,204.075,49.097z"/>
+                                        
+                                            <path id="d24" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M239.603,78.761c-10.389-0.415-11.854-1.479-14.92-10.836c-0.488-6.829,3.734-8.247,8.682-12.045
+                                            c2.068-1.645,7.184-4.657,9.246-6.295c9.174,0.659,12.555,3.47,16.842,11.607c0.311,10.401-0.547,11.529-12.795,15.871
+                                            C244.388,77.868,241.958,78.207,239.603,78.761z"/>
+                                        
+                                            <path id="d25" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M264.183,72.736c10.396,6.016,12.828,14.803,7.025,25.409c-2.82,6.283-8.656,8.173-14.539,9.984
+                                            c-1.668,0.06-7.487,1.368-9.922,1.178c-10.115-0.685-16.732-10.221-13.166-19.25c0.77-2.294,2.25-4.5,4.037-6.694
+                                            c5.781-5.091,14.48-9.36,20.617-10.851C261.043,71.831,262.193,71.984,264.183,72.736z"/>
+                                        
+                                            <path id="d26" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M246.194,124.591c0.004-3.396,0.406-6.672,2.863-9.314c5.9-4.888,12.404-8.672,19.816-10.81
+                                            c9.205-1.701,15.913-1.034,18.906,17.538c0.299,3.886,1.088,8.174-2.826,14.636c-4.694,5.617-3.541,4.216-11.428,7.969
+                                            c-1.887,1.261-16.645,3.087-17.188,2.63C246.468,141.57,246.567,134.87,246.194,124.591z"/>
+                                        
+                                            <path id="d27" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M275.663,190.637c-4.455,0.562-17.049,7.873-21.756-10.034c-6.17-10.966-6.314-21.339,2.188-29.889
+                                            c2.227-1.516,6.741-2.495,9.243-3.386c7.56-1.408,8.883-1.389,15.013-0.915c7.812,0.33,10.736,3.979,12.576,11.786
+                                            c0,0,2.215,10.868,1.973,16.231c-1.439,4.732-5.076,8.07-7.701,12.051c-1.945,1.635-4.514,2.095-6.59,3.484
+                                            C279.804,189.945,280.118,190.075,275.663,190.637z"/>
+                                        
+                                            <path id="d28" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M303.731,216.063c-1.428,8.851-5.143,13.315-14.035,19.069l-0.35,0.223c-1.721,0.315-17.934,12.203-27.437-5.639
+                                            c0,0-3.943-11.327-5.554-15.555s-6.11-16.77,7.902-21.282c7.541-2.562,11.656-2.922,11.656-2.922
+                                            c4.467-0.423,8.93-0.846,13.393-1.269c0,0,7.938-0.297,12.104,10.536C301.412,199.224,305.144,207.318,303.731,216.063z"/>
+                                    </g>
+                                    <g id="circulos_x5F_superiores">
+                                        
+                                            <circle id="c30" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="307.046" cy="183.729" r="2.941"/>
+                                        
+                                            <circle id="c29" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="298.313" cy="139.1" r="2.941"/>
+                                        
+                                            <circle id="c28" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="286.079" cy="93.438" r="2.941"/>
+                                        
+                                            <circle id="c27" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="270.933" cy="64.833" r="2.941"/>
+                                        
+                                            <circle id="c26" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="251.472" cy="39.703" r="2.941"/>
+                                        
+                                            <circle id="c25" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="219.519" cy="17.384" r="2.941"/>
+                                        
+                                            <circle id="c24" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="189.218" cy="7.238" r="2.941"/>
+                                        
+                                            <circle id="c23" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="157.4" cy="4.296" r="2.941"/>
+                                        
+                                            <circle id="c22" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="126.234" cy="8.501" r="2.941"/>
+                                        
+                                            <circle id="c21" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="99.585" cy="19.384" r="2.941"/>
+                                        
+                                            <circle id="c20" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="69.011" cy="46.823" r="2.941"/>
+                                        
+                                            <circle id="c19" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="52.46" cy="68.125" r="2.941"/>
+                                        
+                                            <circle id="c18" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="39.915" cy="97.433" r="2.941"/>
+                                        
+                                            <circle id="c17" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="24.233" cy="142.864" r="2.941"/>
+                                        
+                                            <circle id="c16" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="16.576" cy="183.384" r="2.941"/>
+                                    </g>
+                                    <g id="circulos_x5F_inferiores">
+                                        
+                                            <circle id="c15" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="301.185" cy="336.987" r="2.941"/>
+                                        
+                                            <circle id="c14" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="292.526" cy="380.507" r="2.941"/>
+                                        
+                                            <circle id="c13" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="280.845" cy="419.939" r="2.941"/>
+                                        
+                                            <circle id="c12" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="265.3" cy="450.247" r="2.941"/>
+                                        
+                                            <circle id="c11" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="247.749" cy="473.548" r="2.941"/>
+                                        
+                                            <circle id="c10" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="220.175" cy="499.987" r="2.941"/>
+                                        
+                                            <circle id="c9" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="190.526" cy="511.87" r="2.941"/>
+                                        
+                                            <circle id="c8" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="158.36" cy="517.075" r="2.942"/>
+                                        
+                                            <circle id="c7" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="125.543" cy="513.133" r="2.941"/>
+                                        
+                                            <circle id="c6" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="97.243" cy="501.987" r="2.941"/>
+                                        
+                                            <circle id="c5" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="68.288" cy="480.668" r="2.941"/>
+                                        
+                                            <circle id="c4" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="48.886" cy="455.48" r="2.941"/>
+                                        
+                                            <circle id="c3" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="30.623" cy="423.992" r="2.941"/>
+                                        
+                                            <circle id="c2" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="18.447" cy="381.271" r="2.941"/>
+                                        
+                                            <circle id="c1" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#000000" stroke-width="0.5973" stroke-miterlimit="10" cx="10.773" cy="332.583" r="2.941"/>
+                                    </g>
+                                    <g id="dientes_x5F_inferiores">
+                                        
+                                            <path id="d38" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M252.53,302.034c2.792-6.393,2.475-13.977,8.645-19.126c4.965-4.144,12.388-3.546,21.206-2.677c0.261,0.01,7.28,3.836,10.188,6.173
+                                            c4.472,3.592,7.425,8.141,6.825,14.271c-1.884,8.41-2.662,17.173-8.769,24.11c-1.807,2.056-3.49,4.008-6.132,4.908
+                                            c-2.513,0.134-4.962,0.824-7.487,0.842c-7.689-1.98-14.312-6.406-21.575-9.378C248.257,313.295,251.49,305.444,252.53,302.034z"/>
+                                        
+                                            <path id="d37" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M292.157,340.458c1.632,4.696,1.545,9.503,1.124,14.381c-0.605,7.041-4.247,11.834-10.442,14.896
+                                            c-7.309,0.607-13.953-2.324-20.85-3.906c-3.68-0.846-7.886-3.131-11.339-5.25c-3.453-2.118-3.453-14.077-2.75-18.532
+                                            c1.993-9.849,5.862-21.455,16.215-18.981C290.021,331.117,290.015,338.126,292.157,340.458z"/>
+                                        
+                                            <path id="d36" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M243.672,396.089c-1.666-5.834,2.696-19.68,3.154-22.994c1.657-3.154,3.855-4.852,7.013-5.84
+                                            c10.689-3.436,16.139-0.896,24.781,3.191c2.135,1.753,4.672,2.22,6.074,5.724c1.791,2.396-0.355,11.585-1.763,23.132
+                                            c-2.438,10.729-6.135,13.145-19.945,13.029c-4.602-1.004-8.272-4.166-12.729-5.518C245.677,404.4,243.667,396.61,243.672,396.089z"
+                                            />
+                                        
+                                            <path id="d35" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M271.047,419.932c1.792,2.657,0.074,9.001-0.334,10.46c-2.146,7.656-8.742,10.845-16.294,12.088
+                                            c-1.091,0.233-8.091-2.478-15.705-8.141c-4.99-4.629-4.398-4.304-5.637-10.402c-1.238-6.098,2.884-13.715,12.16-18.496
+                                            c3.354-0.137,16.401,4.615,19.422,7.311C267.571,415.287,268.803,416.943,271.047,419.932z"/>
+                                        
+                                            <path id="d34" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M229.31,435.662c6.34-3.231,14.664,1.381,20.877,6.696c6.214,5.315,4.719,11.918,4.719,11.918s-2.957,11.13-10.866,11.686
+                                            c-3.754,0.678-7.348-0.076-10.9-1.226c-3.229-2.451-7.774-4.814-10.801-10.319C219.513,446.219,222.184,440.126,229.31,435.662z"/>
+                                        
+                                            <path id="d33" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M205.902,459.283c2.69-3.212,6.332-3.777,10.214-3.684c1.941-0.031,10.66,6.637,14.701,8.896c8.946,5.667,8.671,6.1,9.077,11.169
+                                            c-0.925,4.431-3.851,7.146-7.663,9.23c-2.849,1.561-8.639,5.61-9,5.587c-4.343,2.778-7.758,1.934-10.474-2.477
+                                            c-3.439-5.578-7.869-12.306-8.854-17.462C203.571,467.327,203.506,462.728,205.902,459.283z"/>
+                                        
+                                            <path id="d32" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M208.136,497.958c-4.936,2.703-11.676,5.07-14.492,4.43c-2.356-0.654-6.683-2.517-7.087-5.641c-0.118-1.63-0.873-4.964-1.298-7.146
+                                            c-1.285-5.676-3.724-8.721-2.423-13.588c3.956-7.223,4.611-7.53,13.679-6.368c2.1,0.86,5.995,3.386,9.018,7.057
+                                            c2.764,3.354,4.711,7.852,5.651,9.118C214.026,493.399,213.523,494.516,208.136,497.958z"/>
+                                        
+                                            <path id="d31" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M158.904,491.739c0.101-4.566,0.714-6.308,1.601-8.482c3.59-8.809,14.78-7.296,18.5-4.667c5.833,4.333,6.255,14.839,6.671,16.438
+                                            c0.423,3.819,2.664,8.66-7.287,13.232c-3.945,1.345-11.028,2.421-14.704,0.718c-5.379-3.138-4.791-8.357-4.791-8.357
+                                            S159.17,497.272,158.904,491.739z"/>
+                                        
+                                            <path id="d41" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M157.904,494.739c-0.004,2.96-0.006,5.925-0.011,8.881c0.174,5.516-6.619,9.785-13.211,8.419c-6.593-1.365-7.479-2.588-8.192-2.962
+                                            c-8.817-5.153-3.967-15.78-3.967-15.78s0.697-2.688,1.209-3.445c3.945-7.635,5.635-7.611,10.055-9.43
+                                            c6.004-2.469,11.717,4.346,12.206,6.472C156.599,488.699,156.989,491.022,157.904,494.739z"/>
+                                        
+                                            <path id="d42" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M105.417,499.308c0,0-2.577-4.219-0.343-8.257c2.916-5.654,6.055-11.144,10.891-15.087c1.425-1.161,3.023-2.256,5.438-2.875
+                                            c6-0.438,10.383,6.818,10.383,6.818s2.93,5.369-0.548,14.109c-0.457,1.247-6.114,11.67-12.229,10.933
+                                            C108.283,503.659,105.417,499.308,105.417,499.308z"/>
+                                        
+                                            <path id="d43" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M111.343,470.383c0.012,0.247,0.023,0.495,0.033,0.743c-2.172,6.39-2.459,13.448-7.826,18.653
+                                            c-3.379,3.275-6.605,4.979-11.092,2.758c0.047-0.317-10.557-6.142-14.598-10.365c-1.586-3.516-1.814-7.035-0.053-10.564
+                                            c0.377-2.003,1.146-3.836,2.346-5.491c2.73-2.308,5.826-4.085,8.768-6.1c2.846-1.211,5.945-1.312,8.906-2.248
+                                            C106.468,455.042,111.298,459.804,111.343,470.383z"/>
+                                        
+                                            <path id="d44" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M77.816,439.719c10.389,0.415,11.854,1.479,14.92,10.836c0.488,6.829-3.734,8.247-8.682,12.045
+                                            c-2.068,1.645-7.184,4.657-9.246,6.295c-9.174-0.659-12.555-3.47-16.842-11.607c-0.311-10.401,0.547-11.529,12.795-15.871
+                                            C73.031,440.613,75.46,440.274,77.816,439.719z"/>
+                                        
+                                            <path id="d45" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M53.236,445.745c-10.396-6.016-12.828-14.803-7.025-25.409c2.82-6.283,8.656-8.173,14.539-9.984
+                                            c1.668-0.06,7.487-1.367,9.922-1.178c10.115,0.685,16.732,10.221,13.166,19.25c-0.77,2.294-2.25,4.5-4.037,6.694
+                                            c-5.781,5.091-14.48,9.36-20.617,10.851C56.375,446.65,55.225,446.497,53.236,445.745z"/>
+                                        
+                                            <path id="d46" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M69.224,394.889c-0.004,3.396-0.406,6.672-2.863,9.314c-5.9,4.888-12.404,8.672-19.816,10.81
+                                            c-9.205,1.701-15.913,1.034-18.906-17.538c-0.299-3.886-1.088-8.174,2.826-14.636c4.694-5.617,3.541-4.216,11.428-7.969
+                                            c1.887-1.261,16.645-3.087,17.188-2.63C68.951,377.911,68.851,384.611,69.224,394.889z"/>
+                                        
+                                            <path id="d47" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M35.755,329.843c4.455-0.562,17.049-7.873,21.756,10.034c6.17,10.966,6.314,21.339-2.188,29.889
+                                            c-2.227,1.516-6.741,2.495-9.243,3.386c-7.56,1.408-8.883,1.389-15.013,0.915c-7.812-0.33-10.736-3.979-12.576-11.786
+                                            c0,0-2.215-10.868-1.973-16.231c1.439-4.732,5.076-8.07,7.701-12.051c1.945-1.635,4.514-2.095,6.59-3.484
+                                            C31.615,330.536,31.3,330.406,35.755,329.843z"/>
+                                        
+                                            <path id="d48" fill-rule="evenodd" clip-rule="evenodd" data-type="1" data-puente="false" data-removible-down="false" fill-opacity="1" fill="#FFFFFF" stroke="#000000" stroke-width="0.8938" stroke-miterlimit="10" d="
+                                            M13.687,302.417c1.428-8.851,5.143-13.315,14.035-19.069l0.35-0.223c1.721-0.315,17.934-12.202,27.437,5.64
+                                            c0,0,3.943,11.326,5.554,15.555s6.11,16.77-7.902,21.282c-7.541,2.562-11.656,2.922-11.656,2.922
+                                            c-4.467,0.423-8.93,0.846-13.393,1.269c0,0-7.938,0.297-12.104-10.536C16.006,319.256,12.275,311.163,13.687,302.417z"/>
+                                    </g>
+                                </svg>
+                            </div>                     
                         </div>
                     </div>
                 </div>
@@ -1756,9 +2273,6 @@
             $("#formulario_pedido_c3").html(cadena_html);
         }
     }
-
-    var identificador_filas=0;
-    var arreglo_identificadores_filas = [];
 	
 	function modelo(categoria,dientes){
 
@@ -1800,20 +2314,119 @@
 		s = s.replace("37", "#d37");
 		s = s.replace("38", "#d38");
 		
-
-		alert(categoria + s);
+		$.ajax({
+                 type: 'POST',
+                 async:false,
+                 dataType: 'json',
+                 data: {categoria:categoria},
+                 url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
+                 success: function (data) 
+                 {    
+                    //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};
+						//alert(categoria + s + data);
+                        //console.log("data"+data2);
+                        //alert(data2);
+                        //paint_tooth(categoria,s);   
+                        paint_hover_tooth(categoria,s,0);  
+                 }
+        }); 
+		
 	}
-    function adicionarProducto()
+	function modelo_todos(){
+		
+        //VALIDAR CANT DE PROD
+        var filas_producto = $("tr[class=filas_producto]"); //tomo las filas de producto 
+        //console.log(filas_producto.length);
+		if(filas_producto.length >=0){
+			
+            //recorro las filas de pedido
+            var cadena_producto="";            
+            var iterador_arreglo_identificadores_filas=0;
+            filas_producto.each(function(){
+                var iterador =arreglo_identificadores_filas[iterador_arreglo_identificadores_filas];
+                var categoria = $("#catf"+iterador).html().trim();
+                var dientes = $("#dief"+iterador).html().trim(); 
+				var s = dientes;
+
+				s = s.replace("11", "#d11");
+				s = s.replace("12", "#d12");
+				s = s.replace("13", "#d13");
+				s = s.replace("14", "#d14");
+				s = s.replace("15", "#d15");
+				s = s.replace("16", "#d16");
+				s = s.replace("17", "#d17");
+				s = s.replace("18", "#d18");
+		
+				s = s.replace("21", "#d21");
+				s = s.replace("22", "#d22");
+				s = s.replace("23", "#d23");
+				s = s.replace("24", "#d24");
+				s = s.replace("25", "#d25");
+				s = s.replace("26", "#d26");
+				s = s.replace("27", "#d27");
+				s = s.replace("28", "#d28");
+				
+				s = s.replace("41", "#d41");
+				s = s.replace("42", "#d42");
+				s = s.replace("43", "#d43");
+				s = s.replace("44", "#d44");
+				s = s.replace("45", "#d45");
+				s = s.replace("46", "#d46");
+				s = s.replace("47", "#d47");
+				s = s.replace("48", "#d48");
+				
+				s = s.replace("31", "#d31");
+				s = s.replace("32", "#d32");
+				s = s.replace("33", "#d33");
+				s = s.replace("34", "#d34");
+				s = s.replace("35", "#d35");
+				s = s.replace("36", "#d36");
+				s = s.replace("37", "#d37");
+				s = s.replace("38", "#d38");
+				$.ajax({
+					
+					type: 'POST',
+					async:false,
+					dataType: 'json',
+					data: {categoria:categoria},
+					url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
+					success: function (data) 
+					{    
+                        //console.log(data);
+                        //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};                        
+                        //paint_all_tooth(data2);
+						//cadena_producto += categoria + s + data;					
+                        paint_tooth(categoria,s); 
+					}
+				}); 
+
+                //cadena_producto += categoria+s;
+				
+                iterador_arreglo_identificadores_filas++;
+				
+            });
+			//console.log(cadena_producto);
+			//alert(cadena_producto);
+        }     
+	}
+	
+    var identificador_filas=0;
+    var arreglo_identificadores_filas = [];
+	var arreglo_modelo_todos = [];
+	
+	function adicionarProducto()
     {
-        var dientes ="1,2,3";
-        var categoria = "1";
+        var texto = document.getElementById('dientes_label').textContent;//$("#dientes_label").val();
+        var dientes = texto.replace(" ","");
+        var categoria = type;
         var producto_seleccionado =$("#formulario_pedido_item").val();
         var cantidad=$("#formulario_pedido_cantidad").val().trim();
         var guia_colores = $("#formulario_pedido_guiacolores").val();
         var cant_corlores = $("input[name='formulario_pedido[COLOR]']:checked").val();
         var actividades = $("#observaciones").val().trim();
 
-
+		arreglo_modelo_todos[categoria,dientes];
+		
         var colores = "";
 
         if(producto_seleccionado=="")
@@ -1896,7 +2509,7 @@
         activarContenedor("contenedor-fechas");
 
         var cadena_html='<tr class="filas_producto" id="'+'f'+identificador_filas+'">'
-                            +'<td><label onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'")>'
+                            +'<td><label onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'") onmouseout="dientes_todos('+categoria+');">'
                                  +'img'
                             +'</label></td>'
                             +'<td  id="'+'catf'+identificador_filas+'">'
@@ -1939,6 +2552,7 @@
         $("#mensaje-tabla-vacia").remove();
         $("#filas_producto").append(cadena_html);
         $('#modal-adicionar-producto').modal('hide');
+        modelo_todos();
     }
 
     function editarFila(id)

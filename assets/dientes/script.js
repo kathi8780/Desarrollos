@@ -93,13 +93,6 @@ $(document).ready(function(){
         });
     }
 
-    /*for(var i = 0; i<circle_inf.length; i++){
-        cinf[i].click(function () {
-            set_paint_circle(this,get_hex(this.attr("fill")));
-        });
-    }*/
-    //console.log(colors.estetica.color1);
-
     /*FUNCION ONCLICK*/
     $("#btn-estetica").click(function(e) {
         dientes = [];
