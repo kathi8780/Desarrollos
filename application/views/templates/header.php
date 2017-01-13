@@ -553,7 +553,10 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                              <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cerrar sesión</a></li>
+                              <li> <a href="<?php echo base_url(); ?>index.php/admin/usuarios/MostrarFormularioUsuario">Gestión de Usuarios</a></li>
+							  <li> <a href="<?php echo base_url(); ?>index.php/admin/perfiles/MostrarFormularioPerfiles">Gestión de Perfiles</a></li>
+							  <li> <a href="<?php echo base_url(); ?>index.php/admin/menu/MostrarFormularioAccesos">Acceso de Perfiles</a></li>
+							  <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cerrar sesión</a></li>
                             </ul>
                         </li>
                         
