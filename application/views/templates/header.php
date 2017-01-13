@@ -534,8 +534,15 @@
                                  Configuración<b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarConfiguracionProcesos">Procesos</a></li>        
-                            </ul>
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraProcesos">Gestión de Procesos</a></li> 
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraPruebas">Gestión de Pruebas</a></li> 								
+                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraInventario">Gestión de Inventario</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ConfiguraProducto">Gestión de Productos</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraLaboratorio">Gestión de Laboratorios</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorTecnico">Procesos por Técnicos</a></li>
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorProducto">Procesos por Producto</a></li>								
+								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/PruebasPorLaboratorio">Pruebas por Laboratorio</a></li>
+							</ul>
                         </li> 
    
 

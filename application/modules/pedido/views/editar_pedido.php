@@ -2287,7 +2287,7 @@
              $observaciones_actual =$data_productos_pedido[$i]['OBSERVACIONES'] ;
           ?>
 		        var cadena_html='<tr style="font-size:12px" class="filas_producto" id="'+'f'+identificador_filas+'">'
-		                            +'<td>'
+		                            +'<td><label onmouseover=modelo('+'"'+<?php echo $categoria_actual; ?>+'"'+',"'+<?php echo $dientes_actual; ?>+'") onmouseout="dientes_todos('+<?php echo $categoria_actual; ?>+');">'
 		                                 +'img'
 		                            +'</td>'
 		                            +'<td  id="'+'catf'+identificador_filas+'">'
