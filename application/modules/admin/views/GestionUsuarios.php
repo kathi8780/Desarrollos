@@ -4,24 +4,145 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">MODIFICAR USUARIO</h4>
+                        <h4 class="modal-title">USUARIO</h4>
                     </div>
                     <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
             <div class="table-responsive">
               <table class="table table-condensed table-striped table-bordered">
                 <tr style="font-weight: bold">
-                  <td colspan="2" class="bg-primary" style="text-align: center">
-                    EDITAR
-                  </td>
+                  <td colspan="2" class="bg-primary" style="text-align: center">MODIFICAR USUARIO</td>
                 </tr>
                 <tr>
                   <td>
-                    <div class="col-md-9 col-sm-2 col-xs-12">
-					<div class="form-group form-group-sm">                
-						<label class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-						<input type='hidden' value="" id="USUARIO_ID"/>
-						<input type="text" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"  value="" id="nlaboratorio"/>
+                    <!-- campo cliente -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
+							<select id="c_PERFIL_ID" class="form-control" style="height:30px">
+							<option value="">TODOS</option>
+								<?php foreach ($perfil as $array) 
+									{?>
+										<option value="<?php echo $array['PERFIL_ID']; ?>" ><?php echo $array['PERFIL_NOMBRE']; ?></option>  
+								<?php } ?>
+							</select>
+						</div>
 					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo nombre -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Nombre<span class="required"> * </span></label> 
+							<input type="hidden" id="c_USUARIO_ID" class="form-control"/>
+							<input type="text" min="0" max="30" id="c_USUARIO_NOMBRE" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo apellido -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Apellido<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="30" id="c_USUARIO_APELLIDO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+				  <!-- Fecha de Registro -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<label class="control-label">Fecha de Registro</label>
+						<div class='input-group'>
+							<span onclick="limpiarFecha('c_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+							<input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 						
+					</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- Fecha de Caducida -->
+						<div class="col-md-8 col-sm-6 col-xs-12">
+						<label class="control-label">Fecha de Caducida</label>
+						<div class='input-group'>
+							<span onclick="limpiarFecha('c_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+							<input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly 
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 					
+                    </div>
+                </div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo email -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">E-mail<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="50" id="c_USUARIO_EMAIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo activo -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Usuario Activo<span class="required"> * </span></label> 
+							<select id="c_USUARIO_ACTIVO" class="form-control" style="height:30px">
+							<option value="S">SI</option>
+							<option value="N">NO</option>  
+							</select>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tmovil -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Teléfono Movil<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="10" id="c_USUARIO_MOVIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tfijo -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Teléfono Fijo<span class="required"> * </span></label> 
+							<input type="text" min="0" max="20" id="c_USUARIO_TELEFONO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tsesion -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Tiempo en Sesión (minutos)<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="5" id="c_USUARIO_TIEMPO_SESION" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
 					</div>
 				  </td>
 				</tr>
@@ -37,119 +158,192 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
-<!--fin ventana modal para editar proceso-->
-
-<div class="panel panel-primary" >
-    <div class="panel-heading">ADICIONAR  NUEVO LABORATORIO</div>
-
-  <div class="container">
-    <div class="row">
-          <!-- campo cliente -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
-				  <select id="c_PERFIL_ID" class="form-control" style="height:30px">
-				  <option value="">TODOS</option>
-				  	<?php foreach ($perfil as $array) 
-				  		{?>
-				  			<option value="<?php echo $array['PERFIL_ID']; ?>" ><?php echo $array['PERFIL_NOMBRE']; ?></option>  
-				  	<?php } ?>
-				  </select>
-              </div>
-          </div>
-          <!-- campo nombre -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Nombre<span class="required"> * </span></label> 
-                  <input type="text" min="0" max="30" id="c_USUARIO_NOMBRE" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-          <!-- campo apellido -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Apellido<span class="required"> * </span></label> 
-                  <input type="text"  min="0" max="30" id="c_USUARIO_APELLIDO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-		  <!-- campo usuario -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Usuario<span class="required"> * </span></label> 
-                  <input type="text"  min="0" max="30" id="c_USUARIO_USER" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-		  <!-- Fecha de Registro -->
-		  <div class="col-md-4 col-sm-2 col-xs-12">
-                	<label class="control-label">Fecha de Registro</label>
-                    <div class='input-group'>
-                        <span onclick="limpiarFecha('c_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                        <input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly />   
+<!--ventana modal para crear proceso-->
+        <div class="modal fade" id="modal-crear-laboratorio">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">USUARIO</h4>
                     </div>
-          </div>
-		  <!-- Fecha de Caducida -->
-		  <div class="col-md-4 col-sm-2 col-xs-12">
-                	<label class="control-label">Fecha de Caducida</label>
-                    <div class='input-group'>
-                        <span onclick="limpiarFecha('c_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                        <input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly />   
+                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">ADICIONAR NUEVO USUARIO</td>
+                </tr>
+                <tr>
+                  <td>
+                    <!-- campo cliente -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
+							<select id="c_PERFIL_ID" class="form-control" style="height:30px">
+							<option value="">TODOS</option>
+								<?php foreach ($perfil as $array) 
+									{?>
+										<option value="<?php echo $array['PERFIL_ID']; ?>" ><?php echo $array['PERFIL_NOMBRE']; ?></option>  
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo nombre -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Nombre<span class="required"> * </span></label> 
+							<input type="text" min="0" max="30" id="c_USUARIO_NOMBRE" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo apellido -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Apellido<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="30" id="c_USUARIO_APELLIDO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo usuario -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Usuario<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="30" id="c_USUARIO_USER" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+				  <!-- Fecha de Registro -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<label class="control-label">Fecha de Registro</label>
+						<div class='input-group'>
+							<span onclick="limpiarFecha('c_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+							<input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 						
+					</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- Fecha de Caducida -->
+						<div class="col-md-8 col-sm-6 col-xs-12">
+						<label class="control-label">Fecha de Caducida</label>
+						<div class='input-group'>
+							<span onclick="limpiarFecha('c_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+							<input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly 
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 					
                     </div>
                 </div>
-          <!-- campo email -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">E-mail<span class="required"> * </span></label> 
-                  <input type="text"  min="0" max="30" id="c_USUARIO_EMAIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-          <!-- campo activo -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Usuario Activo<span class="required"> * </span></label> 
-				  <select id="c_USUARIO_ACTIVO" class="form-control" style="height:30px">
-				  <option value="N">SI</option>
-				  <option value="S">NO</option>  
-				  </select>
-			  </div>
-          </div>
-          <!-- campo tmovil -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Teléfono Movil<span class="required"> * </span></label> 
-                  <input type="text"  min="0" max="10" id="c_USUARIO_MOVIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-          <!-- campo tfijo -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Teléfono Fijo<span class="required"> * </span></label> 
-                  <input type="text" min="0" max="20" id="c_USUARIO_TELEFONO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>
-          <!-- campo tsesion -->
-          <div class="col-md-4 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Tiempo en Sesión (minutos)<span class="required"> * </span></label> 
-                  <input type="text"  min="0" max="5" id="c_USUARIO_TIEMPO_SESION" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-              </div>
-          </div>		  
-          <!-- btn adicionar -->
-          <div class="col-md-2 col-sm-2 col-xs-12">
-              <div class="form-group form-group-sm">     
-                  <label class="control-label required" for=""> &nbsp</label>           
-                        <button type="button" class="btn btn-primary btn-sm form-control" onclick="crearUsuario();">
-                            <span class="glyphicon glyphicon-"></span> Crear Usuario
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo email -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">E-mail<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="50" id="c_USUARIO_EMAIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo activo -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Usuario Activo<span class="required"> * </span></label> 
+							<select id="c_USUARIO_ACTIVO" class="form-control" style="height:30px">
+							<option value="S">SI</option>
+							<option value="N">NO</option>  
+							</select>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tmovil -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Teléfono Movil<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="10" id="c_USUARIO_MOVIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tfijo -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Teléfono Fijo<span class="required"> * </span></label> 
+							<input type="text" min="0" max="20" id="c_USUARIO_TELEFONO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
+					<!-- campo tsesion -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Tiempo en Sesión (minutos)<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="5" id="c_USUARIO_TIEMPO_SESION" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+              </table>
+            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="crearUsuario()">
+                            <span class="glyphicon glyphicon-pencil"></span> Crear Usuario
                         </button>
-              </div>
-          </div>  
-    </div>    
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+<!--fin ventana modal para editar proceso-->
+<div class="panel panel-primary" >
+    <div class="container">
+    <div class="row">
+	<div class="col-md-4 col-sm-2 col-xs-12">
+	     <div class="form-group form-group-sm">     
+            <label class="control-label required" for=""> &nbsp</label>           
+                  <button type="button" class="btn btn-primary btn-sm form-control" onclick="AbrirUsuario();">
+                      <span class="glyphicon glyphicon-"></span> Crear Usuario
+                  </button>
+            </div>
+	 </div>
+	</div>
   </div>
 </div>
-
 <div class="panel panel-primary" >
     <div class="panel-heading">USUARIOS REGISTRADOS</div></div>
     <div class="container">
@@ -277,11 +471,14 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
-
+	function AbrirUsuario(){
+		
+		$("#modal-crear-laboratorio").modal('show');
+	}
     function crearUsuario()
     {
       	  
-	  var PERFIL_ID = $("#c_PERFIL_ID").val().trim();
+	  var USUARIO_ID = $("#c_USUARIO_ID").val().trim();
 	  var USUARIO_NOMBRE = $("#c_USUARIO_NOMBRE").val().trim();
 	  var USUARIO_APELLIDO = $("#c_USUARIO_APELLIDO").val().trim();
 	  var USUARIO_ACTIVO = $("#c_USUARIO_ACTIVO").val().trim();
@@ -337,8 +534,6 @@
 								$.isLoading("hide"); 
 								location.reload();
 								tablaReload();  
-      
-                   
                           
                          }
                 }); 
@@ -426,13 +621,35 @@
                 async:false,
                 dataType: 'json',
                 data: {USUARIO_ID:USUARIO_ID},
-                url: '<?php echo base_url(); ?>index.php/admin/usuarios/obtenerUsuario',
+                url: '<?php echo base_url(); ?>index.php/admin/usuarios/editarUsuario',
                 success: function (data) 
                 {  
 
-					var nombre_laboratorio = data[0]['nombre_laboratorio'];			
-					$("#USUARIO_ID").val(USUARIO_ID);
-					$("#nlaboratorio").val(nombre_laboratorio);
+					var USUARIO_ID = data[0]['USUARIO_ID'];	
+					var USUARIO_NOMBRE = data[0]['USUARIO_NOMBRE'];	
+					var USUARIO_APELLIDO = data[0]['USUARIO_APELLIDO'];	
+					var USUARIO_ACTIVO = data[0]['USUARIO_ACTIVO'];	
+					var USUARIO_FECHA_REGISTRO = data[0]['USUARIO_FECHA_REGISTRO'];	
+					var USUARIO_MOVIL = data[0]['USUARIO_MOVIL'];	
+					var USUARIO_TELEFONO = data[0]['USUARIO_TELEFONO'];
+					var USUARIO_EMAIL = data[0]['USUARIO_EMAIL'];
+					var USUARIO_FECHA_CADUCA = data[0]['USUARIO_FECHA_CADUCA'];
+					var USUARIO_TIEMPO_SESION = data[0]['USUARIO_TIEMPO_SESION'];
+					var USUARIO_USER = data[0]['USUARIO_USER'];
+					
+
+					$("#c_USUARIO_ID").val(USUARIO_ID); 
+					$("#c_USUARIO_NOMBRE").val(USUARIO_NOMBRE); 
+					$("#c_USUARIO_APELLIDO").val(USUARIO_APELLIDO); 
+					$("#c_USUARIO_ACTIVO").val(USUARIO_ACTIVO); 
+					$("#c_USUARIO_FECHA_REGISTRO").val(USUARIO_FECHA_REGISTRO); 
+					$("#c_USUARIO_MOVIL").val(USUARIO_MOVIL); 
+					$("#c_USUARIO_TELEFONO").val(USUARIO_TELEFONO); 
+					$("#c_USUARIO_EMAIL").val(USUARIO_EMAIL); 
+					$("#c_USUARIO_FECHA_CADUCA").val(USUARIO_FECHA_CADUCA); 
+					$("#c_USUARIO_TIEMPO_SESION").val(USUARIO_TIEMPO_SESION); 
+					$("#c_USUARIO_USER").val(USUARIO_USER);
+		
                 }
 
        });
@@ -466,15 +683,23 @@
 	function ModificarUsuario()
     {
 	  
-	   
-	  var USUARIO_ID = $("#USUARIO_ID").val().trim();
-      var nombre_laboratorio =$("#nlaboratorio").val().trim(); 
+	  var USUARIO_ID = $("#c_USUARIO_ID").val().trim();
+	  var PERFIL_ID = $("#c_PERFIL_ID").val().trim();
+	  var USUARIO_NOMBRE = $("#c_USUARIO_NOMBRE").val().trim();
+	  var USUARIO_APELLIDO = $("#c_USUARIO_APELLIDO").val().trim();
+	  var USUARIO_ACTIVO = $("#c_USUARIO_ACTIVO").val().trim();
+	  var USUARIO_FECHA_REGISTRO = $("#c_USUARIO_FECHA_REGISTRO").val().trim();
+	  var USUARIO_MOVIL = $("#c_USUARIO_MOVIL").val().trim();
+	  var USUARIO_TELEFONO = $("#c_USUARIO_TELEFONO").val().trim();
+	  var USUARIO_EMAIL = $("#c_USUARIO_EMAIL").val().trim();
+	  var USUARIO_FECHA_CADUCA = $("#c_USUARIO_FECHA_CADUCA").val().trim();
+	  var USUARIO_TIEMPO_SESION = $("#c_USUARIO_TIEMPO_SESION").val().trim();
 	   
 	   $.ajax({
                 type: 'POST',
                 async:false,
                 dataType: 'json',
-                data: {USUARIO_ID:USUARIO_ID,nombre_laboratorio:nombre_laboratorio},
+                data: {USUARIO_ID:USUARIO_ID,PERFIL_ID:PERFIL_ID,USUARIO_NOMBRE:USUARIO_NOMBRE,USUARIO_APELLIDO:USUARIO_APELLIDO,USUARIO_ACTIVO:USUARIO_ACTIVO,USUARIO_FECHA_REGISTRO:USUARIO_FECHA_REGISTRO,USUARIO_MOVIL:USUARIO_MOVIL,USUARIO_TELEFONO:USUARIO_TELEFONO,USUARIO_EMAIL:USUARIO_EMAIL,USUARIO_FECHA_CADUCA:USUARIO_FECHA_CADUCA,USUARIO_TIEMPO_SESION:USUARIO_TIEMPO_SESION},
                 url: '<?php echo base_url(); ?>index.php/admin/usuarios/ActualizaUsuario',
                 success: function (data) 
                 {  

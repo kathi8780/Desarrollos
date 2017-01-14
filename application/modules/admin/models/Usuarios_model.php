@@ -26,6 +26,19 @@ class usuarios_model extends CI_Model
             return false;
         }
     }
+	public function editarUsuario($USUARIO_ID)
+    {
+           
+		$sql="SELECT u.USUARIO_ID,u.USUARIO_USER, u.USUARIO_NOMBRE, u.USUARIO_APELLIDO, u.PERFIL_ID, u.USUARIO_ACTIVO,
+			u.USUARIO_FECHA_REGISTRO,u.USUARIO_MOVIL, u.USUARIO_TELEFONO,u.EMPL_COD_EMPL,  u.USUARIO_EMAIL 
+			FROM usuario u
+			WHERE u.USUARIO_ID=".$USUARIO_ID; 
+		
+		$query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+				
+    }
 	public function obtenerPerfil()
     {
            
@@ -55,10 +68,10 @@ class usuarios_model extends CI_Model
 			
 					
     }
-	public function insertarUsuario($data,$USUARIO_ID)
+	public function insertarUsuario($data,$USUARIO_USER)
     { 
         		
-		$query =$this->db->query("SELECT COUNT(*)cant FROM usuario a where a.USUARIO_ID='$USUARIO_ID'");
+		$query =$this->db->query("SELECT COUNT(*)cant FROM usuario a where a.USUARIO_USER='$USUARIO_USER'");
   
         if ($query->num_rows() > 0)
         {
@@ -74,6 +87,8 @@ class usuarios_model extends CI_Model
 
         }
 		
+		return $resultado;
+		
     }
 	public function ActualizaUsuario($data, $id)
     {
@@ -81,14 +96,9 @@ class usuarios_model extends CI_Model
         $this->db->update('usuario', $data);
 
     }
-    public function editarUsuario($data,$id){
-		
-        $this->db->where('USUARIO_ID', $id);
-        $this->db->update('usuario', $data);
-    }
-	public function EstadoUsuario($id)
+	public function EstadoConfiguraUsuario($id)
 	{
-		$this->db->query("UPDATE usuario SET USUARIO_ACTIVO=if(ACTIVO='S','N','S') WHERE USUARIO_ID=$id");
+		$this->db->query("UPDATE usuario SET USUARIO_ACTIVO=if(USUARIO_ACTIVO='S','N','S') WHERE USUARIO_ID=$id");
 
 	}
 }
