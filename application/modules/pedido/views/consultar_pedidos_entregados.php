@@ -58,16 +58,7 @@
     <div class="panel panel-primary" style="border:none">
         <div class="panel-heading">Consultar Pedidos Entregados</div>
         <div class="panel-body">
-            <div class="row" >
-                <div class="col-md-2 col-sm-2 col-xs-12">
-                	<label class="control-label">Estado del Pedido</label>
-                    <div class='input-group'>
-						<select id="s_estado" class="form-control" style="height:30px">
-							<option value="-1">ENTREGADO</option>
-						</select>  
-                    </div>
-                </div>  
-                <!--
+            <div class="row" >   
 				<div class="col-md-3 col-sm-3 col-xs-12">
                 	<label class="control-label">Fecha de inicio</label>
                     <div class='input-group'>
@@ -85,17 +76,14 @@
                         </span>
                         <input value="<?php $fecha = date("Y-m-d"); echo $fecha; ?>" type="text" id="fecha_fin" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly/>   
                     </div>
-                </div>
-				-->				
+                </div>			
             </div>
 
         </div>
         <div class="panel-footer">                    
-            <!--
 			<div class="pull-right">  
                 <button class="btn btn-primary btn-sm" onclick="constultarPedidos()">Consultar</button>
             </div>
-			-->
             <div class="clearfix"> </div>
         </div>
     </div>
@@ -136,10 +124,10 @@
 		//}
 		function constultarPedidos()
     	{
-    		//var f_inicio = $("#fecha_inicio").val().trim();
-    		//var f_fin = $("#fecha_fin").val().trim();
+    		var f_inicio = $("#fecha_inicio").val().trim();
+    		var f_fin = $("#fecha_fin").val().trim();
 			
-			/*
+			
 			var f_inicio = '';
     		var f_fin = '';
 
@@ -156,7 +144,7 @@
 	            $.notific8(text, params);
 	            return;
 			}
-			*/
+			
 
             $.isLoading({
                           text: "Cargando",
@@ -166,7 +154,7 @@
 				                     type: 'POST',
 				                     async:false,
 				                     dataType: 'json',
-				                     data: {},
+				                     data: {f_inicio:f_inicio,f_fin:f_fin},
 				                     url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPedidosEntregados',
 				                     success: function (data) 
 				                     {     

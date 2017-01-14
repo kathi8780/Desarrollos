@@ -418,33 +418,22 @@
         <script src="<?= base_url('assets/dientes/script.js') ?>" type="text/javascript"></script>
 
     </head>
-    <body>
-        
-       
-<!-- APERTURA DE CAJA -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal_apertura_caja">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Apertura de Caja</h4>
-      </div>
-      <div class="modal-body">
-          <div class="form-group">
-              <label>Ingrese saldo de apertura: </label>
-              <input type="text" class="form-control" value="0.00" id="saldo_inicial_modal" style="width: 70px; text-align:center" onblur="verificar_('saldo_inicial_modal')" onclick="click_('saldo_inicial_modal')" onkeyup="entrada_('saldo_inicial_modal')">  
-          </div>
-         
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="guardar_apertura_caja" >Guardar</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->       
-        
-        
+	<?php
+
+	$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
+	
+	$sql="SELECT a.men_cod,men_titulo 	
+	FROM menuni AS a                                                                 
+	JOIN accesosni AS b ON a.men_cod=b.men_cod
+	WHERE usu_login='$usuario' AND
+	men_mostrar='N'AND a.men_cod<999
+	GROUP BY a.men_titulo
+	ORDER BY a.men_cod";
+	
+	$mSQL_1=$this->db->query($sql);	
+	$panel =$mSQL_1->result();
+	?>	
+    <body>    
             <nav class="navbar navbar-default" role="navigation">
 <!--                 El logotipo y el icono que despliega el menú se agrupan
                      para mostrarlos mejor en los dispositivos móviles -->
@@ -466,106 +455,44 @@
                         <li class="active">                            
                             <a href="<?php echo base_url(); ?>index.php/pedido/pedidos/AgendaProduccion"><span class="glyphicon glyphicon-home"></span> INICIO</a>
                         </li>   
-
+						<?php foreach ($panel AS $principal){?>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Pedido<b class="caret"></b>
-                            </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $principal->men_titulo; ?><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedido/2">Nuevo Pedido</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidos">Consultar Pedidos</a></li>   
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioProduccionSuspendida">Producción Suspendida</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosTransito">Pedidos en tránsito</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioPedidosEmpacados">Pedidos Empacado</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosEntregados">Pedidos Entregado</a></li> 
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioRutaMotorizados">Retiros y Entregas</a></li>  
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/consultarPedidosFacturados">Pedidos Facturados </a></li>           
-                            </ul>
-                        </li>    
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Producción<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioAdministrarPedidos">Administrar Pedidos</a></li> 
-                                <li><a href="">Agenda Producción</a></li>   
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarPedidosEnProduccion">Pedidos en Producción</a></li> 
-      
-                            </ul>
-                        </li> 
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Incentivos<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Incentivos</a></li>       
-                            </ul>
-                        </li> 
-
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Tracking<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioTracking">Tracking</a></li>   
-                                <li><a href="<?php echo base_url(); ?>index.php/pedido/pedidos/mostrarFormularioTrackingProceso">Procesos Tecnicos</a></li>     
-                            </ul>
-                        </li> 
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Estadísticas<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Reporte Estadístico</a></li>    
-                            </ul>
-                        </li> 
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- <span class=" glyphicon glyphicon-briefcase" aria-hidden="true"></span>--> Cambiar Clave
-                            </a>
-                        </li> 
-
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                 Configuración<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraProcesos">Gestión de Procesos</a></li> 
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraPruebas">Gestión de Pruebas</a></li> 								
-                                <li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraInventario">Gestión de Inventario</a></li>
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ConfiguraProducto">Gestión de Productos</a></li>
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ConfiguraLaboratorio">Gestión de Laboratorios</a></li>
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorTecnico">Procesos por Técnicos</a></li>
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/ProcesosPorProducto">Procesos por Producto</a></li>								
-								<li><a href="<?php echo base_url(); ?>index.php/configuracion/configura_procesos/PruebasPorLaboratorio">Pruebas por Laboratorio</a></li>
+							<?php 
+							
+								$mSQL=$this->db->query("SELECT men_ejecutar,men_titulo  	
+								FROM menuni AS a                                                                 
+								JOIN accesosni AS b ON a.men_cod=b.men_cod
+								WHERE a.men_cod LIKE '$principal->men_cod%' AND men_mostrar='S' 
+								GROUP BY men_panel ORDER BY a.men_cod ");
+								$result =$mSQL->result();	
+							?>
+							<?php foreach ($result AS $items){?> 
+                                <li><a href="<?php echo base_url(); echo $items->men_ejecutar;?>"><?php echo $items->men_titulo; ?></a></li>           
+                            <?php 
+								}
+							?>
 							</ul>
-                        </li> 
-   
-
-                   <ul class="nav navbar-nav navbar-right">
+                        </li>
+						<?php 
+						}
+						?>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario:
                                 <?php if ($this->session->userdata('loggeado')){echo $this->session->userdata['loggeado']['USUARIO'];} ?>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                              <li> <a href="<?php echo base_url(); ?>index.php/admin/usuarios/MostrarFormularioUsuario">Gestión de Usuarios</a></li>
-							  <li> <a href="<?php echo base_url(); ?>index.php/admin/perfiles/MostrarFormularioPerfiles">Gestión de Perfiles</a></li>
-							  <li> <a href="<?php echo base_url(); ?>index.php/admin/menu/MostrarFormularioAccesos">Acceso de Perfiles</a></li>
-							  <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cerrar sesión</a></li>
+							  <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cambiar Clave</a></li>
+                              <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cerrar sesión</a></li>
                             </ul>
-                        </li>
-                        
+                        </li>						
                     </ul>
                 </div>
             </nav>
         <div id="contenido" class="shadow-gris">
-            
-
+           
 <script type="text/javascript">  
             $(function(){            
             var params = {
@@ -634,4 +561,3 @@
            }         
 
 </script>
-

@@ -7,6 +7,13 @@ class Pedidos extends MX_Controller {
         parent::__construct();
         $this->load->model('pedidos_model');
     }
+	public function prueba(){
+		
+		$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
+		$result = $this->pedidos_model->acceso($usuario);
+        echo json_encode($result);
+		
+	}
 	public function ObtenerColor(){
 		
 		$laboratorio   = trim($this->input->post('categoria'));
@@ -35,6 +42,7 @@ class Pedidos extends MX_Controller {
 			
 		if ($this->session->userdata('loggeado')) 
         {
+			
 			$this->load->view('templates/header');
 			$this->load->view('index');
 			$this->load->view('templates/footer');
@@ -423,7 +431,8 @@ class Pedidos extends MX_Controller {
     {
         if ($this->session->userdata('loggeado')) 
         {            
-            $this->load->view('templates/header');
+			
+			$this->load->view('templates/header');
             $this->load->view('Consultar_pedidos_entregados');
             $this->load->view('templates/footer');
         }
@@ -506,7 +515,7 @@ class Pedidos extends MX_Controller {
             $f_inicio = trim($this->input->post('f_inicio'));
             $f_fin = trim($this->input->post('f_fin'));
 
-            $pedidos = $this->pedidos_model->obtenerPedidosEntregados($f_inicio, $f_fin);
+            $pedidos = $this->pedidos_model->obtenerPedidosEntregados($f_inicio,$f_fin);
             echo json_encode($pedidos);             
         }
         else 
@@ -1368,16 +1377,4 @@ class Pedidos extends MX_Controller {
           redirect('admin/login', 'refresh');
         } 
     }
-	public function prueba(){
-		
-		$datos = $this->pedidos_model->obtenerPedidosFacturados('','');
-        echo json_encode($datos);
-		
-		//$fecha = new DateTime();
-		//echo $fecha->format("U");
-		//echo $fecha->setTimestamp();
-		
-	}
-
-
 }

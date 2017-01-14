@@ -9,15 +9,6 @@ class Pedidos_model extends CI_Model
     }
    	public function ObtenerColor($laboratorio){
 		
-		//$this->db->select("l.COLOR1 as color1","l.COLOR2 as color2");
-        //$this->db->from("laboratorio l");
-		//$this->db->where("l.ID_LABORATORIO =",$laboratorio);
-        //$consulta = $this->db->get();
-		//$ds = $consulta->row_array();
-        //$resultado = $ds['color1'];
-		//$resultado .= $ds['color2'];
-		//$ds = $query->result_array();
-		
 		$sql="SELECT l.COLOR1 ,l.COLOR2 FROM laboratorio l WHERE l.ID_LABORATORIO =".$laboratorio;
 		
 		$query= $this->db->query($sql);
@@ -808,6 +799,7 @@ class Pedidos_model extends CI_Model
              $this->db->where("pb.ENTREGADO =", 'S'); 
              $this->db->where("pb.ID_ESTADOS =", '8'); 
              $this->db->where("pb.DESPACHADO =", 'S'); 
+			 $this->db->limit(100); 
 				
 
              $consulta = $this->db->get();
