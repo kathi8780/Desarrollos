@@ -9,6 +9,20 @@ class Usuarios extends MX_Controller {
         parent::__construct();
         $this->load->model('usuarios_model');
     }
+	public function eliminarConfiguraUsuario(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {			
+            $USUARIO_ID = trim($this->input->post('USUARIO_ID'));
+			$resul=$this->usuarios_model->eliminarConfiguraUsuario($USUARIO_ID);
+			echo json_encode($resul);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
+	}
 	public function editarUsuario(){
 		
 		 if ($this->session->userdata('loggeado'))

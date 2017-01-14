@@ -6,6 +6,26 @@ class perfiles_model extends CI_Model
     public function __construct() {
         $this->load->database();
     }
+	public function eliminarConfiguraPerfil($PERFIL_ID)
+    {
+
+         $query =$this->db->query("SELECT COUNT(*)cant FROM usuario a where a.PERFIL_ID='$PERFIL_ID'");
+  
+              if ($query->num_rows() > 0)
+              {
+                $row = $query->row_array();
+                
+                    if($row['cant']==0){
+                     $this->db->where('PERFIL_ID', $PERFIL_ID);
+                     $this->db->delete('perfil');
+                     $resultado='Perfil Eliminado con Exito';
+                    }else{
+                     $resultado='Perfil Asociado a Usuario no Puede Ser Eliminado';
+                    }
+              }
+
+	return $resultado;
+    }
 	public function obtenerperfil()
     {
            

@@ -26,6 +26,26 @@ class usuarios_model extends CI_Model
             return false;
         }
     }
+	public function eliminarConfiguraUsuario($USUARIO_ID)
+    {
+
+         $query =$this->db->query("SELECT COUNT(*)cant FROM pedido a where a.USUARIO_ID='$USUARIO_ID'");
+  
+              if ($query->num_rows() > 0)
+              {
+                $row = $query->row_array();
+                
+                    if($row['cant']==0){
+                     $this->db->where('USUARIO_ID', $USUARIO_ID);
+                     $this->db->delete('usuario');
+                     $resultado='Usuario Eliminado con Exito';
+                    }else{
+                     $resultado='Usuario Asociado a Pedidos no Puede Ser Eliminado';
+                    }
+              }
+
+	return $resultado;
+    }
 	public function editarUsuario($USUARIO_ID)
     {
            

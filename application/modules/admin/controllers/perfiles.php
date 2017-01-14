@@ -9,6 +9,20 @@ class Perfiles extends MX_Controller {
         parent::__construct();
         $this->load->model('perfiles_model');
     }
+	public function eliminarConfiguraPerfil(){
+		
+		if ($this->session->userdata('loggeado')) 
+        {			
+            $PERFIL_ID = trim($this->input->post('PERFIL_ID'));
+			$resul=$this->perfiles_model->eliminarConfiguraPerfil($PERFIL_ID);
+			echo json_encode($resul);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }	
+	}
 	public function ActualizaPerfil(){
 
         if ($this->session->userdata('loggeado')) 

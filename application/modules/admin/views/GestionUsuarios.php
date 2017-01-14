@@ -711,7 +711,7 @@
 	   $("#modal-editar-laboratorio").modal('hide');
     }
     //abrir eliminar proceso
-    function eliminarUsuario(id){
+    function eliminarUsuario(USUARIO_ID){
 
       $.isLoading({
                       text: "Cargando",
@@ -722,7 +722,7 @@
                 type: 'POST',
                 async:false,
                 dataType: 'json',
-                data: {id:id},
+                data: {USUARIO_ID:USUARIO_ID},
                 url: '<?php echo base_url(); ?>index.php/admin/usuarios/eliminarConfiguraUsuario',
                 success: function (data) 
                 {     
