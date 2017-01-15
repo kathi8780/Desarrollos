@@ -8,7 +8,7 @@ class menu_model extends CI_Model
     }
 	public function GuardarAcceso($data,$perfil,$med_cod,$acceso){
 
-		$query =$this->db->query("SELECT COUNT(*)cant FROM accesosni where usu_login='$perfil' AND men_cod='$med_cod' AND acceso='$acceso'");
+		$query =$this->db->query("SELECT COUNT(*)cant FROM accesosni where usu_login='$perfil' AND men_cod='$med_cod'");
   
         if ($query->num_rows() > 0)
         {
@@ -18,10 +18,8 @@ class menu_model extends CI_Model
                $this->db->insert('accesosni', $data);
                $resultado='OK.!';
               }else{
-			   $this->db->where('accesosni.men_cod', $med_cod); 
-			   $this->db->where('accesosni.usu_login', $perfil);  
-			   $this->db->update('accesosni', $data);
-               $resultado='Error.!';
+		       $this->db->query("UPDATE accesosni SET acceso='$acceso' WHERE usu_login='$perfil' AND men_cod='$med_cod'");
+               $resultado='OK.!';
               }
         }
 		

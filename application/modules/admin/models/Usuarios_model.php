@@ -8,12 +8,19 @@ class usuarios_model extends CI_Model
     }
 	function login($usuario, $clave) {
 
-        $this->db->select('ID_USUARIO, USUARIO, CLAVE');
-        $this->db->from('admin_usuarios');
-        $this->db->where('ESTADO', 1);
-        $this->db->where('USUARIO', $usuario);
-        $this->db->where('CLAVE', MD5($clave));
-        $this->db->limit(1);
+        //$this->db->select('ID_USUARIO, USUARIO, CLAVE');
+        //$this->db->from('admin_usuarios');
+        //$this->db->where('ESTADO', 1);
+        //$this->db->where('USUARIO', $usuario);
+        //$this->db->where('CLAVE', MD5($clave));
+		
+		$this->db->select('USUARIO_ID ID_USUARIO, USUARIO_USER USUARIO, USUARIO_PASSWORD CLAVE');
+        $this->db->from('usuario');
+        $this->db->where('USUARIO_ACTIVO','S');
+        $this->db->where('USUARIO_USER', $usuario);
+        $this->db->where('USUARIO_PASSWORD', MD5($clave));
+        
+		$this->db->limit(1);
         $query = $this->db->get();
         
         if ($query->num_rows() == 1) 

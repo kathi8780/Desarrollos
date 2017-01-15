@@ -87,18 +87,22 @@
 						var celda0 = document.createElement("td");
 			            var celda1 = document.createElement("td");
 			            var celda2 = document.createElement("td");
+						//var celda3 = document.createElement("td");
 			            		
 						var textoCelda0 = document.createTextNode("PANEL");
 			            var textoCelda1 = document.createTextNode("MODULO");
 			            var textoCelda2 = document.createTextNode("ACCESO");
+						//var textoCelda3 = document.createTextNode("CODIGO");
 			            
 						celda0.appendChild(textoCelda0);
 			            celda1.appendChild(textoCelda1);
 			            celda2.appendChild(textoCelda2);
-			            
+			            //celda3.appendChild(textoCelda3);
+			            						
 						filaCabecera.appendChild(celda0);
 			            filaCabecera.appendChild(celda1);
 			            filaCabecera.appendChild(celda2);
+						//filaCabecera.appendChild(celda3);
 			            
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
@@ -125,7 +129,6 @@
                               else
                                 panel_iteracion_anterior=panel;
 
-							var id       = data[i]['id'];
 			                var modulo   = data[i]['modulo']; 
 			                var acceso   = data[i]['acceso']; 
 							var mostrar  = data[i]['men_mostrar'];
@@ -136,7 +139,8 @@
 							var celda0 = document.createElement("td");
 			                var celda1 = document.createElement("td");
 			                var celda2 = document.createElement("td");
-			                
+			                //var celda3 = document.createElement("td");
+							
 							var textoCelda0 = document.createTextNode(panel);
 			                var textoCelda1 = document.createTextNode(modulo);
 			                //var textoCelda2 = document.createTextNode(acceso);
@@ -147,21 +151,17 @@
 							
 							celda1.setAttribute("style","text-align:left");
 							celda2.setAttribute("style","text-align:center");
-							
+									
 							if(mostrar=='N' && med_cod <=999){
 								celda0.setAttribute("class", "alert alert-info");
 								celda1.setAttribute("class", "alert alert-info");
 								celda2.setAttribute("class", "alert alert-info");
+								//celda3.setAttribute("class", "alert alert-info");
 								
-							}else{
-								
-						        var input = document.createElement("input");
-								input.setAttribute("type", "text");
-								input.setAttribute("value", med_cod)
-								input.id ='medcod';							
-								
+							}
+						
 								var selectList = document.createElement('select');
-								selectList.onchange =function(){GuardarAcceso();};
+								selectList.setAttribute("onchange","GuardarAcceso('"+med_cod+"','"+acceso+"')");
 								selectList.id ='acceso';
 								
 								var option = document.createElement("option");
@@ -184,25 +184,15 @@
 									selectList.appendChild(option);									
 								}								
 								
-								celda2.appendChild(selectList);					                						
-								celda2.appendChild(input);	
-							}
+								celda2.appendChild(selectList);	
 
 							fila.appendChild(celda0);
 			                fila.appendChild(celda1);
 			                fila.appendChild(celda2);
+							//fila.appendChild(celda3);
 		
 			                tbody.appendChild(fila);
 			            }
-							
-			//Boton Guardar Acceso
-			//var btn = document.createElement("input");
-			//btn.setAttribute("class", "btn btn-primary btn-sm");
-			//btn.setAttribute("type", "button");
-			//btn.setAttribute("value", "GUARDAR ACCESO");
-			//btn.setAttribute("onclick","GuardarAcceso()");
-			//
-			//tbody.appendChild(btn);
 			
 			tabla.appendChild(thead);
             tabla.appendChild(tbody);
@@ -215,28 +205,33 @@
 			//aplicarPaginado();
 			
     }
-	function GuardarAcceso(){
+	function GuardarAcceso(med_cod,acceso){
 		
 		var perfil   = $("#c_PERFIL_ID").val().trim();
-		var med_cod  = $("#medcod").val().trim();
-		var acceso   = $("#acceso").val().trim();
+		var med_cod  = med_cod;
 		
-		alert(med_cod);			  
-		//$.ajax({
-		//         type: 'POST',
-		//         async:false,
-		//         dataType: 'json',
-		//         data: {perfil:perfil,med_cod:med_cod,acceso:acceso},
-		//         url: '<?php echo base_url(); ?>index.php/admin/menu/GuardarAcceso',
-		//         success: function (data) 
-		//         {     
-		//            alert(data);
-		//			constultarPedidos(); 							
-        //  
-		//         }
-        //
-		//});  
-		//
+		if(acceso=='N'){
+			var acceso   = 'S';
+		}else{
+			var acceso   = 'N';
+		}
+		
+		//alert(acceso);			  
+		$.ajax({
+		         type: 'POST',
+		         async:false,
+		         dataType: 'json',
+		         data: {perfil:perfil,med_cod:med_cod,acceso:acceso},
+		         url: '<?php echo base_url(); ?>index.php/admin/menu/GuardarAcceso',
+		         success: function (data) 
+		         {     
+		            alert(data);
+					constultarPedidos(); 							
+          
+		         }
+        
+		});  
+		
 	}
 	function aplicarPaginado(){
           

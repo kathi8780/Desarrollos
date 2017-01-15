@@ -422,10 +422,14 @@
 
 	$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
 	
+	$query=$this->db->query("SELECT PERFIL_ID FROM usuario WHERE USUARIO_ID='$usuario'");
+    $ds = $query->row_array();
+    $perfil = $ds['PERFIL_ID'];
+	
 	$sql="SELECT a.men_cod,men_titulo 	
 	FROM menuni AS a                                                                 
 	JOIN accesosni AS b ON a.men_cod=b.men_cod
-	WHERE usu_login='$usuario' AND
+	WHERE usu_login='$perfil' AND
 	men_mostrar='N'AND a.men_cod<999
 	GROUP BY a.men_titulo
 	ORDER BY a.men_cod";
@@ -464,7 +468,7 @@
 								$mSQL=$this->db->query("SELECT men_ejecutar,men_titulo  	
 								FROM menuni AS a                                                                 
 								JOIN accesosni AS b ON a.men_cod=b.men_cod
-								WHERE a.men_cod LIKE '$principal->men_cod%' AND men_mostrar='S' 
+								WHERE a.men_cod LIKE '$principal->men_cod%' AND men_mostrar='S' AND b.acceso='S' AND usu_login='$perfil'
 								GROUP BY men_panel ORDER BY a.men_cod ");
 								$result =$mSQL->result();	
 							?>
