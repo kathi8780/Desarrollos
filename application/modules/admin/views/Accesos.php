@@ -1,0 +1,306 @@
+<div class="panel panel-primary" >
+    <div class="panel-heading">CONTROL DE ACCESO DE PERFIL</div>
+
+  <div class="container">
+    <div class="row">
+         <!-- Perfil -->
+		<div class="col-md-6 col-sm-4 col-xs-12">
+			<div class="form-group form-group-sm">                
+				<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
+				<select id="c_PERFIL_ID" class="form-control" style="height:30px">
+				<option value="">TODOS</option>
+					<?php foreach ($perfil as $array) 
+						{?>
+							<option value="<?php echo $array['PERFIL_ID']; ?>" ><?php echo $array['PERFIL_NOMBRE']; ?></option>  
+					<?php } ?>
+				</select>
+			</div>
+		</div>
+		<div class="panel-footer">                     
+                <button class="btn btn-primary btn-sm" onclick="constultarPedidos()">Consultar</button>
+        </div>
+    </div>    
+  </div>
+</div>
+<div class="container">
+    	<div id="tabla" class="table-responsive" style="font-size:11px; text-align:center;"></div>
+</div>
+<script src="<?php echo base_url() ?>assets/librerias/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/js/dataTables.tableTools.min.js"/></script>
+<script type="text/javascript">
+
+    //INICIALIZO DATEPICKER
+    $('.dp').datepicker({format: "yyyy-mm-dd",
+            language: 'es',
+            autoclose: true,
+            forceParse: true,
+               zIndexOffset: 1040 
+    });
+
+    //CONFIGURO EL ALERT
+    var data=null;
+    var params = 
+    {                
+       onInit: function(data) {},
+       onCreate: function(notification, data) {},
+       onClose: function(notification, data) {}
+    };                                
+     
+    params.heading = 'Notificación';     
+    params.theme = 'ruby';      
+    params.life = '4000';//4segundos
+	
+    function constultarPedidos(){
+		
+    	var perfil = $("#c_PERFIL_ID").val().trim();
+
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {perfil:perfil},
+			             url: '<?php echo base_url(); ?>index.php/admin/menu/ObtenerAccesos',
+			             success: function (data) 
+			             {     
+			                generarTablaDinamica(data); 							
+			                $.isLoading("hide");                     
+			             }
+
+			    });  
+    	}
+        function generarTablaDinamica(data)
+        {
+            $("#tabla").html(""); // limpio el div que contiene la tabla generaada
+
+            //tabla
+            var tabla = document.createElement("table");
+            var thead = document.createElement("thead");
+            var tbody = document.createElement("tbody");
+
+            //cabecera
+            var filaCabecera = document.createElement("tr");
+						var celda0 = document.createElement("td");
+			            var celda1 = document.createElement("td");
+			            var celda2 = document.createElement("td");
+			            		
+						var textoCelda0 = document.createTextNode("PANEL");
+			            var textoCelda1 = document.createTextNode("MODULO");
+			            var textoCelda2 = document.createTextNode("ACCESO");
+			            
+						celda0.appendChild(textoCelda0);
+			            celda1.appendChild(textoCelda1);
+			            celda2.appendChild(textoCelda2);
+			            
+						filaCabecera.appendChild(celda0);
+			            filaCabecera.appendChild(celda1);
+			            filaCabecera.appendChild(celda2);
+			            
+			            filaCabecera.setAttribute("id","fila_cabecera");
+			            thead.appendChild(filaCabecera);
+
+			            var panel_iteracion_anterior="";
+						
+						//CUERPO
+			            for (var i = 0; i < data.length; i++)
+			            {                   
+			                var panel    = data[i]['panel']; 
+							
+							if(i!=0)//aqui controlo que se muestre solo una celda con el nombre de la panel
+                              {
+                                if(panel==panel_iteracion_anterior)
+                                {
+                                  panel_iteracion_anterior=panel;
+                                  panel="";
+                                }
+                                else
+                                {
+                                  panel_iteracion_anterior=panel;
+                                }
+                              }
+                              else
+                                panel_iteracion_anterior=panel;
+
+							var id       = data[i]['id'];
+			                var modulo   = data[i]['modulo']; 
+			                var acceso   = data[i]['acceso']; 
+							var mostrar  = data[i]['men_mostrar'];
+							var med_cod  = data[i]['men_cod']; 
+			               			                
+			                var fila = document.createElement("tr");
+
+							var celda0 = document.createElement("td");
+			                var celda1 = document.createElement("td");
+			                var celda2 = document.createElement("td");
+			                
+							var textoCelda0 = document.createTextNode(panel);
+			                var textoCelda1 = document.createTextNode(modulo);
+			                //var textoCelda2 = document.createTextNode(acceso);
+			                
+							celda0.appendChild(textoCelda0);
+			                celda1.appendChild(textoCelda1);   
+			                //celda2.appendChild(textoCelda2); 
+							
+							celda1.setAttribute("style","text-align:left");
+							celda2.setAttribute("style","text-align:center");
+							
+							if(mostrar=='N' && med_cod <=999){
+								celda0.setAttribute("class", "alert alert-info");
+								celda1.setAttribute("class", "alert alert-info");
+								celda2.setAttribute("class", "alert alert-info");
+								
+							}else{
+								
+						        var input = document.createElement("input");
+								input.setAttribute("type", "text");
+								input.setAttribute("value", med_cod)
+								input.id ='medcod';							
+								
+								var selectList = document.createElement('select');
+								selectList.onchange =function(){GuardarAcceso();};
+								selectList.id ='acceso';
+								
+								var option = document.createElement("option");
+									option.value = acceso;
+								    option.text  = acceso;
+								selectList.appendChild(option);
+								
+								if(acceso=='S'){
+																		
+									var option = document.createElement("option");
+									option.value = 'N';
+									option.text = 'N';
+									selectList.appendChild(option);
+									
+								}else{
+									
+									var option = document.createElement("option");									
+									option.value = 'S';
+									option.text = 'S';
+									selectList.appendChild(option);									
+								}								
+								
+								celda2.appendChild(selectList);					                						
+								celda2.appendChild(input);	
+							}
+
+							fila.appendChild(celda0);
+			                fila.appendChild(celda1);
+			                fila.appendChild(celda2);
+		
+			                tbody.appendChild(fila);
+			            }
+							
+			//Boton Guardar Acceso
+			//var btn = document.createElement("input");
+			//btn.setAttribute("class", "btn btn-primary btn-sm");
+			//btn.setAttribute("type", "button");
+			//btn.setAttribute("value", "GUARDAR ACCESO");
+			//btn.setAttribute("onclick","GuardarAcceso()");
+			//
+			//tbody.appendChild(btn);
+			
+			tabla.appendChild(thead);
+            tabla.appendChild(tbody);
+
+            var contenedor = document.getElementById("tabla");
+            contenedor.appendChild(tabla);
+
+            tabla.setAttribute("class","table table-condensed table-striped table-responsive");
+            tabla.setAttribute("id","tablaGenerada");
+			//aplicarPaginado();
+			
+    }
+	function GuardarAcceso(){
+		
+		var perfil   = $("#c_PERFIL_ID").val().trim();
+		var med_cod  = $("#medcod").val().trim();
+		var acceso   = $("#acceso").val().trim();
+		
+		alert(med_cod);			  
+		//$.ajax({
+		//         type: 'POST',
+		//         async:false,
+		//         dataType: 'json',
+		//         data: {perfil:perfil,med_cod:med_cod,acceso:acceso},
+		//         url: '<?php echo base_url(); ?>index.php/admin/menu/GuardarAcceso',
+		//         success: function (data) 
+		//         {     
+		//            alert(data);
+		//			constultarPedidos(); 							
+        //  
+		//         }
+        //
+		//});  
+		//
+	}
+	function aplicarPaginado(){
+          
+          var table = $('.tablaGenerada').dataTable(
+          {
+              language: {
+                  processing: "Procesando...",
+                  search: "Filtro",
+                  lengthMenu: "Mostrar _MENU_ registros",
+                  info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                  infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                  infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                  infoPostFix: "",
+                  loadingRecords: "Cargando...",
+                  zeroRecords: "No se encontraron resultados",
+                  emptyTable: "Ningún dato disponible en esta tabla",
+                  paginate: {
+                      first: "Primero",
+                      previous: "Anterior",
+                      next: "Siguiente",
+                      last: "&uacute;ltimo"
+                  }
+              },
+              aLengthMenu: [
+                            [20, 100, 200, -1],    //valor q utilizo en la propiedad iDisplayLength para asociar a una opcion
+                            [20, 100, 200, "Todo"]  //opciones del select para la cant de registros a mostrar
+                            ],
+              iDisplayLength: 20,
+              "bSort": true, //habilito el ordenar para todas las columnas
+              "order": [],  //para que no ordene la primera columna por default
+              "columnDefs": [{
+                                    "targets"  : 'no-sort',
+                                    "orderable": false,
+                            }],
+
+
+              "aoColumnDefs": [  //habilito la opcion de ordenar en la columna deseada
+                                { "aTargets": [ 0 ],"bSortable": true },
+                                { "aTargets": [ 1 ],"bSortable": true },
+                                { "aTargets": [ 2 ],"bSortable": true }
+                              ] 
+          });
+
+            var tableTools = new $.fn.dataTable.TableTools(table, {
+                'aButtons': [
+                    {
+                        'sExtends': 'xls',
+                        'sButtonText': 'Exportar a Excel',
+                        'sFileName': 'Reporte de Retiros Pendientes.xls'
+                    }/*,
+                    {
+                        'sExtends': 'print',
+                        'bShowAll': true,
+                        'sButtonText': 'Imprimir'
+                    }*/,
+                    {
+                        'sExtends': 'pdf',
+                        'bFooter': false,
+                        'sButtonText': 'Imprimir desde PDF',
+                        'sFileName': 'Reporte de Retiros Pendientes.pdf'
+                    }
+                ],
+                'sSwfPath': '<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf'
+            });
+            $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
+    }	
+</script>
