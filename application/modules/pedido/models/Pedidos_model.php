@@ -210,7 +210,8 @@ class Pedidos_model extends CI_Model
          $this->db->distinct();
          $this->db->select("PEDF_NUM_PREIMP, ID_PEDIDO");
          $this->db->from("pedido p");
-		 $this->db->limit(3);
+		 $names = array('7', '9', '5');
+		 $this->db->where_not_in('p.ID_ESTADOS', $names);
 
          if($id_estado!="")
          {

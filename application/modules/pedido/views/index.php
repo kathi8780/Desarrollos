@@ -427,13 +427,13 @@
     	{
     		$("#pestana_cliente").attr("class","alert-info");
     		$("#pestana_pedido").attr("class","");
-    		asociarPacientesABusqueda();
+    		//asociarPacientesABusqueda();
     	}
     	else
     	{
     		$("#pestana_pedido").attr("class","alert-info");
     		$("#pestana_cliente").attr("class","");
-    		asociarPedidosABusqueda();
+    		//asociarPedidosABusqueda();
     	}
     }
 
