@@ -381,7 +381,21 @@
 			                var celda4 = document.createElement("td");
 			                var celda5 = document.createElement("td");
 			                var celda11 = document.createElement("td");       
-			                var celda12 = document.createElement("td");   						
+			                var celda12 = document.createElement("td"); 
+
+							celda5.setAttribute("style","text-align:left");
+							
+							if(laboratorio!=''){
+								
+								celda0.setAttribute("class", "alert alert-info");
+								celda1.setAttribute("class", "alert alert-info");
+								celda2.setAttribute("class", "alert alert-info");
+								celda3.setAttribute("class", "alert alert-info");
+								celda4.setAttribute("class", "alert alert-info");
+								celda5.setAttribute("class", "alert alert-info");
+																
+							}
+							
 
 							var textoCelda0 = document.createTextNode(producto);
 			                var textoCelda1 = document.createTextNode(laboratorio);

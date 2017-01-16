@@ -148,8 +148,8 @@
                  success: function (data) 
                  {     
 				   alert('Producto Configurado con Exito');
-				   $.isLoading("hide"); 
-				   location.reload();
+				   $.isLoading("hide");
+				   constultarPedidos();
                  }
         }); 
 							
@@ -303,6 +303,18 @@
 			                celda2.appendChild(textoCelda2); 
 			                celda3.appendChild(textoCelda3); 
 			                celda4.appendChild(textoCelda4); 
+							
+							celda1.setAttribute("style","text-align:left");
+							
+							if(laboratorio!=''){
+								
+								celda0.setAttribute("class", "alert alert-info");
+								celda1.setAttribute("class", "alert alert-info");
+								celda2.setAttribute("class", "alert alert-info");
+								celda3.setAttribute("class", "alert alert-info");
+								celda4.setAttribute("class", "alert alert-info");
+																
+							}
 
 							var span2 = document.createElement("span");
 							span2.setAttribute("class", "glyphicon glyphicon-pencil");

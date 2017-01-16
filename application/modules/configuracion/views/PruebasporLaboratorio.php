@@ -115,7 +115,7 @@
                  {     
 				   alert('Prueba Asociada a Laboratorio con Exito');
 				   $.isLoading("hide"); 
-				   location.reload();
+				   constultarPedidos();
                  }
         }); 
 							
@@ -195,7 +195,7 @@
 			            celda1.appendChild(textoCelda1);
 			            celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
-
+						
 						filaCabecera.appendChild(celda0);
 			            filaCabecera.appendChild(celda1);
 			            filaCabecera.appendChild(celda11);
@@ -236,7 +236,17 @@
 							var celda0  = document.createElement("td");
 			                var celda1  = document.createElement("td");
 			                var celda11 = document.createElement("td");       
-			                var celda12 = document.createElement("td");   						
+			                var celda12 = document.createElement("td"); 
+
+							celda1.setAttribute("style","text-align:left");
+								
+							if(laboratorio!=''){
+								
+								celda0.setAttribute("class", "alert alert-info");
+								celda1.setAttribute("class", "alert alert-info");
+																
+							}
+							
 
 							var textoCelda0 = document.createTextNode(laboratorio);
 			                var textoCelda1 = document.createTextNode(prueba);
