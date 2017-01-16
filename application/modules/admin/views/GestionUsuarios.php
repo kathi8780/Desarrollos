@@ -1,5 +1,19 @@
+<!--ventana modal para mostrar ficha de usuario-->
+<div class="modal fade" id="modal_ficha_usuario">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">FICHA DE USUARIO</h4>
+            </div>
+            <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+				<div class="table-responsive"><div id="ficha_usuario" class="modal-dialog"></div></div>
+			</div>
+		</div>
+	</div>
+</div>	
 <!--ventana modal para editar proceso-->
-        <div class="modal fade" id="modal-editar-laboratorio">
+        <div class="modal fade" id="modal-editar-usuario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -159,7 +173,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 <!--ventana modal para crear proceso-->
-        <div class="modal fade" id="modal-crear-laboratorio">
+        <div class="modal fade" id="modal-crear-usuario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -333,6 +347,8 @@
 <div class="panel panel-primary" >
     <div class="container">
     <div class="row">
+	<table>
+	<tr><td width=20%>
 	<div class="col-md-4 col-sm-2 col-xs-12">
 	     <div class="form-group form-group-sm">     
             <label class="control-label required" for=""> &nbsp</label>           
@@ -341,6 +357,9 @@
                   </button>
             </div>
 	 </div>
+	</tr></td>
+	<tr><td></tr></td>
+	</table>
 	</div>
   </div>
 </div>
@@ -389,7 +408,7 @@
                           { 
                             
                          ?>
-                          <tr id="<?php echo  'r'.$usuarios[$i]['USUARIO_ID']; ?>" >
+                          <tr  style="text-align:center; cursor:pointer"  id="<?php echo  $usuarios[$i]['USUARIO_ID']; ?>" onclick="ConsultarUsuario('<?php echo  $usuarios[$i]['USUARIO_ID']; ?>')">
                               <td>
                                   <?php echo $usuarios[$i]['USUARIO_ID']; ?>
                               </td>
@@ -471,9 +490,107 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
+	function ConsultarUsuario(USUARIO_ID){
+		
+		$.ajax({
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {USUARIO_ID:USUARIO_ID},
+                url: '<?php echo base_url(); ?>index.php/admin/usuarios/editarUsuario',
+                success: function (data) 
+                {  
+
+					var USUARIO_ID = data[0]['USUARIO_ID'];	
+					var USUARIO_NOMBRE = data[0]['USUARIO_NOMBRE'];	
+					var USUARIO_APELLIDO = data[0]['USUARIO_APELLIDO'];	
+					var USUARIO_ACTIVO = data[0]['USUARIO_ACTIVO'];	
+					var USUARIO_FECHA_REGISTRO = data[0]['USUARIO_FECHA_REGISTRO'];	
+					var USUARIO_MOVIL = data[0]['USUARIO_MOVIL'];	
+					var USUARIO_TELEFONO = data[0]['USUARIO_TELEFONO'];
+					var USUARIO_EMAIL = data[0]['USUARIO_EMAIL'];
+					var USUARIO_FECHA_CADUCA = data[0]['USUARIO_FECHA_CADUCA'];
+					var USUARIO_TIEMPO_SESION = data[0]['USUARIO_TIEMPO_SESION'];
+					var USUARIO_USER = data[0]['USUARIO_USER'];
+					var PERFIL_NOMBRE = data[0]['PERFIL_NOMBRE'];
+					
+					var html=''
+                                +'<table class="table table-condensed table-striped table-bordered">';
+					html+='     <td style="font-weight: bold" width="25%" >ID</td>';		
+					html+='     <td width="25%">';
+                    html+=          USUARIO_ID;
+                    html+='     </td>';
+					html+='     <td style="font-weight: bold" width="25%">Perfil</td>';
+					html+='     <td width="25%">';
+                    html+=          PERFIL_NOMBRE;
+                    html+='     </td>';						
+					html+='     </tr>';	
+
+					html+='     <tr>';
+					html+='     <td style="font-weight: bold" width="25%" >Nombre</td>';		
+					html+='     <td width="25%">';
+                    html+=          USUARIO_NOMBRE;
+                    html+='     </td>';
+					html+='     <td style="font-weight: bold" width="25%">Usuario</td>';
+					html+='     <td width="25%">';
+                    html+=          USUARIO_USER;
+                    html+='     </td>';						
+					html+='     </tr>';	
+
+					html+='     <tr>';
+					html+='     <td style="font-weight: bold" width="25%" >Teléfono Movil</td>';		
+					html+='     <td width="25%">';
+                    html+=          USUARIO_TELEFONO;
+                    html+='     </td>';
+					html+='     <td style="font-weight: bold" width="25%">Teléfono Fijo</td>';
+					html+='     <td width="25%">';
+                    html+=          USUARIO_MOVIL;
+                    html+='     </td>';						
+					html+='     </tr>';	
+
+					html+='     <tr>';
+					html+='     <td style="font-weight: bold" width="25%" >Fecha de Registro</td>';		
+					html+='     <td width="25%">';
+                    html+=          USUARIO_FECHA_REGISTRO;
+                    html+='     </td>';
+					html+='     <td style="font-weight: bold" width="25%">Fecha de Caducidad</td>';
+					html+='     <td width="25%">';
+                    html+=          USUARIO_FECHA_CADUCA;
+                    html+='     </td>';						
+					html+='     </tr>';	
+
+					html+='     <tr>';
+					html+='     <td style="font-weight: bold" width="25%" >Usuario Activo</td>';		
+					html+='     <td width="25%">';
+                    html+=          USUARIO_ACTIVO;
+                    html+='     </td>';
+					html+='     <td style="font-weight: bold" width="25%">Tiempo en Sesión</td>';
+					html+='     <td width="25%">';
+                    html+=          USUARIO_TIEMPO_SESION;
+                    html+='     </td>';						
+					html+='     </tr>';	
+
+					html+='     <tr>';
+					html+='     <td style="font-weight: bold" width="25%" >Email</td>';		
+					html+='     <td width="25%" colspan=3>';
+                    html+=          USUARIO_EMAIL;
+                    html+='     </td>';
+
+					html+=' </tr>';
+		            html+=' </table>';
+                            $('#ficha_usuario').html("");
+                            $('#ficha_usuario').append(html); 
+					
+		
+                }
+
+       });
+	  	
+		 $('#modal_ficha_usuario').modal('show'); 
+	}
 	function AbrirUsuario(){
 		
-		$("#modal-crear-laboratorio").modal('show');
+		$("#modal-crear-usuario").modal('show');
 	}
     function crearUsuario()
     {
@@ -612,7 +729,7 @@
             $(tableTools.fnContainer()).insertBefore('#tablaGenerada_wrapper');
     }
 
-    //var id_editar_laboratorio="";
+    //var id_editar_usuario="";
     function editarUsuario(USUARIO_ID)
     {
 	  
@@ -654,7 +771,7 @@
 
        });
 	  
-	   $("#modal-editar-laboratorio").modal('show');
+	   $("#modal-editar-usuario").modal('show');
     }
 	function ModificarEstado(USUARIO_ID){
 			
@@ -708,7 +825,7 @@
                 }
        });
 	  
-	   $("#modal-editar-laboratorio").modal('hide');
+	   $("#modal-editar-usuario").modal('hide');
     }
     //abrir eliminar proceso
     function eliminarUsuario(USUARIO_ID){
@@ -740,7 +857,7 @@
                     //ADICIONO UNA LINEA DE PRUEBA
                     var cadena_html='<tr class="fila-retiro" id="r'+USUARIO_ID+'" >'
                                         +'<td>'
-                                            +laboratorio
+                                            +usuario
                                         +'</td>'
                                         +'<td>'
                                             +activo
