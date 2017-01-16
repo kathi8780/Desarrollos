@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">MODIFICAR PROCESO</h4>
+                        <h4 class="modal-title">MODIFICAR INVENTARIO</h4>
                     </div>
                     <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
             <div class="table-responsive">
@@ -19,18 +19,17 @@
                   <td>
                     <div class="col-md-9 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
-                  <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-                  <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
+                  <label  class="control-label required" for="">Nombre Inventario<span class="required"> * </span></label> 
+                  <input type='hidden' id="id" value=""/>
+                  <input type="text" id="c_inventario" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value=""/>
               </div>
           </div>
           <div class="col-md-3 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
+                  <label class="control-label required" for="">Estado<span class="required"> * </span></label> 
                   <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
               </div>
           </div>
-                  
                 </tr>
               </table>
             </div>
@@ -44,8 +43,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
-
 
 <!--fin ventana modal para editar proceso-->
 
@@ -166,7 +163,7 @@
                                   <?php echo $inventario[$i]['nombre_inventario'];  ?>
                               </td>
                               <td>
-                                  <?php echo $inventario[$i]['activo']; ?>
+                                  <?php echo $inventario[$i]['estado']; ?>
                               </td>
                               
                               <td style="text-align:center">
@@ -257,6 +254,9 @@
                          url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/insertarInventario',
                          success: function (data) 
                          {    
+                           var text = 'Falta campo ACTIVOVO';
+                          $.notific8(text, params); 
+
                      alert(data);
                $.isLoading("hide"); 
                location.reload();
@@ -341,17 +341,59 @@
         }
 
     var id_editar_proceso="";
-    function editarProceso(id_proceso)
+    function editarInventario(id_inventario)
     {
+     
+      id=id_inventario;  
+                   // $("#modal-editar-proceso").modal('show');
+        
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {id:id},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/obtenerInventario',
+                         success: function (data) 
+                         {    
 
-      document.getElementById("c_proceso").value=nombre;
+                          var inventario=data[0]['nombre_inventario'];
+                          var estado=data[0]['estado'];
+                          $("#id").val(id_inventario);
+                          $("#c_inventario").val(inventario);
+                          $("#c_nuevo").val(estado);
+                         }
+                }); 
 
-
-      id_editar_proceso=id_proceso;
-      id=id_proceso;
-      $("#modal-editar-prueba").modal('show');
-
+                $("#modal-editar-inventario").modal('show');
+                   
        
+
+
+    }
+    function realizarEdicion(){
+
+
+    var id_inventario = $("#id").val().trim();
+    var inventario =$("#c_inventario").val().trim(); 
+    var estado=$("#c_nuevo").val().trim();
+     
+     $.ajax({
+
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id_inventario:id_inventario,inventario:inventario,estado:estado},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/editarInventario',
+                success: function (data) 
+                {  
+                  
+                  location.reload(); 
+                  tablaReload();
+                }
+       });
+    
+     $("#modal-editar-prueba").modal('hide');
+
 
 
     }

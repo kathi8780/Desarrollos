@@ -350,7 +350,7 @@
                 url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/ActualizaLaboratorio',
                 success: function (data) 
                 {  
-					//alert('Actualizado')
+					
 					location.reload();
                 }
        });

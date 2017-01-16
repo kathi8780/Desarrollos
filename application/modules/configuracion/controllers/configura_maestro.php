@@ -71,7 +71,7 @@ class configura_maestro extends MX_Controller {
             if ($this->session->userdata('loggeado'))
          {
             $id=trim($this->input->post('id'));
-             $datos['proceso_uno'] = $this->configura_maestros_model->buscarprocesoNombreUnico($id);
+             $datos = $this->configura_maestros_model->buscarProcesoNombre($id);
             echo json_encode($datos); 
             
          }
@@ -82,12 +82,28 @@ class configura_maestro extends MX_Controller {
         }
 
     }
+
+    public function obtenerPrueba(){
+        if ($this->session->userdata('loggeado'))
+         {
+            $id=trim($this->input->post('id'));
+            $datos = $this->configura_maestros_model->obtenerPruebas($id);
+            echo json_encode($datos); 
+            
+         }
+         
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+    }
 	public function ConfiguraProcesos(){
 		
-		 if ($this->session->userdata('loggeado'))
+		if ($this->session->userdata('loggeado'))
 		 {
-			 $datos['procesos_nombre_datos'] = $this->configura_maestros_model->obtenerProcesoNombre();
-             $datos['proceso_uno']="";
+            $id="";
+			 $datos['procesos_nombre_datos'] = $this->configura_maestros_model->buscarProcesoNombre($id);
+             
             $this->load->view('templates/header');
             $this->load->view('ConfiguraProceso',$datos);
             $this->load->view('templates/footer');
@@ -97,22 +113,58 @@ class configura_maestro extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
 	}
-	public function editarProcesos(){
+	public function editarProceso(){
+            
 
-            echo "ola soy el editor";
+        if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('id_proceso'));
+            $data = array();
+            $data['NOMBRE_PROCESO']=trim($this->input->post('nombre_proceso'));
+            $data['MINUTOS']=trim($this->input->post('minutos'));
+            $actualiza=$this->configura_maestros_model->actualizarProcesoNombre($data,$id);
+            echo json_encode($actualiza);
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }             
 
 	}
+
+    public function editarPrueba(){
+
+        if($this->session->userdata('loggeado')){
+            $id=trim($this->input->post('id_prueba'));
+            $data=array();
+            $data['NOMBRE_PRUEBA']=trim($this->input->post('nombre_prueba'));
+            $data['DIAS']=trim($this->input->post('dias'));
+            $actualiza=$this->configura_maestros_model->actualizarPrueba($data,$id); 
+            echo json_encode($actualiza);          
+
+
+        }else{
+            redirect('admin/login','refresh');
+
+        }
+
+
+    }
 	public function ConfiguraPruebas(){
 		
-		 if ($this->session->userdata('loggeado'))
-		 {
-			
-            $datos['tipo_pruebas'] = $this->configura_maestros_model->obtenerPruebas();
+        if ($this->session->userdata('loggeado'))
+         {
+            $id="";
+             $datos['tipo_pruebas'] = $this->configura_maestros_model->obtenerPruebas($id);
+             
             $this->load->view('templates/header');
             $this->load->view('ConfiguraPrueba',$datos);
             $this->load->view('templates/footer');
-		 }
-		
+         }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
 	}
     public function eliminarProcesosNombre(){
   
@@ -143,28 +195,35 @@ class configura_maestro extends MX_Controller {
                   redirect('admin/login', 'refresh');
                 } 
 	}
-	public function ConfiguraInventario(){
+    public function ConfiguraInventario(){
         
-         if ($this->session->userdata('loggeado'))
+
+        if ($this->session->userdata('loggeado'))
          {
-            $datos['inventario'] = $this->configura_maestros_model->obtenerInventarios();
+            $id="";
+            $datos['inventario'] = $this->configura_maestros_model->obtenerInventarios($id);
+             
             $this->load->view('templates/header');
             $this->load->view('ConfiguraInventario',$datos);
             $this->load->view('templates/footer');
          }
-        
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
     }
 
-    public function obtenerUnInventario(){
+    public function obtenerInventario(){
 
-            if ($this->session->userdata('loggeado'))
+        if ($this->session->userdata('loggeado'))
          {
             $id=trim($this->input->post('id'));
-             $datos['proceso_uno'] = $this->configura_maestros_model->buscarprocesoNombreUnico($id);
+            $datos = $this->configura_maestros_model->obtenerInventarios($id);
             echo json_encode($datos); 
             
-            
          }
+         
         else 
         {
           redirect('admin/login', 'refresh');
@@ -205,6 +264,24 @@ class configura_maestro extends MX_Controller {
 			redirect('admin/login', 'refresh');
 			} 
 	}
+    public function editarInventario(){
+
+         if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('id_inventario'));
+            $data = array();
+            $data['nombre_inventario']=trim($this->input->post('inventario'));
+            $data['activo']=trim($this->input->post('estado'));
+            $actualiza=$this->configura_maestros_model->actualizarInventario($data,$id);
+            echo json_encode($actualiza);
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+    }
+
+
 	public function ConfiguraLaboratorio(){
         
          if ($this->session->userdata('loggeado'))
@@ -233,8 +310,7 @@ class configura_maestro extends MX_Controller {
          {
             $id=trim($this->input->post('id'));
             $datos['proceso_uno'] = $this->configura_maestros_model->BuscarConfiguraLaboratorio($id);
-            echo json_encode($datos); 
-            
+            echo json_encode($datos);     
             
          }
         else 
@@ -247,6 +323,7 @@ class configura_maestro extends MX_Controller {
 
         if ($this->session->userdata('loggeado')) 
         {      
+             
             $nombre=trim($this->input->post('laboratorio'));
 			
             $data_laboratorio = array();
@@ -255,7 +332,9 @@ class configura_maestro extends MX_Controller {
 			
             $data_laboratorio = $this->configura_maestros_model->insertarConfiguraLaboratorio($data_laboratorio,$nombre);
 
+
             echo json_encode($data_laboratorio);   
+
         }
         else 
         {
@@ -264,7 +343,7 @@ class configura_maestro extends MX_Controller {
     }
 	public function eliminarConfiguraLaboratorio(){
 	
-	if ($this->session->userdata('loggeado')) 
+	   if ($this->session->userdata('loggeado')) 
 			{   
 				
 				$id = trim($this->input->post('id'));

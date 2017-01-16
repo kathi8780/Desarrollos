@@ -21,9 +21,8 @@
                     <div class="col-md-9 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
                   <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-                  <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="
-                  <?php echo $proceso_uno['NOMBRE_PROCESO'];  ?>" />
+                  <input type='hidden' id='id' value=""/>
+                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="" />
               </div>
           </div>
           <div class="col-md-3 col-sm-2 col-xs-12">
@@ -161,29 +160,29 @@
                         	{ 
                             
                          ?>
-                         	<tr id="<?php echo  'r'.$procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" >
+                         	<tr id="<?php echo  'r'.$procesos_nombre_datos[$i]['id_proceso']; ?>" >
                               <td>
                                   <?php echo $i+1; ?>
                               </td>
 	                            <td>
-	                                <?php echo $procesos_nombre_datos[$i]['NOMBRE_PROCESO'];  ?>
+	                                <?php echo $procesos_nombre_datos[$i]['nombre_proceso'];  ?>
 	                            </td>
 	                            <td>
-	                                <?php echo $procesos_nombre_datos[$i]['MINUTOS']; 
+	                                <?php echo $procesos_nombre_datos[$i]['minutos']; 
 
                                   ?>
 	                            </td>
 	                            
 	                            <td style="text-align:center">
       				                    <center>
-      				                    	<button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarProceso(this.id)">
+      				                    	<button id="<?php echo $procesos_nombre_datos[$i]['id_proceso']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarProceso(this.id)">
       				                          	<span class="glyphicon glyphicon-pencil"></span>
       				                        </button>
       				                    </center>
 	                            </td>
                               <td style="text-align:center">
                                   <center>
-                                    <button id="<?php echo $procesos_nombre_datos[$i]['ID_PROCESO_NOMBRE']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarProceso(this.id)">
+                                    <button id="<?php echo $procesos_nombre_datos[$i]['id_proceso']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarProceso(this.id)">
                                           <span class="glyphicon glyphicon-trash"></span>
                                       </button>
                                   </center>
@@ -264,7 +263,7 @@
                          {    
                           alert(data);
                            
-						   $.isLoading("hide"); 
+						    
 						   location.reload();
                 tablaReload();  
 			
@@ -272,6 +271,7 @@
 					    	          
                          }
                 }); 
+                  
     }
 
         function aplicarPaginado() 
@@ -363,12 +363,44 @@
                          success: function (data) 
                          {    
 
-                          //alert(data)
-                          $("#modal-editar-proceso").modal('show');
-                         // $("#c_proceso").val(id_proceso);
-                        
+                          var nombre_proceso=data[0]['nombre_proceso'];
+                          var minutos=data[0]['minutos'];
+                          $("#id").val(id_proceso);
+                          $("#c_proceso").val(nombre_proceso);
+                          $("#c_nuevo").val(minutos);
                          }
                 }); 
+
+                $("#modal-editar-proceso").modal('show');
+                        
+
+    }
+
+    function realizarEdicion(){
+     
+
+
+    var id_proceso = $("#id").val().trim();
+    var nombre_proceso =$("#c_proceso").val().trim(); 
+    var minutos=$("#c_nuevo").val().trim();
+     
+     $.ajax({
+
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id_proceso:id_proceso,nombre_proceso:nombre_proceso,minutos:minutos},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/editarProceso',
+                success: function (data) 
+                {  
+                  $.isLoading("hide"); 
+                  location.reload(); 
+                  tablaReload();
+                }
+       });
+    
+     $("#modal-editar-proceso").modal('hide');
+
 
     }
     //abrir eliminar proceso

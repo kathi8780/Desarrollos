@@ -19,14 +19,14 @@
                   <td>
                     <div class="col-md-9 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
-                  <label  class="control-label required" for="">Nombre Proceso<span class="required"> * </span></label> 
-                  <input type='hidden' name='id' value=".$id."/>
-                  <input type="text" id="c_proceso" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="<?php  echo 'holas'?>"/>
+                  <label  class="control-label required" for="">Nombre Prueba<span class="required"> * </span></label> 
+                  <input type='hidden' id='id' value=""/>
+                  <input type="text" id="c_prueba" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value=""/>
               </div>
           </div>
           <div class="col-md-3 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
-                  <label class="control-label required" for="">Minutos<span class="required"> * </span></label> 
+                  <label class="control-label required" for="">Dias<span class="required"> * </span></label> 
                   <input type="text" id="c_nuevo" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
               </div>
           </div>
@@ -158,27 +158,27 @@
                           { 
                             
                          ?>
-                          <tr id="<?php echo  'r'.$tipo_pruebas[$i]['ID_TIPO_PRUEBA']; ?>" >
+                          <tr id="<?php echo  'r'.$tipo_pruebas[$i]['id_prueba']; ?>" >
                               <td>
                                   <?php echo $i+1; ?>
                               </td>
                               <td>
-                                  <?php echo $tipo_pruebas[$i]['NOMBRE_PRUEBA'];  ?>
+                                  <?php echo $tipo_pruebas[$i]['nombre_prueba'];  ?>
                               </td>
                               <td>
-                                  <?php echo $tipo_pruebas[$i]['DIAS']; ?>
+                                  <?php echo $tipo_pruebas[$i]['dias']; ?>
                               </td>
                               
                               <td style="text-align:center">
                                   <center>
-                                    <button id="<?php echo $tipo_pruebas[$i]['ID_TIPO_PRUEBA']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarPrueba(this.id)">
+                                    <button id="<?php echo $tipo_pruebas[$i]['id_prueba']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarPrueba(this.id)">
                                           <span class="glyphicon glyphicon-pencil"></span>
                                       </button>
                                   </center>
                               </td>
                               <td style="text-align:center">
                                   <center>
-                                    <button id="<?php echo $tipo_pruebas[$i]['ID_TIPO_PRUEBA']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarPrueba(this.id)">
+                                    <button id="<?php echo $tipo_pruebas[$i]['id_prueba']; ?>" type="button" class="btn btn-danger btn-sm" style="width:50px" onclick="eliminarPrueba(this.id)">
                                           <span class="glyphicon glyphicon-trash"></span>
                                       </button>
                                   </center>
@@ -267,6 +267,56 @@
                           
                          }
                 }); 
+    }
+    function editarPrueba(id_prueba){
+
+       id=id_prueba;  
+                   // $("#modal-editar-proceso").modal('show');
+        
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {id:id},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/obtenerPrueba',
+                         success: function (data) 
+                         {    
+
+                          var nombre_prueba=data[0]['nombre_prueba'];
+                          var dias=data[0]['dias'];
+                          $("#id").val(id_prueba);
+                          $("#c_prueba").val(nombre_prueba);
+                          $("#c_nuevo").val(dias);
+                         }
+                }); 
+
+                $("#modal-editar-prueba").modal('show');
+                   
+    }
+    function realizarEdicion(){
+
+    var id_prueba = $("#id").val().trim();
+    var nombre_prueba =$("#c_prueba").val().trim(); 
+    var dias=$("#c_nuevo").val().trim();
+     
+     $.ajax({
+
+                type: 'POST',
+                async:false,
+                dataType: 'json',
+                data: {id_prueba:id_prueba,nombre_prueba:nombre_prueba,dias:dias},
+                url: '<?php echo base_url(); ?>index.php/configuracion/configura_maestro/editarPrueba',
+                success: function (data) 
+                {  
+                  
+                  location.reload(); 
+                  tablaReload();
+                }
+       });
+    
+     $("#modal-editar-prueba").modal('hide');
+
+
     }
 
         function aplicarPaginado() 

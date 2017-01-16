@@ -1,3 +1,5 @@
+
+
 <?php
 
 class configura_maestros_model extends CI_Model 
@@ -53,29 +55,24 @@ class configura_maestros_model extends CI_Model
 		return $resultado;
 				
     }
-	public function obtenerProcesoNombre(){
 	
-			$this->db->select("*");
-			$this->db->from("procesos_nombre");
-			$this->db->order_by("ID_PROCESO_NOMBRE","desc");
-	
-			$consulta = $this->db->get();
-			$resultado = $consulta->result_array();
-			return $resultado;
-	}
-	public function buscarprocesoNombreUnico($id){
+    // obtener datos de proceso por id
+	public function buscarProcesoNombre($id){
 
-        $this->db->select("*");
-        $this->db->from("procesos_nombre");
-        $this->db->where("procesos_nombre.ID_PROCESO_NOMBRE",$id);
-
-        $query=$this->db->get();
-        if($query->num_rows() > 0 )
-        {
-            $resultado=$query->result_array();
-            return $resultado;
-        }
-        //$resultado=$consulta->
+        $array=array("p.ID_PROCESO_NOMBRE as id_proceso", "p.NOMBRE_PROCESO as nombre_proceso","p.MINUTOS as minutos");
+        $this->db->select($array);
+        $this->db->from("procesos_nombre AS p");
+        
+        if($id!="")
+         {
+            $this->db->where("p.ID_PROCESO_NOMBRE =", $id);  
+         }
+        
+        $this->db->order_by("p.ID_PROCESO_NOMBRE","DESC");
+        
+        $consulta = $this->db->get();
+        $resultado = $consulta->result_array();
+        return $resultado;
 
 	}
 	public function eliminarProcesosPorNombre($id)
@@ -100,16 +97,40 @@ class configura_maestros_model extends CI_Model
 
 	return $resultado;
     }
+
+    public function actualizarProcesoNombre($data,$id){
+
+       
+        $this->db->where('procesos_nombre.ID_PROCESO_NOMBRE', $id);
+        $this->db->update('procesos_nombre', $data);
+
+    }
 	//PRUEBAS
-    public function obtenerPruebas(){
 
-        $this->db->select("*");
-         $this->db->from("tipo_prueba");
-         $this->db->order_by("ID_TIPO_PRUEBA","desc");
 
-         $consulta = $this->db->get();
-         $resultado = $consulta->result_array();
-         return $resultado;
+
+    public function actualizarPrueba($data,$id){
+
+        $this->db->where('tipo_prueba.ID_TIPO_PRUEBA', $id);
+        $this->db->update('tipo_prueba', $data);
+
+    }
+    public function obtenerPruebas($id){
+
+        
+         $array=array("t.ID_TIPO_PRUEBA as id_prueba", "t.NOMBRE_PRUEBA as nombre_prueba","t.DIAS as dias");
+        $this->db->select($array);
+        $this->db->from("tipo_prueba AS t");
+        
+        if($id!="")
+         {
+            $this->db->where("t.ID_TIPO_PRUEBA =", $id);  
+         }
+        $this->db->order_by("t.ID_TIPO_PRUEBA","DESC");   
+        $consulta = $this->db->get();
+        $resultado = $consulta->result_array();
+        return $resultado;
+
 	}
 	public function insertarConfiguraLaboratorio($data,$nombre){
 
@@ -182,15 +203,21 @@ class configura_maestros_model extends CI_Model
 
 
     }
-    public function obtenerInventarios(){
+    public function obtenerInventarios($id){
 
-        $this->db->select("*");
-         $this->db->from("inventario");
-         $this->db->order_by("id_inventario","desc");
+         $array=array("i.id_inventario as id_inventario", "i.nombre_inventario as nombre_inventario","i.activo as estado");
+        $this->db->select($array);
+        $this->db->from("inventario AS i");
+        
+        if($id!="")
+         {
+            $this->db->where("i.id_inventario =", $id);  
+         }
+        $this->db->order_by("i.id_inventario","DESC");   
+        $consulta = $this->db->get();
+        $resultado = $consulta->result_array();
+        return $resultado;
 
-         $consulta = $this->db->get();
-         $resultado = $consulta->result_array();
-         return $resultado;
 	}
 	public function insertarNuevoInventario($data,$nombre){
 
@@ -235,6 +262,13 @@ class configura_maestros_model extends CI_Model
 
 		return $resultado;       
     }
+
+    public function actualizarInventario($data,$id){
+
+        $this->db->where('inventario.id_inventario', $id);
+        $this->db->update('inventario', $data);
+
+    }
 	public function eliminarLaboratorio($id)
     {
    
@@ -264,4 +298,5 @@ class configura_maestros_model extends CI_Model
 		$this->db->query("UPDATE laboratorio SET activo=if(ACTIVO='S','N','S') WHERE id_laboratorio=$id");
 
 	}
+
 }
