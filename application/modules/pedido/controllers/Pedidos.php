@@ -370,7 +370,7 @@ class Pedidos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
     }
-	public function ConsultarPedidosAG($fechaI='', $fechaF='',$NumPed='') 
+	public function ConsultarPedidosAG($fechaI='', $fechaF='',$NumPed='',$cliente='') 
     {
         if ($this->session->userdata('loggeado')) 
         {
@@ -380,6 +380,7 @@ class Pedidos extends MX_Controller {
             $datos['fechai']= $fechaI; 
             $datos['fechaf']= $fechaF;
             $datos['numped']= $NumPed;
+			$datos['cliente']= $cliente;
             
             $this->load->view('templates/header');
             $this->load->view('ConsultarPedidos',$datos);
@@ -445,11 +446,13 @@ class Pedidos extends MX_Controller {
     {
         if ($this->session->userdata('loggeado')) 
         {
-            $numped = trim($this->input->post('numped'));
+            $numped   = trim($this->input->post('numped'));
             $f_inicio = trim($this->input->post('f_inicio'));
-            $f_fin = trim($this->input->post('f_fin'));
+            $f_fin    = trim($this->input->post('f_fin'));
+			$cliente  = trim($this->input->post('cliente'));
+			$activo   = trim($this->input->post('activo'));
 
-            $pedidos = $this->pedidos_model->ObtenerConsultarPedidos($f_inicio, $f_fin,$numped);
+            $pedidos = $this->pedidos_model->ObtenerConsultarPedidos($f_inicio, $f_fin,$numped,$cliente,$activo);
             echo json_encode($pedidos);             
         }
         else 
@@ -995,6 +998,7 @@ class Pedidos extends MX_Controller {
 			
             $datos['cant_suspendidos'] = $cant_suspendidos;
             $datos['cant_atrasados_produccion'] = $cant_atrasados_produccion;
+			$datos['cant_retiros_asignados']  = $cant_retiros_asignados;
             $datos['cant_atrasados_entrega_cliente'] = $cant_atrasados_entrega_cliente;
             $datos['cant_pedidos_transito'] = $cant_pedidos_transito;
             $datos['cant_pedidos_ruta'] = $cant_pedidos_ruta;
@@ -1002,7 +1006,6 @@ class Pedidos extends MX_Controller {
             $datos['cant_pedidos_facturados'] = $cant_pedidos_facturados;
             $datos['cant_pedidos_entregados'] = $cant_pedidos_entregados;
             $datos['cant_retiros_pendientes'] = $cant_retiros_pendientes;
-            $datos['cant_retiros_asignados']  = $cant_retiros_asignados;
 			$datos['cant_control_calidad']    = $cant_control_calidad;
 			$datos['cant_pre_pedido']         = $cant_pre_pedido;
 			$datos['cant_ped_produccion']     = $cant_ped_produccion;

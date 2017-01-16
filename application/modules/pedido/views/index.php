@@ -21,7 +21,21 @@
         }
 
 	</style>
+<?php
 
+	$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
+	
+	$query=$this->db->query("SELECT PERFIL_ID FROM usuario WHERE USUARIO_ID='$usuario'");
+    $ds = $query->row_array();
+    $perfil = $ds['PERFIL_ID'];
+	
+	$query=$this->db->query("SELECT usu_login, men_cod, acceso FROM accesosni as a  WHERE a.men_cod>999 AND usu_login='$perfil'");
+    //$ds = $query->row_array();
+    //$men_cod = $ds['men_cod'];
+	//$acceso  = $ds['acceso'];
+	$panel =$query->result();
+
+?>
 	<div class="container">
 		<div class="row">
 			 <div class="col-md-4 col-sm-4 col-xs-12" >
@@ -44,59 +58,78 @@
 				       <span onclick="realizarBusqueda()" class="input-group-addon btn btn-primary btn-sm"  id="btnBuscar"><span style="color: white" class="glyphicon glyphicon-search"></span> </span>
 			        </div>
 			    </div>
-				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('mostrarFormularioPedido/9');"> Nuevo Pedido Online</button>
-				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedido/2');">Nuevo Pedido</button>
-				<!--
-				<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidos');">
-					Consultar Pedidos
-				</button> -->
-				<!-- <button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('buscarEnAgendaProduccion');">
-					Buscar en Agenda Producción
-				</button> -->
-
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('consultarPrePedidos');">
-					<span class="badge pull-left" id="indicador_pre_pedido"> 0 </span>Pedidos Online
-				</button>		
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosTransito');">
-					<span class="badge pull-left" id="indicador_transito"> 0 </span> Pruebas sin Retorno
-				</button>	
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarGestionRetiros');">
-					<span class="badge pull-left" id="indicador_retiros_pendientes"> 0 </span>  Solicitud de Retiros 
-				</button>
-
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioRutaMotorizados');">
-					<span class="badge pull-left" id="indicador_ruta_motorizado"> 0 </span> 
-					<span class="badge pull-right" id="indicador_retiros_asignados"> 0 </span>
-					Retiros y Entregas
-				</button>
-
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosEmpacados');">
-					<span class="badge pull-left" id="indicador_empacados"> 0 </span> Pedidos Empacados
-				</button>		
-
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccion');">
-					<span class="badge pull-left" id="indicador_ped_produccion"> 0 </span> Producción
-				</button>
-				
-				<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosFacturados');">
-				      <span class="badge pull-left" id="indicador_facturados"> 0 </span> Listos para Facturar
-				</button>
-				
-				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px; margin-top:20px;" onclick="direccionar('mostrarFormularioProduccionSuspendida');">
-					<span class="badge pull-left" id="indicador_suspendido"> 0 </span> Pedidos Suspendidos
-				</button>
-
-				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasada');">
-					<span class="badge pull-left" id="indicador_atrasados_p"> 0 </span>Producción Atrasada
-				</button>
-
-				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasadaCliente');">
-					<span class="badge pull-left" id="indicador_atrasados_c"> 0 </span>Entregas Atrasadas
-				</button>
-				
-				<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioControlCalidad');">
-					<span class="badge pull-left" id="indicador_control_calidad"> 0 </span> Control de Calidad
-				</button>
+				<?php foreach ($panel AS $items){?>
+				   <?php if($items->men_cod=='1000' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('mostrarFormularioPedido/9');"> Nuevo Pedido Online</button>
+				   <?php } ?>
+				   <?php if($items->men_cod=='1001' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedido/2');">Nuevo Pedido</button>
+				   <?php } ?>
+					<!--
+					<button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidos');">
+						Consultar Pedidos
+					</button> -->
+					<!-- <button type="button" class="btn btn-primary btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('buscarEnAgendaProduccion');">
+						Buscar en Agenda Producción
+					</button> -->
+				    <?php if($items->men_cod=='1002' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px; margin-top:20px" onclick="direccionar('consultarPrePedidos');">
+						<span class="badge pull-left" id="indicador_pre_pedido"> 0 </span>Pedidos Online
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1003' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosTransito');">
+						<span class="badge pull-left" id="indicador_transito"> 0 </span> Pruebas sin Retorno
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1004' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarGestionRetiros');">
+						<span class="badge pull-left" id="indicador_retiros_pendientes"> 0 </span>  Solicitud de Retiros 
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1005' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioRutaMotorizados');">
+						<span class="badge pull-left" id="indicador_retiros_asignados"> 0 </span>
+						<span class="badge pull-right" id="indicador_ruta_motorizado"> 0 </span> 
+						 Retiros y Entregas
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1006' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioPedidosEmpacados');">
+						<span class="badge pull-left" id="indicador_empacados"> 0 </span> Pedidos Empacados
+					</button>
+					<?php } ?>					
+					<?php if($items->men_cod=='1007' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccion');">
+						<span class="badge pull-left" id="indicador_ped_produccion"> 0 </span> Producción
+					</button>
+					<?php } ?>
+				    <?php if($items->men_cod=='1008' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-info btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('consultarPedidosFacturados');">
+						<span class="badge pull-left" id="indicador_facturados"> 0 </span> Listos para Facturar
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1009' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px; margin-top:20px;" onclick="direccionar('mostrarFormularioProduccionSuspendida');">
+						<span class="badge pull-left" id="indicador_suspendido"> 0 </span> Pedidos Suspendidos
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1011' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasada');">
+						<span class="badge pull-left" id="indicador_atrasados_p"> 0 </span>Producción Atrasada
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1010' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioProduccionAtrasadaCliente');">
+						<span class="badge pull-left" id="indicador_atrasados_c"> 0 </span>Entregas Atrasadas
+					</button>
+					<?php } ?>
+					<?php if($items->men_cod=='1012' and $items->acceso=='S'){ ?>
+					<button type="button" class="btn btn-danger btn-lg btn-block" style="max-width: 300px;" onclick="direccionar('mostrarFormularioControlCalidad');">
+						<span class="badge pull-left" id="indicador_control_calidad"> 0 </span> Control de Calidad
+					</button>
+					<?php } ?>			
+				<?php }?>
 				<br>
 			</div> 
 				<div class="col-md-8 col-sm-8 col-xs-12" >
@@ -337,20 +370,21 @@
          {     
              var suspendidos = data.cant_suspendidos;
              var atrasados_p = data.cant_atrasados_produccion;
+			 var retiros_asignados = data.cant_retiros_asignados;
              var atrasados_c = data.cant_atrasados_entrega_cliente;
              var transito = data.cant_pedidos_transito;
              var ruta = data.cant_pedidos_ruta;
              var empacados = data.cant_pedidos_empacados;
              var facturados = data.cant_pedidos_facturados;
              var entregados = data.cant_pedidos_entregados;
-             var retiros_pendientes = data.cant_retiros_pendientes;
-             var retiros_asignados = data.cant_retiros_asignados;
+             var retiros_pendientes = data.cant_retiros_pendientes;     
 			 var control_calidad = data.cant_control_calidad;
 			 var pre_pedido = data.cant_pre_pedido;
 			 var ped_produccion = data.cant_ped_produccion;
 
              $('#indicador_suspendido').html(suspendidos);
              $('#indicador_atrasados_p').html(atrasados_p);
+			 $('#indicador_retiros_asignados').html(retiros_asignados);
              $('#indicador_atrasados_c').html(atrasados_c);
              $('#indicador_transito').html(transito);
              $('#indicador_ruta_motorizado').html(ruta);
@@ -358,7 +392,6 @@
              $('#indicador_facturados').html(facturados);
              $('#indicador_entregados').html(entregados);
              $('#indicador_retiros_pendientes').html(retiros_pendientes);
-             $('#indicador_retiros_asignados').html(retiros_asignados);
 			 $('#indicador_control_calidad').html(control_calidad);
 			 $('#indicador_pre_pedido').html(pre_pedido);
 			 $('#indicador_ped_produccion').html(ped_produccion);
@@ -417,10 +450,29 @@
     	if(pestana_activa=="pedido")//busco por numero de pedido
     	{
     		var numped = $("#formulario_pedido_Buscar").val().trim();
-    		direccionar("ConsultarPedidosAG/sinfecha/sinfecha/"+numped);
+			
+			if(numped==''){
+				
+				direccionar("ConsultarPedidosAG/sinfecha/sinfecha/todos/todos");
+				
+			}else{
+				
+				direccionar("ConsultarPedidosAG/sinfecha/sinfecha/"+numped+"/todos");
+			}
+			
     	}
     	else //busco por cliente
-    	{
+    	{		
+			var cliente = $("#formulario_pedido_Buscar").val().trim();
+			if(cliente==''){
+				
+				direccionar("ConsultarPedidosAG/sinfecha/sinfecha/todos/todos");
+				
+			}else{
+				
+				direccionar("ConsultarPedidosAG/sinfecha/sinfecha/todos/"+cliente);
+			}
+    		
 
     	}
     }

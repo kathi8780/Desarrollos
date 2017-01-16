@@ -58,27 +58,8 @@
     <div class="panel panel-primary" style="border:none">
         <div class="panel-heading">Consultar Pedido</div>
         <div class="panel-body">
-            <div class="row" >
+            <div class="row" > 
                 <div class="col-md-2 col-sm-2 col-xs-12">
-                	<label class="control-label">Estado del Pedido</label>
-                    <div class='input-group'>
-						<select id="s_estado" class="form-control" style="height:30px">
-							<option value="-1">TODOS</option>
-                            <?php foreach ($estados as $estado) 
-                            	{?>
-                               	 <option value="<?php echo $estado['ID_ESTADOS']; ?>" >
-                                       <?php 
-                                       		if($estado['NOMBRE_ESTADO']=="PENDIENTE")
-                                       			echo "PRODUCCION";
-                                       		else
-                                       			echo $estado['NOMBRE_ESTADO']; 
-                                       ?>
-                                  </option>  
-                          <?php } ?>
-						</select>  
-                    </div>
-                </div>  
-                <div class="col-md-3 col-sm-3 col-xs-12">
                 	<label class="control-label">Fecha de Inicio</label>
                     <div class='input-group'>
                         <span onclick="limpiarFecha('fecha_inicio')" class="input-group-addon left" style="cursor:pointer">
@@ -101,7 +82,7 @@
                         />   
                     </div>
                 </div>   
-                <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="col-md-2 col-sm-2 col-xs-12">
                 	<label class="control-label">Fecha de Fin</label>
                     <div class='input-group'>
                         <span onclick="limpiarFecha('fecha_fin')" class="input-group-addon left" style="cursor:pointer">
@@ -125,18 +106,48 @@
                     </div>
                 </div> 
 
-                <!-- campo direccion -->
-                    <div class="col-md-3 col-sm-3 col-xs-12">
+                <!-- campo numero de pedido -->
+                    <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group form-group-sm">                
                             <label>Número de Pedido</label>                            
                             <input type="text" id="num_pedido" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" 
 	                         <?php 
-	                         	if($numped!="")
+	                         	if($numped!="" && $numped!="todos"){
 	                         		echo " value='".$numped."' ";
+								}else{
+									echo " value='' ";		
+								}	
 	                          ?>
                             />
                         </div>
-                    </div>  
+                    </div>
+                <!-- campo Cliente -->
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group form-group-sm">                
+                            <label>Cliente</label>                            
+                            <input type="text" id="cliente" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" 
+	                         <?php 
+	                         	if($cliente!="" && $cliente!="todos"){
+	                         		echo " value='".$cliente."' ";
+								}else{
+									
+									echo " value='' ";
+									
+								}
+	                          ?>
+                            />
+                        </div>
+                    </div> 
+                <!-- campo ACTIVO -->
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <div class="form-group form-group-sm">                
+                            <label>Activo</label>                            
+                            <select id="activo" class="form-control" style="height:30px">
+							<option value="S">SI</option>
+							<option value="T">TODOS</option>
+							</select>
+                        </div>
+                    </div> 						
             </div>
 
         </div>
@@ -184,7 +195,7 @@
 
 	    window.onload=function alcargar()
 	    {
-	    	if(<?php if($fechai!="" || $fechaf!="" ||$numped!="") echo "true"; else echo "false"; ?>)
+	    	if(<?php if($cliente!="todos" || $numped!="todos") echo "true"; else echo "false"; ?>)
 	    	{
 	    		$("#btn_buscar").click();
 	    	}
@@ -360,9 +371,10 @@
     function constultarPedidos()
     	{
     		var f_inicio = $("#fecha_inicio").val().trim();
-    		var f_fin = $("#fecha_fin").val().trim();
-    		var estado = $("#s_estado").val().trim();
-    		var numped = $("#num_pedido").val().trim();
+    		var f_fin    = $("#fecha_fin").val().trim();
+    		var numped   = $("#num_pedido").val().trim();
+			var cliente  = $("#cliente").val().trim();
+			var activo   = $("#activo").val().trim();
 
     		if(f_inicio!="")
 				var f1 = new Date(f_inicio);
@@ -387,7 +399,7 @@
 				                     type: 'POST',
 				                     async:false,
 				                     dataType: 'json',
-				                     data: {f_inicio:f_inicio, f_fin:f_fin,numped},
+				                     data: {f_inicio:f_inicio, f_fin:f_fin,numped,cliente,activo},
 				                     url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerConsultarPedidos',
 				                     success: function (data) 
 				                     {     
@@ -429,8 +441,8 @@
 			            var textoCelda4 = document.createTextNode("MEDICO TRATANTE");
 			            var textoCelda5 = document.createTextNode("FECHA INGRESO");
 			            var textoCelda11 = document.createTextNode("PRUEBA");
-			            var textoCelda12 = document.createTextNode("EDITAR");
-						var textoCelda13 = document.createTextNode("CANTIDAD");
+			            var textoCelda12 = document.createTextNode("ESTADO");
+						//var textoCelda13 = document.createTextNode("CANTIDAD");
 						//var textoCelda14 = document.createTextNode("IMPRIMIR");
 			            
 						celda0.appendChild(textoCelda0);
@@ -441,7 +453,7 @@
 			            celda5.appendChild(textoCelda5);
 			            celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
-						celda13.appendChild(textoCelda13);
+						//celda13.appendChild(textoCelda13);
 						//celda14.appendChild(textoCelda14);
 
 						filaCabecera.appendChild(celda0);
@@ -451,7 +463,7 @@
 			            filaCabecera.appendChild(celda4);
 			            filaCabecera.appendChild(celda5);
 			            filaCabecera.appendChild(celda11);
-						filaCabecera.appendChild(celda13);
+						//filaCabecera.appendChild(celda13);
 			            filaCabecera.appendChild(celda12);
 						//filaCabecera.appendChild(celda14);
 			            
@@ -493,18 +505,17 @@
 			                var celda5 = document.createElement("td");
 			                var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td");   
-							var celda13 = document.createElement("td"); 
+							//var celda13 = document.createElement("td"); 
 							//var celda14 = document.createElement("td"); 							
 
 							var textoCelda0 = document.createTextNode(i+1);
-							
 			                var textoCelda1 = document.createTextNode(numero);
 			                var textoCelda2 = document.createTextNode(cliente);
 			                var textoCelda3 = document.createTextNode(paciente);
 			                var textoCelda4 = document.createTextNode(medico);
 			                var textoCelda5 = document.createTextNode(f_ing);
 			                var textoCelda11 = document.createTextNode(prueba);			 
-							var textoCelda13 = document.createTextNode(cantid);                
+							var textoCelda12 = document.createTextNode(estado);                
 
 							celda0.appendChild(textoCelda0);
 			                celda1.appendChild(textoCelda1);   
@@ -513,15 +524,15 @@
 			                celda4.appendChild(textoCelda4); 
 			                celda5.appendChild(textoCelda5); 
 			                celda11.appendChild(textoCelda11); 
-							celda13.appendChild(textoCelda13);
+							celda12.appendChild(textoCelda12);
 
-			                var btn = document.createElement("input");
-			                btn.setAttribute("class", "btn btn-primary btn-xs");
-			                btn.setAttribute("type", "button");
-			                btn.setAttribute("value", "Editar" );
-			                btn.setAttribute("onclick","modificarPedido('"+numero+"')");
-			                celda12.appendChild(btn);
-			                celda12.setAttribute("style","text-align:center"); 
+			                //var btn = document.createElement("input");
+			                //btn.setAttribute("class", "btn btn-primary btn-xs");
+			                //btn.setAttribute("type", "button");
+			                //btn.setAttribute("value", "Editar" );
+			                //btn.setAttribute("onclick","modificarPedido('"+numero+"')");
+			                //celda12.appendChild(btn);
+			                //celda12.setAttribute("style","text-align:center"); 
 							
 							//var btn2 = document.createElement("input");
 			                //btn2.setAttribute("class", "btn btn-primary btn-xs");
@@ -537,10 +548,9 @@
 			                fila.appendChild(celda3);
 			                fila.appendChild(celda4);
 			                fila.appendChild(celda5);
-							fila.appendChild(celda13);
 			                fila.appendChild(celda11);
-							fila.appendChild(celda13);
-			                fila.appendChild(celda12);
+							fila.appendChild(celda12);
+			                //fila.appendChild(celda12);
 							//fila.appendChild(celda14);
 							fila.setAttribute("onclick","detallePedido('"+numero+"')");
 							
@@ -602,8 +612,9 @@
                                 { "aTargets": [ 2 ],"bSortable": true },
                                 { "aTargets": [ 3 ],"bSortable": true },
                                 { "aTargets": [ 4 ],"bSortable": true },
-
-                                { "aTargets": [ 5 ],"bSortable": true }
+                                { "aTargets": [ 5 ],"bSortable": true },
+								{ "aTargets": [ 6 ],"bSortable": true },
+								{ "aTargets": [ 7 ],"bSortable": true }
                               ] 
           });
 

@@ -288,7 +288,7 @@ class Pedidos_model extends CI_Model
             $ds = $query->result_array();
             return $ds; 
     }
-	public function ObtenerConsultarPedidos($f_inicio, $f_fin, $numped)
+	public function ObtenerConsultarPedidos($f_inicio, $f_fin, $numped, $cliente, $activo)
     {
         $sql="SELECT 
                 p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
@@ -299,7 +299,7 @@ class Pedidos_model extends CI_Model
             INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
             INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
             INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
-			INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO";
+			INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO ";
 
 
             if($f_inicio!= "")
@@ -313,6 +313,16 @@ class Pedidos_model extends CI_Model
             if($numped != "")
             {
                 $sql.=" and p.PEDF_NUM_PREIMP  =".$numped." " ;             
+            }
+			
+			if($cliente != "")
+            {
+                $sql.=" and p.CLPV_COD_CLPV  =".$cliente." " ;             
+            }
+			
+			if($activo == "S")
+            {
+                $sql.=" and p.ID_ESTADOS!=7 " ;             
             }
 
             $sql.="GROUP BY p.PEDF_NUM_PREIMP,tp.NOMBRE_PRUEBA";
