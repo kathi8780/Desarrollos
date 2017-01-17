@@ -75,7 +75,11 @@
 							<span onclick="limpiarFecha('c_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly /> 						
+							<input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 						
 					</div>
 					</div>
 				  </td>
@@ -89,7 +93,11 @@
 							<span onclick="limpiarFecha('c_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly /> 					
+							<input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly 
+							<?php 
+									$hoy = date("Y-m-d");
+									echo " value='".$hoy."' ";
+							?>	/> 					
                     </div>
                 </div>
 				  </td>
@@ -180,7 +188,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <!-- campo perfil de usuario -->
+                    <!-- campo cliente -->
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
@@ -355,50 +363,99 @@
 	</div>
   </div>
 </div>
-
- <div style="min-height:500px">
-    <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">Consultar Pedido</div>
-        <div class="panel-body">
-            <div class="row" > 
-                <!-- campo perfil de usuario -->
-				<div class="col-md-4 col-sm-4 col-xs-12">
-					<div class="form-group form-group-sm">                
-						<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
-						<select id="PERFIL_ID" class="form-control" style="height:30px">
-						<option value="">TODOS</option>
-							<?php foreach ($perfil as $array) 
-								{?>
-									<option value="<?php echo $array['PERFIL_ID']; ?>" ><?php echo $array['PERFIL_NOMBRE']; ?></option>  
-							<?php } ?>
-						</select>
-					</div>
-				</div>
-                <!-- campo ACTIVO -->
-                    <div class="col-md-2 col-sm-2 col-xs-12">
-                        <div class="form-group form-group-sm">                
-                            <label>Estado</label>                            
-                            <select id="activo" class="form-control" style="height:30px">
-							<option value="S">Activo</option>
-							<option value="N">Inactivo</option>
-							<option value="">TODOS</option>
-							</select>
-                        </div>
-                    </div> 						
-            </div>
-
-        </div>
-        <div class="panel-footer">                    
-            <div class="pull-right">  
-                <button class="btn btn-primary btn-sm" onclick="constultarPedidos()" id="btn_buscar">Buscar</button>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-    </div>
+<div class="panel panel-primary" >
+    <div class="panel-heading">USUARIOS REGISTRADOS</div></div>
     <div class="container">
-    	<div id="tabla" class="table-responsive" style="font-size:11px; text-align:center;"></div>
+      <div class="table-responsive">
+        <table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
+              <thead>
+                        <tr style="font-weight: bold" >
+                            <th>
+                              Nº
+                            </th>
+							<th>
+                                NOMBRE
+                            </th>
+							<th>
+                                APELLIDO
+                            </th>
+							<th>
+                                PERFIL
+                            </th>
+							<th>
+                                ESTADO
+                            </th>
+							<th>
+                                REGISTRO
+                            </th>
+							<th>
+                                TELEFONO
+                            </th>
+                            <th style="text-align:center">
+                              MODIFICAR
+                            </th>
+							<th style="text-align:center">
+                              ESTADO
+                            </th>
+                        </tr>
+              </thead>
+                        <?php 
+                          $cliente_iteracion_anterior="";
+                          for ($i=0; $i < count($usuarios); $i++) 
+                          { 
+                            
+                         ?>
+                          <tr  style="text-align:center; cursor:pointer"  id="<?php echo  $usuarios[$i]['USUARIO_ID']; ?>" onclick="ConsultarUsuario('<?php echo  $usuarios[$i]['USUARIO_ID']; ?>')">
+                              <td>
+                                  <?php echo $usuarios[$i]['USUARIO_ID']; ?>
+                              </td>
+                              <td>
+                                  <?php echo $usuarios[$i]['USUARIO_NOMBRE'];  ?>
+                              </td>
+                              <td>
+                                  <?php echo $usuarios[$i]['USUARIO_APELLIDO']; ?>
+                              </td>
+							  <td>
+                                  <?php echo $usuarios[$i]['PERFIL_NOMBRE']; ?>
+                              </td>
+							  <td>
+                                  <?php echo $usuarios[$i]['USUARIO_ACTIVO']; ?>
+                              </td>
+							  <td>
+                                  <?php echo $usuarios[$i]['USUARIO_FECHA_REGISTRO']; ?>
+                              </td>
+							  <td>
+                                  <?php echo $usuarios[$i]['USUARIO_TELEFONO']; ?>
+                              </td>
+                              
+                              <td style="text-align:center">
+                                  <center>
+                                    <button id="<?php echo $usuarios[$i]['USUARIO_ID']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="editarUsuario(this.id)">
+                                          <span class="glyphicon glyphicon-pencil"></span>
+                                      </button>
+                                  </center>
+                              </td>
+                              <td style="text-align:center">
+							  <?php
+								
+								if($usuarios[$i]['USUARIO_ACTIVO']=='S')
+									$class='btn btn-success btn-sm';
+								else
+									$class='btn btn-danger btn-sm';
+							  ?>
+                                  <center>
+                                    <button id="<?php echo $usuarios[$i]['USUARIO_ID']; ?>" class="<?php echo $class ?>" type="button" style="width:50px" onclick="ModificarEstado(this.id)">
+                                          <span class="glyphicon glyphicon-ok"></span>
+                                      </button>
+                                  </center>
+                              </td>
+                          </tr>
+                        <?php     
+                          }
+                ?>
+        </table>
+      </div>
     </div>
-</div>
 <script src="<?php echo base_url() ?>assets/librerias/js/jquery.dataTables.min.js"></script>
  <script src="<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/js/dataTables.tableTools.min.js"/></script>
 <script type="text/javascript">
@@ -423,196 +480,6 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
-	function constultarPedidos(){
-		
-    		var PERFIL_ID = $("#PERFIL_ID").val().trim();
-			var activo   = $("#activo").val().trim();
-
-    
-            $.isLoading({
-                          text: "Cargando",
-                          position: "overlay"
-                       });
-				            $.ajax({
-				                     type: 'POST',
-				                     async:false,
-				                     dataType: 'json',
-				                     data: {PERFIL_ID:PERFIL_ID, activo:activo},
-				                     url: '<?php echo base_url(); ?>index.php/admin/usuarios/ObtenerUsuarios',
-				                     success: function (data) 
-				                     {     
-				                        generarTablaDinamica(data); 
-										//constultarPruebas();								
-				                        $.isLoading("hide");                     
-				                     }
-
-				            });  
-    }
-	function generarTablaDinamica(pedidos){
-		
-            $("#tabla").html(""); // limpio el div que contiene la tabla generaada
-
-            //tabla
-            var tabla = document.createElement("table");
-            var thead = document.createElement("thead");
-            var tbody = document.createElement("tbody");
-
-            //cabecera
-            var filaCabecera = document.createElement("tr");
-			 
-						var celda0 = document.createElement("td");
-			            var celda1 = document.createElement("td");
-			            var celda2 = document.createElement("td");
-			            var celda3 = document.createElement("td");
-			            var celda4 = document.createElement("td");
-			            var celda5 = document.createElement("td");
-			            var celda11 = document.createElement("td");
-			            var celda12 = document.createElement("td");
-						var celda13 = document.createElement("td");
-						//var celda14 = document.createElement("td");
-		
-
-						var textoCelda0 = document.createTextNode("Nº");
-			            var textoCelda1 = document.createTextNode("NOMBRE");
-			            var textoCelda2 = document.createTextNode("APELLIDO");
-			            var textoCelda3 = document.createTextNode("PERFIL");
-			            var textoCelda4 = document.createTextNode("ESTADO");
-			            var textoCelda5 = document.createTextNode("REGISTRO");
-			            var textoCelda11 = document.createTextNode("TELEFONO");
-			            var textoCelda12 = document.createTextNode("MODIFICAR");
-						var textoCelda13 = document.createTextNode("ESTADO");
-						//var textoCelda14 = document.createTextNode("IMPRIMIR");
-			            
-						celda0.appendChild(textoCelda0);
-			            celda1.appendChild(textoCelda1);
-			            celda2.appendChild(textoCelda2);
-			            celda3.appendChild(textoCelda3);
-			            celda4.appendChild(textoCelda4);
-			            celda5.appendChild(textoCelda5);
-			            celda11.appendChild(textoCelda11);
-			            celda12.appendChild(textoCelda12);
-						celda13.appendChild(textoCelda13);
-						//celda14.appendChild(textoCelda14);
-
-						filaCabecera.appendChild(celda0);
-			            filaCabecera.appendChild(celda1);
-			            filaCabecera.appendChild(celda2);
-			            filaCabecera.appendChild(celda3);
-			            filaCabecera.appendChild(celda4);
-			            filaCabecera.appendChild(celda5);
-			            filaCabecera.appendChild(celda11);
-			            filaCabecera.appendChild(celda12);
-					    filaCabecera.appendChild(celda13);
-						//filaCabecera.appendChild(celda14);
-			            
-			            filaCabecera.setAttribute("id","fila_cabecera");
-						
-			            thead.appendChild(filaCabecera);
-
-			            //CUERPO
-			            for (var i = 0; i < pedidos.length; i++)
-			            {
-			                var id = pedidos[i]['USUARIO_ID']; 
-			                var USUARIO_NOMBRE = pedidos[i]['USUARIO_NOMBRE']; 
-			                var USUARIO_APELLIDO = pedidos[i]['USUARIO_APELLIDO']; 
-			                var PERFIL_NOMBRE = pedidos[i]['PERFIL_NOMBRE']; 
-			                var USUARIO_ACTIVO = pedidos[i]['USUARIO_ACTIVO'];
-							var USUARIO_FECHA_REGISTRO = pedidos[i]['USUARIO_FECHA_REGISTRO'];
-			                var USUARIO_TELEFONO = pedidos[i]['USUARIO_TELEFONO']; 
-			               
-			                var fila = document.createElement("tr");
-							
-
-							var celda0 = document.createElement("td");
-			                var celda1 = document.createElement("td");
-			                var celda2 = document.createElement("td");
-			                var celda3 = document.createElement("td");
-			                var celda4 = document.createElement("td");
-			                var celda5 = document.createElement("td");
-			                var celda11 = document.createElement("td");       
-			                var celda12 = document.createElement("td");   
-							var celda13 = document.createElement("td"); 
-							//var celda14 = document.createElement("td"); 							
-
-							var textoCelda0 = document.createTextNode(id);
-			                var textoCelda1 = document.createTextNode(USUARIO_NOMBRE);
-			                var textoCelda2 = document.createTextNode(USUARIO_APELLIDO);
-			                var textoCelda3 = document.createTextNode(PERFIL_NOMBRE);
-			                var textoCelda4 = document.createTextNode(USUARIO_ACTIVO);
-			                var textoCelda5 = document.createTextNode(USUARIO_FECHA_REGISTRO);
-			                var textoCelda11 = document.createTextNode(USUARIO_TELEFONO);			 
-							
-							celda0.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda1.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda2.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda3.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda4.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda5.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							celda11.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-
-							celda0.appendChild(textoCelda0);
-			                celda1.appendChild(textoCelda1);   
-			                celda2.appendChild(textoCelda2); 
-			                celda3.appendChild(textoCelda3); 
-			                celda4.appendChild(textoCelda4); 
-			                celda5.appendChild(textoCelda5); 
-			                celda11.appendChild(textoCelda11); 
-
-							var span2 = document.createElement("span");
-							span2.setAttribute("class", "glyphicon glyphicon-pencil");
-							
-			               	var btn2 = document.createElement("button");
-			                btn2.setAttribute("class", "btn btn-primary btn-sm");
-			                btn2.setAttribute("type", "button");
-			                btn2.setAttribute("value", "MODIFICAR" );
-			                btn2.setAttribute("onclick","editarUsuario('"+id+"')");
-			                btn2.appendChild(span2);
-
-							var span3 = document.createElement("span");
-							span3.setAttribute("class", "glyphicon glyphicon-ok");
-							
-							var btn3 = document.createElement("button");
-							
-							if(USUARIO_ACTIVO=='S'){
-								btn3.setAttribute("class", "btn btn-success btn-sm");
-							}else{
-								btn3.setAttribute("class", "btn btn-danger btn-sm");
-							}
-							
-			                btn3.setAttribute("type", "button");
-			                btn3.setAttribute("value", "ESTADO");
-							btn3.setAttribute("onclick","ModificarEstado('"+id+"')");
-							btn3.appendChild(span3);
-							
-							celda12.appendChild(btn2);
-			                celda13.appendChild(btn3);
-
-							fila.appendChild(celda0);
-			                fila.appendChild(celda1);
-			                fila.appendChild(celda2);
-			                fila.appendChild(celda3);
-			                fila.appendChild(celda4);
-			                fila.appendChild(celda5);
-			                fila.appendChild(celda11);
-							fila.appendChild(celda12);
-			                fila.appendChild(celda13);
-							//fila.setAttribute("onclick","ConsultarUsuario('"+id+"')");
-							
-			                tbody.appendChild(fila);
-			            }
-
-            tabla.appendChild(thead);
-            tabla.appendChild(tbody);
-
-            var contenedor = document.getElementById("tabla");
-            contenedor.appendChild(tabla);
-
-            tabla.setAttribute("class","table table-condensed table-striped table-responsive");
-            tabla.setAttribute("id","tablaGenerada");
-
-            aplicarPaginado();
-
-    }
 	function ConsultarUsuario(USUARIO_ID){
 		
 		$.ajax({
@@ -780,7 +647,7 @@
     }
     function aplicarPaginado(){
           
-          var table = $('#tablaGenerada').dataTable(
+          var table = $('.tablaGenerada').dataTable(
           {
               language: {
                   processing: "Procesando...",
@@ -822,6 +689,7 @@
 								{ "aTargets": [ 5 ],"bSortable": true },
 								{ "aTargets": [ 6 ],"bSortable": true },
 								{ "aTargets": [ 7 ],"bSortable": true },
+								{ "aTargets": [ 8 ],"bSortable": true },
 								{ "aTargets": [ 8 ],"bSortable": true }
                                 
                               ] 
@@ -1009,6 +877,6 @@
 	}
     window.onload= function alcargar()
     {
-      constultarPedidos();
+      aplicarPaginado();
     }
 </script>

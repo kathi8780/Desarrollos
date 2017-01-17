@@ -24,7 +24,8 @@ class Login extends MX_Controller {
             {
                 $sess_array = array(
                                     'ID_USUARIO' => $row->ID_USUARIO,
-                                    'USUARIO' => $row->USUARIO
+                                    'USUARIO'    => $row->USUARIO,
+									'NOMBRE'      => $row->NOMBRE
                                     );
                 $this->session->set_userdata('loggeado', $sess_array);
             }

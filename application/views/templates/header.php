@@ -411,7 +411,6 @@
         <script src="<?= base_url('assets/librerias/js/jquery.notific8.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/jquery.dataTables.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/librerias/js/dataTables.bootstrap.js') ?>" type="text/javascript"></script>
-
         <script src="<?= base_url('assets/librerias/toggle/bootstrap-toggle.min.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/dientes/snap.svg.js') ?>" type="text/javascript"></script>
         <script src="<?= base_url('assets/dientes/additional.js') ?>" type="text/javascript"></script>
@@ -422,9 +421,10 @@
 
 	$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
 	
-	$query=$this->db->query("SELECT PERFIL_ID FROM usuario WHERE USUARIO_ID='$usuario'");
+	$query=$this->db->query("SELECT PERFIL_ID, CONCAT(USUARIO_NOMBRE, ' ',USUARIO_APELLIDO)NOMBRE FROM usuario WHERE USUARIO_ID='$usuario'");
     $ds = $query->row_array();
-    $perfil = $ds['PERFIL_ID'];
+    $perfil  = $ds['PERFIL_ID'];
+	$usuario = $ds['NOMBRE'];
 	
 	$sql="SELECT a.men_cod,men_titulo 	
 	FROM menuni AS a                                                                 
@@ -436,6 +436,8 @@
 	
 	$mSQL_1=$this->db->query($sql);	
 	$panel =$mSQL_1->result();
+	
+	
 	?>	
     <body>    
             <nav class="navbar navbar-default" role="navigation">
@@ -461,7 +463,7 @@
                         </li>   
 						<?php foreach ($panel AS $principal){?>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $principal->men_titulo; ?><b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if($principal->men_titulo=='Usuario'){ echo $usuario;}else{ echo $principal->men_titulo;} ?><b class="caret"></b></a>
                             <ul class="dropdown-menu">
 							<?php 
 							
@@ -481,17 +483,7 @@
                         </li>
 						<?php 
 						}
-						?>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario:
-                                <?php if ($this->session->userdata('loggeado')){echo $this->session->userdata['loggeado']['USUARIO'];} ?>
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-							  <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cambiar Clave</a></li>
-                              <li> <a href="<?php echo base_url(); ?>index.php/admin/login/logout">Cerrar sesión</a></li>
-                            </ul>
-                        </li>						
+						?>					
                     </ul>
                 </div>
             </nav>

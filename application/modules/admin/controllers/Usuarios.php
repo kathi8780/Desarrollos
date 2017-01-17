@@ -9,6 +9,24 @@ class Usuarios extends MX_Controller {
         parent::__construct();
         $this->load->model('usuarios_model');
     }
+	public function ObtenerUsuarios(){
+
+    	if ($this->session->userdata('loggeado')) 
+        {      
+			
+            $data = array();		
+			$PERFIL_ID=trim($this->input->post('PERFIL_ID')); 
+			$activo=trim($this->input->post('activo')); 
+			
+            $result = $this->usuarios_model->ObtenerUsuarios($PERFIL_ID,$activo);
+
+            echo json_encode($result);   
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+    }
 	public function eliminarConfiguraUsuario(){
 		
 		if ($this->session->userdata('loggeado')) 
@@ -75,7 +93,7 @@ class Usuarios extends MX_Controller {
 		 {
 			$datos=array();
 			$datos['perfil']  = $this->usuarios_model->obtenerPerfil();
-			$datos['usuarios']= $this->usuarios_model->obtenerUsuarios();
+			//$datos['usuarios']= $this->usuarios_model->obtenerUsuarios();
 			
 						
 			$this->load->view('templates/header');
