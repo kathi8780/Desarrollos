@@ -7,14 +7,9 @@ class usuarios_model extends CI_Model
         $this->load->database();
     }
 	function login($usuario, $clave) {
-
-        //$this->db->select('ID_USUARIO, USUARIO, CLAVE');
-        //$this->db->from('admin_usuarios');
-        //$this->db->where('ESTADO', 1);
-        //$this->db->where('USUARIO', $usuario);
-        //$this->db->where('CLAVE', MD5($clave));
 		
-		$this->db->select('USUARIO_ID ID_USUARIO, USUARIO_USER USUARIO, USUARIO_PASSWORD CLAVE');
+		$array=array("USUARIO_ID ID_USUARIO","USUARIO_USER USUARIO","USUARIO_PASSWORD CLAVE","CONCAT(USUARIO_NOMBRE,' ',USUARIO_APELLIDO) AS NOMBRE");
+		$this->db->select($array);
         $this->db->from('usuario');
         $this->db->where('USUARIO_ACTIVO','S');
         $this->db->where('USUARIO_USER', $usuario);
@@ -83,13 +78,24 @@ class usuarios_model extends CI_Model
 		return $resultado;
 				
     }
-	public function obtenerUsuarios()
+	public function obtenerUsuarios($PERFIL_ID,$activo)
     {
         $sql="SELECT u.USUARIO_ID,u.USUARIO_USER, u.USUARIO_NOMBRE, u.USUARIO_APELLIDO,p.PERFIL_NOMBRE, u.USUARIO_ACTIVO,
 			u.USUARIO_FECHA_REGISTRO,u.USUARIO_MOVIL, u.USUARIO_TELEFONO,u.EMPL_COD_EMPL,  u.USUARIO_EMAIL 
 			FROM usuario u
-			JOIN perfil p on u.PERFIL_ID=p.PERFIL_ID
-			ORDER BY u.USUARIO_ID  DESC"; 
+			JOIN perfil p on u.PERFIL_ID=p.PERFIL_ID";
+			
+			if($PERFIL_ID != "")
+            {
+                $sql.=" and u.PERFIL_ID =".$PERFIL_ID ;           
+            }
+			
+            if($activo!= "")
+            {
+                $sql.=" and u.USUARIO_ACTIVO='".$activo."'";  
+            }	
+			
+		$sql.=" ORDER BY u.USUARIO_ID  DESC"; 
 		
 		$query= $this->db->query($sql);
         $ds = $query->result_array();
