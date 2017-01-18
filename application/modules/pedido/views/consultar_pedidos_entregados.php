@@ -59,7 +59,7 @@
         <div class="panel-heading">Consultar Pedidos Entregados</div>
         <div class="panel-body">
             <div class="row" >   
-				<div class="col-md-3 col-sm-3 col-xs-12">
+				<div class="col-md-4 col-sm-2 col-xs-12">
                 	<label class="control-label">Fecha de inicio</label>
                     <div class='input-group'>
                         <span onclick="limpiarFecha('fecha_inicio')" class="input-group-addon left" style="cursor:pointer">
@@ -68,7 +68,7 @@
                         <input value="<?php $fecha = date("Y-m-d"); echo $fecha; ?>" type="text" id="fecha_inicio" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly/>   
                     </div>
                 </div>   
-                <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="col-md-4 col-sm-2 col-xs-12">
                 	<label class="control-label">Fecha de fin</label>
                     <div class='input-group'>
                         <span onclick="limpiarFecha('fecha_fin')" class="input-group-addon left" style="cursor:pointer">
@@ -76,7 +76,45 @@
                         </span>
                         <input value="<?php $fecha = date("Y-m-d"); echo $fecha; ?>" type="text" id="fecha_fin" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly/>   
                     </div>
-                </div>			
+                </div>
+                <!-- campo Cliente -->
+                <div class="col-md-4 col-sm-2 col-xs-12">
+                    <div class="form-group form-group-sm">                
+                        <label>Cliente</label>                            
+                        <input type="text" id="cliente" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
+                    </div>
+                </div>
+				<!-- campo Tipo -->
+                <div class="col-md-4 col-sm-3 col-xs-12">
+                    <div class="form-group form-group-sm">                
+                        <label>Despacho</label>                            
+                        <select id="activo" class="form-control" style="height:30px">
+						<option value="">Seleccione una Ocpión</option>
+						<option value="1">Mensajeria Interna</option>
+						<option value="2">Courier</option>
+						</select>
+                    </div>
+                </div>
+				<!-- campo Mensajero -->
+                <div class="col-md-4 col-sm-2 col-xs-12">
+                    <div class="form-group form-group-sm">                
+                        <label>Mensajero</label>                            
+                        <input type="text" id="mensajero" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
+                    </div>
+                </div>
+ 				<!-- campo Courier -->
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="form-group form-group-sm">                
+						<label class="control-label required" for="">Courier<span class="required"> * </span></label> 
+						<select id="ID_COURIER" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+							<?php foreach ($courier as $array) 
+								{?>
+									<option value="<?php echo $array['ID_COURIER']; ?>" ><?php echo $array['NOMBRE_COURIER']; ?></option>  
+							<?php } ?>
+						</select>
+					</div>
+				</div>
             </div>
 
         </div>
@@ -91,9 +129,6 @@
     	<div id="tabla" class="table-responsive" style="font-size:11px; text-align:center; cursor: pointer"></div>
     </div>
 </div>
-
-
-
     <script src="<?php echo base_url() ?>assets/librerias/js/jquery.dataTables.min.js"></script>
      <script src="<?php echo base_url() ?>assets/librerias/tabletools/2.2.4/js/dataTables.tableTools.min.js"/></script>
     <script type="text/javascript">
@@ -124,13 +159,13 @@
 		//}
 		function constultarPedidos()
     	{
-    		var f_inicio = $("#fecha_inicio").val().trim();
-    		var f_fin = $("#fecha_fin").val().trim();
-			
-			
-			var f_inicio = '';
-    		var f_fin = '';
+    		var f_inicio  = $("#fecha_inicio").val().trim();
+    		var f_fin     = $("#fecha_fin").val().trim();
+			var cliente   = $("#cliente").val().trim();
+			var courier   = $("#ID_COURIER").val().trim();
+			var mensajero = $("#mensajero").val().trim();
 
+			
     		if(f_inicio!="")
 				var f1 = new Date(f_inicio);
 
@@ -145,24 +180,24 @@
 	            return;
 			}
 			
-
+			
             $.isLoading({
                           text: "Cargando",
                           position: "overlay"
                        });
-				            $.ajax({
-				                     type: 'POST',
-				                     async:false,
-				                     dataType: 'json',
-				                     data: {f_inicio:f_inicio,f_fin:f_fin},
-				                     url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPedidosEntregados',
-				                     success: function (data) 
-				                     {     
-				                        generarTablaDinamica(data);   
-				                        $.isLoading("hide");                     
-				                     }
-
-				            });  
+				       $.ajax({
+				                type: 'POST',
+				                async:false,
+				                dataType: 'json',
+				                data: {f_inicio:f_inicio,f_fin:f_fin,cliente:cliente,mensajero:mensajero,courier:courier},
+				                url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPedidosEntregados',
+				                success: function (data) 
+				                {     
+				                   generarTablaDinamica(data);   
+				                   $.isLoading("hide");                     
+				                }
+            
+				       });  
     	}
 
         function generarTablaDinamica(pedidos)
@@ -249,7 +284,7 @@
 			                var medico = pedidos[i]['medico']; 
 			                
 
-			                var prueba = pedidos[i]['prueba']; 
+			                var prueba = pedidos[i]['NOMBRE_PRUEBA']; 
 			                var fecha_empaque = pedidos[i]['FECHA_EMPAQUE']; 
 			                var mensajero = pedidos[i]['mensajerocourirer']; 
 			                var fecha_despacho = pedidos[i]['FECHA_SALIDA']; 
@@ -358,7 +393,7 @@
                             [20, 100, 200, -1],    //valor q utilizo en la propiedad iDisplayLength para asociar a una opcion
                             [20, 100, 200, "Todo"]  //opciones del select para la cant de registros a mostrar
                             ],
-              iDisplayLength: 20,
+              iDisplayLength: -1,
               "bSort": true, //habilito el ordenar para todas las columnas
               "order": [],  //para que no ordene la primera columna por default
               "columnDefs": [{

@@ -432,9 +432,11 @@ class Pedidos extends MX_Controller {
     {
         if ($this->session->userdata('loggeado')) 
         {            
+			$datos=array();
+			$datos['courier'] = $this->pedidos_model->obtenerCourier(); 
 			
 			$this->load->view('templates/header');
-            $this->load->view('Consultar_pedidos_entregados');
+            $this->load->view('Consultar_pedidos_entregados',$datos);
             $this->load->view('templates/footer');
         }
         else 
@@ -515,10 +517,13 @@ class Pedidos extends MX_Controller {
     {
         if ($this->session->userdata('loggeado')) 
         {
-            $f_inicio = trim($this->input->post('f_inicio'));
-            $f_fin = trim($this->input->post('f_fin'));
+            $f_inicio  = trim($this->input->post('f_inicio'));
+            $f_fin     = trim($this->input->post('f_fin'));
+			$cliente   = trim($this->input->post('cliente'));
+			$mensajero = trim($this->input->post('mensajero'));
+			$courier   = trim($this->input->post('courier'));
 
-            $pedidos = $this->pedidos_model->obtenerPedidosEntregados($f_inicio,$f_fin);
+            $pedidos = $this->pedidos_model->obtenerPedidosEntregados($f_inicio,$f_fin,$cliente,$mensajero,$courier);
             echo json_encode($pedidos);             
         }
         else 
