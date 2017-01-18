@@ -88,7 +88,7 @@
                 <div class="col-md-4 col-sm-3 col-xs-12">
                     <div class="form-group form-group-sm">                
                         <label>Despacho</label>                            
-                        <select id="activo" class="form-control" style="height:30px">
+                        <select id="activo" class="form-control" style="height:30px" onchange="seleccionarDespacho(this.value)">
 						<option value="">Seleccione una Ocpión</option>
 						<option value="1">Mensajeria Interna</option>
 						<option value="2">Courier</option>
@@ -96,14 +96,14 @@
                     </div>
                 </div>
 				<!-- campo Mensajero -->
-                <div class="col-md-4 col-sm-2 col-xs-12">
+                <div id="men" style="display: none;" class="col-md-4 col-sm-2 col-xs-12">
                     <div class="form-group form-group-sm">                
                         <label>Mensajero</label>                            
                         <input type="text" id="mensajero" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
                     </div>
                 </div>
  				<!-- campo Courier -->
-				<div class="col-md-4 col-sm-4 col-xs-12">
+				<div id="cou" style="display: none;" 	 class="col-md-4 col-sm-4 col-xs-12">
 					<div class="form-group form-group-sm">                
 						<label class="control-label required" for="">Courier<span class="required"> * </span></label> 
 						<select id="ID_COURIER" class="form-control" style="height:30px">
@@ -198,6 +198,22 @@
 				                }
             
 				       });  
+    	}
+
+    	function seleccionarDespacho(id){
+
+    			
+    			if(id==1){
+
+    				$("#men").show();
+    				$("#cou").hide();
+    			}
+    			if (id==2) {
+    				$("#cou").show();
+    				$("#men").hide();
+    			}
+    			
+    			
     	}
 
         function generarTablaDinamica(pedidos)
