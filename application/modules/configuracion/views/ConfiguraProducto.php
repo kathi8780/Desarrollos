@@ -1,3 +1,122 @@
+<!--ventana modal para editar proceso-->
+
+
+        <div class="modal fade" id="modal-editar-producto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">MODIFICAR PRODUCTO</h4>
+                    </div>
+                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">
+                    EDITAR
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    
+	        <!-- campo Producto -->
+	        <div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">     
+	            <input type="text" id="id" value="">           
+	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
+					<select id="e_producto"  class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($producto as $array) 
+							{?>
+								<option value="<?php echo $array['PROD_COD_PROD']; ?>"  ><?php echo $array['PROD_COD_PROD']; ?></option>  
+					<?php } ?>
+					</select>
+	            </div>
+	        </div>	
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+			<!-- campo Laboratorio -->
+	        <div class="col-md- col-sm-5 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Laboratorio<span class="required"> * </span></label> 
+					<select id="e_laboratorio" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($laboratorio as $array) 
+							{?>
+								<option value="<?php echo $array['ID_LABORATORIO']; ?>" ><?php echo $array['NOMBRE_LABORATORIO']; ?></option>  
+					<?php } ?>
+					</select>
+	            </div>
+	        </div>
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+		    <!-- campo comisión -->
+			<div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Comisión<span class="required"> * </span></label> 
+					<select id="e_comision" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
+					</select>
+	            </div>
+	        </div>
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>	
+			<!-- campo Prod. Principal -->
+			<div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Prod. Principal<span class="required"> * </span></label> 
+					<select id="e_principal" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
+					</select>
+	            </div>
+	        </div>
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+			<!-- campo Prod. Principal -->
+	        <div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Conf. Insentivo<span class="required"> * </span></label> 
+					<select id="e_insentivo" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
+					</select>
+	            </div>
+	        </div>	
+               </td>   
+                </tr>
+              </table>
+            </div>
+                  </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+<!--fin ventana modal para editar producto-->
+
+
+
+
+
+
 <div class="panel panel-primary" >
     <div class="panel-heading">CONFIGURAR PRODUCTO</div>
 
@@ -154,10 +273,87 @@
         }); 
 							
     }
-	function ModificarRegistro(id){
+	function ModificarRegistro(id_producto){
 		
-		alert(id);
+	var producto;
+    var laboratorio;
+    var comision;
+    var principal;
+    var insentivo;		 
+                  
+        
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {id_producto:id_producto},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/obtenerConfiguraProductoUnico',
+                         success: function (data) 
+                         {    
+
+                          producto=data[0]['producto'];
+                          laboratorio=data[0]['id_laboratorio'];
+                          comision=data[0]['comision'];
+                          principal=data[0]['principal'];
+                          insentivo=data[0]['insentivo'];
+                          $("#id").val(id_producto);
+                          $("#e_laboratorio").val(laboratorio);
+                          $("#e_producto").val(producto);
+                          $("#e_comision").val(comision);
+                          $("#e_insentivo").val(insentivo);
+                          $("#e_principal").val(principal);
+
+                         }
+                }); 
+
+		$("#modal-editar-producto").modal('show');
+
 		
+		
+	}
+
+	function realizarEdicion(){
+
+		
+		var id_producto=$("#id").val().trim();
+		var producto    = $("#e_producto").val().trim();
+		var laboratorio = $("#e_laboratorio").val().trim();
+		var comision    = $("#e_comision").val().trim();
+		var principal  = $("#e_principal").val().trim();
+		var insentivo   = $("#e_insentivo").val().trim();
+		
+    	if(producto=="")
+    	{
+            var text = 'Falta campo PRODUCTO';
+            $.notific8(text, params); 
+            return;
+    	}
+    	
+    	else if(laboratorio=="")
+    	{
+            var text = 'Falta campo LABORATORIO';
+            $.notific8(text, params); 
+            return;
+    	}
+      
+
+        
+		
+		$.ajax({
+                 type: 'POST',
+                 async:false,
+                 dataType: 'json',
+                 data: {id_producto:id_producto,producto:producto,laboratorio:laboratorio,comision:comision,principal:principal,insentivo:insentivo},
+				 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/editarConfiguraProducto',
+                 success: function (data) 
+                 {     
+				   alert('Edición de Producto Configurado con Exito');
+				   $.isLoading("hide");
+				   constultarPedidos();
+                 }
+        }); 
+        $("#modal-editar-producto").modal('hide');
+
 	}
 	function EliminarRegistro(id){
 		

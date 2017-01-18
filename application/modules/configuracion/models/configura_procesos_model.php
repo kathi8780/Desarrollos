@@ -33,25 +33,36 @@ class configura_procesos_model extends CI_Model
 				
     }
 	//Trae los productos por Laboratorio
-	public function ConfiguraProducto($laboratorio)
+	public function ConfiguraProducto($laboratorio,$idproducto)
     {
    
-		 $select=array("pl.ID_PRODUCTO_LABORATORIO","pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","pl.CONFIGURACION_INCENTIVO insentivo");
+		 $select=array("pl.ID_PRODUCTO_LABORATORIO","pl.PROD_COD_PROD as producto", "l.NOMBRE_LABORATORIO as laboratorio","pl.PRINCIPAL as principal","pl.COMISION as comision","pl.CONFIGURACION_INCENTIVO as insentivo","pl.ID_LABORATORIO as id_laboratorio");
 		 $this->db->select($select);
-         $this->db->from("producto_laboratorio pl");
-		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+         $this->db->from("producto_laboratorio as pl");
+		 $this->db->join("laboratorio as l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
 		 $this->db->order_by("l.ID_LABORATORIO ASC");
 		 
 		 if($laboratorio!= ""){
 			 
-             $this->db->where("l.ID_LABORATORIO=", $laboratorio);  
+             $this->db->where("pl.ID_LABORATORIO=", $laboratorio);  
          }
-		 
+		 if($idproducto!=""){
+
+		 	$this->db->where("pl.ID_PRODUCTO_LABORATORIO=", $idproducto); 
+
+		 }
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
          return $resultado;
 				
     }
+    public function actualizarConfiguraProducto($data,$id){
+
+    	$this->db->where('producto_laboratorio.ID_PRODUCTO_LABORATORIO', $id);
+        $this->db->update('producto_laboratorio', $data);
+
+    }
+
 	//Trae los procesos por producto
 	public function ProcesosPorProducto($producto)
     {
