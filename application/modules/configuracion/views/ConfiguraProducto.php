@@ -23,7 +23,7 @@
 	        <!-- campo Producto -->
 	        <div class="col-md- col-sm-3 col-xs-12">
 	            <div class="form-group form-group-sm">     
-	            <input type="text" id="id" value="">           
+	            <input type="hidden" id="id" value="">           
 	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
 					<select id="e_producto"  class="form-control" style="height:30px">
 						<option value="">TODOS</option>

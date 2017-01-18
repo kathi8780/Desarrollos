@@ -24,7 +24,7 @@
 	        <div class="col-md- col-sm-5 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
-	                <input type="text" id="id" value="">
+	                <input type="hidden" id="id" value="">
 					<select id="e_producto" class="form-control" style="height:30px">
 						<option value="">TODOS</option>
 						<?php foreach ($producto as $array) 
