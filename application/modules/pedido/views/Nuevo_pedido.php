@@ -2278,7 +2278,7 @@
                  {    
                     //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};
 						//alert(categoria + s + data);
-                        console.log("data"+data2);
+                        //console.log("data"+data2);
                         //alert(data2);
                         //paint_tooth(categoria,s);   
                         paint_hover_tooth(categoria,s,0);  

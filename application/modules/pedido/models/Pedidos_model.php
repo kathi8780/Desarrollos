@@ -798,7 +798,9 @@ class Pedidos_model extends CI_Model
              $fecha = date("Y-m-d"); 
 
              $this->db->select("
-                                p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE,'Mensajero/Courier' as mensajerocourirer, pb.FECHA_SALIDA, pb.FEC_HOR_ENTR, pb.PERSO_RECIBE
+                                p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,
+								pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, 
+								pb.FECHA_EMPAQUE,'Mensajero/Courier' as mensajerocourirer, pb.FECHA_SALIDA, pb.FEC_HOR_ENTR, pb.PERSO_RECIBE
                              ");
 
              $this->db->from("pedido p");
