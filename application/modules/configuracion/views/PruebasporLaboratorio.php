@@ -170,6 +170,28 @@
 
 			    });  
     	}
+    	function ModificarEstado(id){
+			
+				$.isLoading({
+                      text: "Cargando",
+                      position: "overlay"
+                });
+					  
+			    $.ajax({
+			             type: 'POST',
+			             async:false,
+			             dataType: 'json',
+			             data: {id:id},
+			             url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/estadoProcesosPorLaboratorio',
+			             success: function (data) 
+			             {     
+			                constultarPedidos();							
+			                $.isLoading("hide");                     
+			             }
+
+			    });
+		}
+
         function generarTablaDinamica(data)
         {
             $("#tabla").html(""); // limpio el div que contiene la tabla generaada
@@ -183,23 +205,31 @@
             var filaCabecera = document.createElement("tr");
 						var celda0  = document.createElement("td");
 			            var celda1  = document.createElement("td");
-			            var celda11 = document.createElement("td");
+			            var celda2 = document.createElement("td");
+			            //var celda11 = document.createElement("td");
 			            var celda12 = document.createElement("td");
+			            var celda13 = document.createElement("td");
 		
 						var textoCelda0  = document.createTextNode("LABORATORIO");
 			            var textoCelda1  = document.createTextNode("PRUEBAS");
-			            var textoCelda11 = document.createTextNode("MODIFICAR");
+			            var textoCelda2  =  document.createTextNode("ESTADO");
+			            //var textoCelda11 = document.createTextNode("MODIFICAR");
 			            var textoCelda12 = document.createTextNode("ELIMINAR");
+			            var textoCelda13 = document.createTextNode("ESTADO");
 			            
 						celda0.appendChild(textoCelda0);
 			            celda1.appendChild(textoCelda1);
-			            celda11.appendChild(textoCelda11);
+			            celda2.appendChild(textoCelda2);
+			            //celda11.appendChild(textoCelda11);
 			            celda12.appendChild(textoCelda12);
+			            celda13.appendChild(textoCelda13);
 						
 						filaCabecera.appendChild(celda0);
 			            filaCabecera.appendChild(celda1);
-			            filaCabecera.appendChild(celda11);
+			            filaCabecera.appendChild(celda2);
+			            //filaCabecera.appendChild(celda11);
 			            filaCabecera.appendChild(celda12);
+			            filaCabecera.appendChild(celda13);
 
 			            filaCabecera.setAttribute("id","fila_cabecera");
 			            thead.appendChild(filaCabecera);
@@ -230,13 +260,17 @@
 							
 			                var prueba = data[i]['prueba'];
 							var id     = data[i]['ID_PRUEBA_LABORATORIO'];
+							var estado = data[i]['estado']; 
+							
 			                
 			                var fila = document.createElement("tr");
 
 							var celda0  = document.createElement("td");
 			                var celda1  = document.createElement("td");
-			                var celda11 = document.createElement("td");       
+			                var celda2  = document.createElement("td");
+			                //var celda11 = document.createElement("td");       
 			                var celda12 = document.createElement("td"); 
+			                var celda13 = document.createElement("td");
 
 							celda1.setAttribute("style","text-align:left");
 								
@@ -244,16 +278,19 @@
 								
 								celda0.setAttribute("class", "alert alert-info");
 								celda1.setAttribute("class", "alert alert-info");
+								celda2.setAttribute("class", "alert alert-info");
 																
 							}
 							
 
 							var textoCelda0 = document.createTextNode(laboratorio);
 			                var textoCelda1 = document.createTextNode(prueba);
+			                var textoCelda2 = document.createTextNode(estado);
 						                
 							celda0.appendChild(textoCelda0);
-			                celda1.appendChild(textoCelda1); 
-			
+			                celda1.appendChild(textoCelda1);
+			                celda2.appendChild(textoCelda2); 
+							/*
 							var span2 = document.createElement("span");
 							span2.setAttribute("class", "glyphicon glyphicon-pencil");
 							
@@ -266,7 +303,7 @@
 							
 							celda11.appendChild(btn2);
 			                celda11.setAttribute("style","text-align:center"); 
-
+			                */	
 						    var span1 = document.createElement("span");
 							span1.setAttribute("class", "glyphicon glyphicon-trash");
 							
@@ -280,11 +317,32 @@
 			                celda12.appendChild(btn);
 			                celda12.setAttribute("style","text-align:center"); 
 									
+							var span3 = document.createElement("span");
+							span3.setAttribute("class", "glyphicon glyphicon-ok");
+							
+							var btn3 = document.createElement("button");
+							
+							if(estado=='S'){
+								btn3.setAttribute("class", "btn btn-success btn-sm");
+							}else{
+								btn3.setAttribute("class", "btn btn-danger btn-sm");
+							}
+							
+			                btn3.setAttribute("type", "button");
+			                btn3.setAttribute("value", "ESTADO");
+							btn3.setAttribute("onclick","ModificarEstado('"+id+"')");
+							btn3.appendChild(span3);
+							
+			                celda13.appendChild(btn3);
+			                celda13.setAttribute("style","text-align:center");
+														
+																
 							fila.appendChild(celda0);
 			                fila.appendChild(celda1);
-							fila.appendChild(celda11);
+			                fila.appendChild(celda2);
+							//fila.appendChild(celda11);
 			                fila.appendChild(celda12);
-			               	
+			               	fila.appendChild(celda13);
 			                tbody.appendChild(fila);
 			            }
 

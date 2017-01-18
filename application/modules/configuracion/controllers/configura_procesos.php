@@ -31,6 +31,19 @@ class configura_procesos extends MX_Controller {
             echo json_encode($resultado);  	
 		}	
 	}
+
+	public function estadoProcesosPorLaboratorio(){
+
+		if ($this->session->userdata('loggeado'))
+		{	
+			$id = trim($this->input->post('id'));
+			$data['ESTADO'] =$id;
+			
+			$resultado = $this->configura_procesos_model->actualizarEstadoProcesoPorLaboratorio($id);
+            echo json_encode($resultado);  	
+		}	
+
+	}
 	public function ConfiguraProducto(){
 		
 		 if ($this->session->userdata('loggeado'))
@@ -151,6 +164,21 @@ class configura_procesos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
 		
+	}
+
+	public function buscarEstadoPruebasPorLaboratorio(){
+
+		if ($this->session->userdata('loggeado')) 
+        {
+            $laboratorio = trim($this->input->post('laboratorio'));
+			$resultado = $datos['pruebas_laboratorio']  = $this->configura_procesos_model->PruebasPorLaboratorio($laboratorio);
+            echo json_encode($resultado);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
 	}
 	public function BuscarProcesosPorProducto(){
 		

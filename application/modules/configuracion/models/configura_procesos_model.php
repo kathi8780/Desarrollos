@@ -16,7 +16,7 @@ class configura_procesos_model extends CI_Model
 	public function PruebasPorLaboratorio($laboratorio)
     {
    
-		 $select=array("pl.ID_PRUEBA_LABORATORIO","l.NOMBRE_LABORATORIO as laboratorio","tp.NOMBRE_PRUEBA prueba");
+		 $select=array("pl.ID_PRUEBA_LABORATORIO","l.NOMBRE_LABORATORIO as laboratorio","tp.NOMBRE_PRUEBA prueba","pl.ESTADO as estado");
 		 $this->db->select($select);
          $this->db->from("pruebas_laboratorio pl");
 		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
@@ -227,6 +227,11 @@ class configura_procesos_model extends CI_Model
 	public function EstadoProcesosPorTecnico($data,$id)
 	{
 		$this->db->query("UPDATE tecnico_proceso SET activo=if(ACTIVO='S','N','S') WHERE ID_TECNICO_PROCESO=$id");
+
+	}
+
+	public function actualizarEstadoProcesoPorLaboratorio($id){
+		$this->db->query("UPDATE pruebas_laboratorio SET ESTADO=if(ESTADO='S','N','S') WHERE ID_PRUEBA_LABORATORIO=$id");
 
 	}
 	public function InsertarConfiguraProducto($data)
