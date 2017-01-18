@@ -335,16 +335,13 @@
             $.notific8(text, params); 
             return;
     	}
-      
-
-        
-		
 		$.ajax({
                  type: 'POST',
                  async:false,
                  dataType: 'json',
                  data: {id_producto:id_producto,producto:producto,laboratorio:laboratorio,comision:comision,principal:principal,insentivo:insentivo},
 				 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/editarConfiguraProducto',
+				 
                  success: function (data) 
                  {     
 				   alert('Edición de Producto Configurado con Exito');

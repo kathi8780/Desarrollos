@@ -64,15 +64,15 @@ class configura_procesos_model extends CI_Model
     }
 
 	//Trae los procesos por producto
-	public function ProcesosPorProducto($producto)
+	public function ProcesosPorProducto($producto,$procesos_producto)
     {
    
-		 $select=array("p.ID_PROCESOS","pl.PROD_COD_PROD producto", "l.NOMBRE_LABORATORIO laboratorio","pl.PRINCIPAL principal","pl.COMISION comision","p.ORDEN orden", "pn.NOMBRE_PROCESO proceso");
+		 $select=array("p.ID_PROCESO_NOMBRE as pronom","p.ID_PRODUCTO_LABORATORIO as id","p.ID_PROCESOS","pl.PROD_COD_PROD as producto", "l.NOMBRE_LABORATORIO as laboratorio","pl.PRINCIPAL as principal","pl.COMISION as comision","p.ORDEN as orden", "pn.NOMBRE_PROCESO as proceso");
 		 $this->db->select($select);
-         $this->db->from("producto_laboratorio pl");
-		 $this->db->join("procesos p",'pl.ID_PRODUCTO_LABORATORIO=p.ID_PRODUCTO_LABORATORIO');
-		 $this->db->join("procesos_nombre pn",'pn.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE');
-		 $this->db->join("laboratorio l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
+         $this->db->from("producto_laboratorio as pl");
+		 $this->db->join("procesos as p",'pl.ID_PRODUCTO_LABORATORIO=p.ID_PRODUCTO_LABORATORIO');
+		 $this->db->join("procesos_nombre as pn",'pn.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE');
+		 $this->db->join("laboratorio as l",'l.ID_LABORATORIO=pl.ID_LABORATORIO');
 		 $this->db->order_by("pl.PROD_COD_PROD ASC,p.ORDEN ASC");
 		 
 		 if($producto!= ""){
@@ -80,10 +80,20 @@ class configura_procesos_model extends CI_Model
              $this->db->where("pl.PROD_COD_PROD=", $producto);  
          }
 		 
+		 if($procesos_producto!=""){
+		 	$this->db->where("p.ID_PROCESOS",$procesos_producto);
+
+		 }
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
          return $resultado;
 				
+    }
+    public function actualizarProcesoPorProducto($data,$id){
+
+    	$this->db->where('procesos.ID_PROCESOS', $id);
+        $this->db->update('procesos', $data);
+
     }
 	public function ObtenerProcesosPorTecnico($id)
     {

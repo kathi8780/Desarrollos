@@ -1,3 +1,126 @@
+<!--ventana modal para editar proceso-->
+
+
+        <div class="modal fade" id="modal-editar-proceso_por_producto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">MODIFICAR PROCESOS POR PRODUCTO</h4>
+                    </div>
+                    <div class="modal-body" id="cuerpo-modal-asignar-mensajero">
+            <div class="table-responsive">
+              <table class="table table-condensed table-striped table-bordered">
+                <tr style="font-weight: bold">
+                  <td colspan="2" class="bg-primary" style="text-align: center">
+                    EDITAR
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    
+	        <!-- campo Producto -->
+	        <div class="col-md- col-sm-5 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Producto<span class="required"> * </span></label> 
+	                <input type="text" id="id" value="">
+					<select id="e_producto" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($producto as $array) 
+							{?>
+								<option value="<?php echo $array['ID_PRODUCTO_LABORATORIO']; ?>" ><?php echo $array['PROD_COD_PROD']; ?></option>  
+					<?php } ?>
+					</select>
+	            </div>
+	        </div>	
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+			<!-- campo Proceso -->
+	        <div class="col-md- col-sm-5 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Proceso<span class="required"> * </span></label> 
+					<select id="e_proceso" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+						<?php foreach ($proceso as $array) 
+							{?>
+								<option value="<?php echo $array['ID_PROCESO_NOMBRE']; ?>" ><?php echo $array['NOMBRE_PROCESO']; ?></option>  
+					<?php } ?>
+					</select>
+	            </div>
+	        </div>
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+		    <!-- campo comisión -->
+			<div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Comisión<span class="required"> * </span></label> 
+					<select id="e_comision" class="form-control" style="height:30px">
+						<option value="S">SI</option>
+						<option value="N">NO</option>			
+					</select>
+	            </div>
+	        </div>
+	        </td>
+	        </tr>
+	        <tr>
+	        <td>
+			<!-- campo Orden -->
+	       		<div class="col-md- col-sm-3 col-xs-12">
+	            <div class="form-group form-group-sm">                
+	                <label class="control-label required" for="">Orden<span class="required"> * </span></label> 
+					<select id="e_orden" class="form-control" style="height:30px">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>						
+					</select>
+	            </div>
+	        </div>	
+               </td>   
+                </tr>
+              </table>
+            </div>
+                  </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+<!--fin ventana modal para editar producto-->
+
+
+
+
+
+
 <div class="panel panel-primary" >
     <div class="panel-heading">ADICIONAR NUEVO PROCESO A PRODUCTO</div>
 
@@ -204,10 +327,77 @@
         }); 
 							
     }
-	function ModificarRegistro(id){
+	function ModificarRegistro(id_procesos){
 		
-		alert(id);
-		
+		//alert(id_procesos);
+		var producto;
+    	var proceso;
+    	var comision;
+    	var orden;		 
+                $.ajax({
+                         type: 'POST',
+                         async:false,
+                         dataType: 'json',
+                         data: {id_procesos:id_procesos},
+                         url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/buscarProcesosPorProductoUnico',
+                         success: function (data) 
+                         {    
+
+                          producto=data[0]['id'];
+                          proceso=data[0]['pronom'];
+                          comision=data[0]['comision'];
+                          orden=data[0]['orden'];
+                          $("#id").val(id_procesos);
+                          $("#e_proceso").val(proceso);
+                          $("#e_producto").val(producto);
+                          $("#e_comision").val(comision);
+                          $("#e_orden").val(orden);
+                         }
+                });   
+        
+               
+		$("#modal-editar-proceso_por_producto").modal('show');	
+	}
+
+	function realizarEdicion(){
+
+
+		var id_procesos=$("#id").val().trim();
+		var producto    = $("#e_producto").val().trim();
+		var proceso = $("#e_proceso").val().trim();
+		var comision    = $("#e_comision").val().trim();
+		var orden  = $("#e_orden").val().trim();
+
+    	if(producto=="")
+    	{
+            var text = 'Falta campo PRODUCTO';
+            $.notific8(text, params); 
+            return;
+    	}
+    	
+    	else if(proceso=="")
+    	{
+            var text = 'Falta campo LABORATORIO';
+            $.notific8(text, params); 
+            return;
+    	}
+
+		$.ajax({
+                 type: 'POST',
+                 async:false,
+                 dataType: 'json',
+                 data: {id_procesos:id_procesos,producto:producto,proceso:proceso,comision:comision,orden:orden},
+				 url: '<?php echo base_url(); ?>index.php/configuracion/configura_procesos/editarProcesoPorProducto',
+                 success: function (data) 
+                 {     
+				   alert('Edición de Procesos Por Producto Exitoso');
+				   $.isLoading("hide");
+				   constultarPedidos();
+				   $("#modal-editar-proceso_por_producto").modal('hide');
+                 }
+        }); 
+        
+
 	}
 	function EliminarRegistro(id){
 		
@@ -228,7 +418,6 @@
 							$.isLoading("hide"); 
 							constultarPedidos();
 			             }
-
 			    });
 	}
 	function constultarPedidos(){
