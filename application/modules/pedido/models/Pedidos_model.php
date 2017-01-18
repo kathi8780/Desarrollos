@@ -802,7 +802,7 @@ class Pedidos_model extends CI_Model
 
              $array=array("p.PEDF_NUM_PREIMP as numero", "p.FECHA_COTIZACION fing","pac.NOMBRE_APELLIDO as paciente",
 			 "IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico","tp.NOMBRE_PRUEBA","pb.FECHA_EMPAQUE",
-			 "if(pb.EMPL_COD_EMPL='' or pb.EMPL_COD_EMPL is null,(SELECT c.NOMBRE_COURIER FROM courier c WHERE c.ID_COURIER=pb.ID_COURIER),pb.EMPL_COD_EMPL) as mensajerocourirer",
+			 "if(pb.EMPL_COD_EMPL='' or pb.EMPL_COD_EMPL is null,(SELECT c.NOMBRE_COURIER FROM courier c WHERE c.ID_COURIER=pb.ID_COURIER),(SELECT CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) FROM usuario u WHERE u.EMPL_COD_EMPL=pb.EMPL_COD_EMPL)) as mensajerocourirer",
 			 "pb.FECHA_SALIDA","pb.FEC_HOR_ENTR","pb.PERSO_RECIBE","'Cliente Generico' as cliente","p.CLPV_COD_CLPV as ciudad");
 		
 			 
@@ -1372,7 +1372,8 @@ class Pedidos_model extends CI_Model
 
     public function obtenerMensajerosActivos()
     {
-        $this->db->select("*");
+        $array=array("u.EMPL_COD_EMPL AS ID_MENSAJERO", "CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) AS NOMBRE_MENSAJERO");
+		$this->db->select($array);
         $this->db->from("usuario u");
         $this->db->join("perfil p",'u.PERFIL_ID = p.PERFIL_ID');
         $this->db->where("p.PERFIL_ACTIVO =",'S');
@@ -1382,7 +1383,6 @@ class Pedidos_model extends CI_Model
         $resultado = $consulta->result_array();
         return $resultado;
     }
-
     public function obtenerCourier()
     {
         $this->db->select("*");

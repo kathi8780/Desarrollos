@@ -8,9 +8,8 @@ class Pedidos extends MX_Controller {
         $this->load->model('pedidos_model');
     }
 	public function prueba(){
-		
-		$usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
-		$result = $this->pedidos_model->acceso($usuario);
+
+		$result = $this->pedidos_model->obtenerMensajerosActivos();
         echo json_encode($result);
 		
 	}
@@ -434,6 +433,7 @@ class Pedidos extends MX_Controller {
         {            
 			$datos=array();
 			$datos['courier'] = $this->pedidos_model->obtenerCourier(); 
+			$datos['mensajeros'] = $this->pedidos_model->obtenerMensajerosActivos();
 			
 			$this->load->view('templates/header');
             $this->load->view('Consultar_pedidos_entregados',$datos);

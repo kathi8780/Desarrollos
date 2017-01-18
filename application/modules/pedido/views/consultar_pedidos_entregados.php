@@ -98,9 +98,17 @@
 				<!-- campo Mensajero -->
                 <div id="men" style="display: none;" class="col-md-4 col-sm-2 col-xs-12">
                     <div class="form-group form-group-sm">                
-                        <label>Mensajero</label>                            
-                        <input type="text" id="mensajero" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
-                    </div>
+
+					<label class="control-label required" for="">Mensajero<span class="required"> * </span></label> 					
+					<select id="mensajero" class="form-control" style="height:30px">
+						<option value="">TODOS</option>
+							<?php foreach ($mensajeros as $array) 
+								{?>
+									<option value="<?php echo $array['ID_MENSAJERO']; ?>" ><?php echo $array['NOMBRE_MENSAJERO']; ?></option>  
+							<?php } ?>
+					</select>
+					 
+					</div>
                 </div>
  				<!-- campo Courier -->
 				<div id="cou" style="display: none;" 	 class="col-md-4 col-sm-4 col-xs-12">
@@ -179,8 +187,7 @@
 	            $.notific8(text, params);
 	            return;
 			}
-			
-			
+						
             $.isLoading({
                           text: "Cargando",
                           position: "overlay"
@@ -207,12 +214,13 @@
 
     				$("#men").show();
     				$("#cou").hide();
+				
     			}
     			if (id==2) {
     				$("#cou").show();
     				$("#men").hide();
-    			}
-    			
+					
+    			} 			
     			
     	}
 
