@@ -89,7 +89,7 @@
                     <div class="form-group form-group-sm">                
                         <label>Despacho</label>                            
                         <select id="activo" class="form-control" style="height:30px" onchange="seleccionarDespacho(this.value)">
-						<option value="">Seleccione una Ocpión</option>
+						<option value="0">Seleccione una Ocpión</option>
 						<option value="1">Mensajeria Interna</option>
 						<option value="2">Courier</option>
 						</select>
@@ -203,6 +203,11 @@
     	function seleccionarDespacho(id){
 
     			
+    			if(id==0){
+
+    				$("#men").hide();
+    				$("#cou").hide();
+    			}
     			if(id==1){
 
     				$("#men").show();
