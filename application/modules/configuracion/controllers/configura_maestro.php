@@ -115,7 +115,6 @@ class configura_maestro extends MX_Controller {
 	}
 	public function editarProceso(){
             
-
         if ($this->session->userdata('loggeado')) 
         {      
             $id=trim($this->input->post('id_proceso'));
@@ -123,6 +122,7 @@ class configura_maestro extends MX_Controller {
             $data['NOMBRE_PROCESO']=trim($this->input->post('nombre_proceso'));
             $data['MINUTOS']=trim($this->input->post('minutos'));
             $actualiza=$this->configura_maestros_model->actualizarProcesoNombre($data,$id);
+            
             echo json_encode($actualiza);
         }
         else 

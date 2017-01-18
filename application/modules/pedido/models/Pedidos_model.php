@@ -199,7 +199,7 @@ class Pedidos_model extends CI_Model
          $this->db->distinct();
          $this->db->select("NOMBRE_APELLIDO");
          $this->db->from("paciente p");
-		 $this->db->limit(3);
+		 //$this->db->limit(3);
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
          return $resultado;
@@ -497,7 +497,6 @@ class Pedidos_model extends CI_Model
         $resultado = $consulta->row_array();
         return $resultado['cantidad'];
     }
-
     public function obtenerPedidosSuspendidos()
     {
         $this->db->select("
@@ -515,7 +514,6 @@ class Pedidos_model extends CI_Model
         $resultado = $consulta->result_array();
         return $resultado;
     }
-
     public function cantidadPedidosAtrasadosEnProduccion() 
     {
         $sql="SELECT COUNT(*) AS cantidad
@@ -793,15 +791,25 @@ class Pedidos_model extends CI_Model
              return $resultado['cantidad'];
     }
 
-    public function obtenerPedidosEntregados()
+    public function obtenerPedidosEntregados($f_inicio,$f_fin,$cliente,$mensajero,$courier)
     {
              $fecha = date("Y-m-d"); 
 
+<<<<<<< HEAD
              $this->db->select("
                                 p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,
 								pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, 
 								pb.FECHA_EMPAQUE,'Mensajero/Courier' as mensajerocourirer, pb.FECHA_SALIDA, pb.FEC_HOR_ENTR, pb.PERSO_RECIBE
                              ");
+=======
+             $array=array("p.PEDF_NUM_PREIMP as numero", "p.FECHA_COTIZACION fing","pac.NOMBRE_APELLIDO as paciente",
+			 "IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico","tp.NOMBRE_PRUEBA","pb.FECHA_EMPAQUE",
+			 "if(pb.EMPL_COD_EMPL='' or pb.EMPL_COD_EMPL is null,(SELECT c.NOMBRE_COURIER FROM courier c WHERE c.ID_COURIER=pb.ID_COURIER),pb.EMPL_COD_EMPL) as mensajerocourirer",
+			 "pb.FECHA_SALIDA","pb.FEC_HOR_ENTR","pb.PERSO_RECIBE","'Cliente Generico' as cliente","p.CLPV_COD_CLPV as ciudad");
+		
+			 
+			 $this->db->select($array);
+>>>>>>> 7ae96107b7a6c6376ff5744895b6fc2b04766263
 
              $this->db->from("pedido p");
              $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO');
@@ -812,9 +820,32 @@ class Pedidos_model extends CI_Model
              $this->db->where("pb.ENTREGADO =", 'S'); 
              $this->db->where("pb.ID_ESTADOS =", '8'); 
              $this->db->where("pb.DESPACHADO =", 'S'); 
-			 $this->db->limit(100); 
-				
+			 
 
+
+			if($f_inicio!= "")
+			{
+				$this->db->where("DATE(pb.FEC_HOR_ENTR)  >=", Date($f_inicio) );  
+			}
+			if($f_fin!= "")
+			{
+				$this->db->where("DATE(pb.FEC_HOR_ENTR)  <=",Date($f_fin) );  
+			}
+			if($cliente!= "")
+			{
+				$this->db->where(" p.CLPV_COD_CLPV  =",$cliente);  
+			}
+			if($mensajero!= "")
+			{
+				$this->db->where(" pb.EMPL_COD_EMPL  =",$mensajero);  
+			}
+			if($courier!= "")
+			{
+				$this->db->where(" pb.ID_COURIER =",$courier);  
+			}
+			 //$this->db->limit(100); 
+			
+			 $this->db->order_by(" pb.FEC_HOR_ENTR ASC");
              $consulta = $this->db->get();
              $resultado = $consulta->result_array();
              return $resultado;

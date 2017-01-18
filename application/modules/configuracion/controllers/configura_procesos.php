@@ -81,8 +81,9 @@ class configura_procesos extends MX_Controller {
 		
 		if ($this->session->userdata('loggeado')) 
         {
+        	$producto="";
             $laboratorio = trim($this->input->post('laboratorio'));
-			$resultado = $datos['producto_laboratorio']  = $this->configura_procesos_model->ConfiguraProducto($laboratorio);
+			$resultado = $datos['producto_laboratorio']  = $this->configura_procesos_model->ConfiguraProducto($laboratorio,$producto);
             echo json_encode($resultado);             
         }
         else 
@@ -91,6 +92,52 @@ class configura_procesos extends MX_Controller {
         }
 		
 	}
+// metodo para recuperar datos de un solo registro(EDITAR)
+	public function obtenerConfiguraProductoUnico(){
+
+		if ($this->session->userdata('loggeado')) 
+        {
+        	$laboratorio="";
+            $producto = trim($this->input->post('id_producto'));
+			$datos= $this->configura_procesos_model->ConfiguraProducto($laboratorio,$producto);
+            echo json_encode($datos);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+	}
+
+	public function editarConfiguraProducto(){
+		if($this->session->userdata('loggeado')) 
+        {
+            $id=trim($this->input->post('id_producto'));
+            $producto   = trim($this->input->post('producto'));
+			$laboratorio= trim($this->input->post('laboratorio'));
+			$comision   = trim($this->input->post('comision'));
+			$principal = trim($this->input->post('principal'));
+			$insentivo  = trim($this->input->post('insentivo'));
+			
+			//Inserto Producto Por Laboratorio 
+            $data = array();
+
+            $data['PROD_COD_PROD']  =$producto;
+            $data['ID_LABORATORIO'] =$laboratorio;
+			$data['COMISION']       =$comision;
+			$data['CONFIGURACION_INCENTIVO'] =$insentivo;
+			$data['PRINCIPAL']      =$principal;
+						
+            $actualizar=$this->configura_procesos_model->actualizarConfiguraProducto($data,$id);
+			echo json_encode($actualizar);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
+	}
+
 	public function BuscarPruebasPorLaboratorio(){
 		
 		if ($this->session->userdata('loggeado')) 
