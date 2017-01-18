@@ -997,13 +997,13 @@ class Pedidos extends MX_Controller {
             $cant_retiros_pendientes = $this->pedidos_model->cantidadRetirosPendientes();
             $cant_retiros_asignados = $this->pedidos_model->cantidadRetirosAsignados();
 			$cant_control_calidad = $this->pedidos_model->cantidadControlCalidad();
-			//$cant_control_calidad = 2;
+			////$cant_control_calidad = 2;
 			$cant_pre_pedido= $this->pedidos_model->cantidadPrePedido();
 			$cant_ped_produccion= $this->pedidos_model->cantidadPedProduccion();
 			
             $datos['cant_suspendidos'] = $cant_suspendidos;
             $datos['cant_atrasados_produccion'] = $cant_atrasados_produccion;
-			$datos['cant_retiros_asignados']  = $cant_retiros_asignados;
+			//$datos['cant_retiros_asignados']  = $cant_retiros_asignados;
             $datos['cant_atrasados_entrega_cliente'] = $cant_atrasados_entrega_cliente;
             $datos['cant_pedidos_transito'] = $cant_pedidos_transito;
             $datos['cant_pedidos_ruta'] = $cant_pedidos_ruta;
@@ -1016,8 +1016,8 @@ class Pedidos extends MX_Controller {
 			$datos['cant_ped_produccion']     = $cant_ped_produccion;
 			
             //obtengo los pacientes y los pedidos para el autocompletar de la busqueda en la vista
-            $datos['pacientes'] = $this->pedidos_model->obtenerPacientes();
-            $datos['pedidos'] = $this->pedidos_model->obtenerNumPedidos();
+            //$datos['pacientes'] = $this->pedidos_model->obtenerPacientes();
+            //$datos['pedidos'] = $this->pedidos_model->obtenerNumPedidos();
 
             echo json_encode($datos);             
         }

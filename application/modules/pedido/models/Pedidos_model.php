@@ -24,7 +24,9 @@ class Pedidos_model extends CI_Model
    
 		$usuario=$this->session->userdata['loggeado']['USUARIO'];	
 		
-		$sql_2   ="SELECT u.ID_TECNICO FROM usuario u WHERE u.USUARIO_USER='".$usuario."'";
+		$sql_2   ="SELECT t.CEDULA,u.EMPL_COD_EMPL, t.ID_TECNICO FROM usuario u 
+		JOIN tecnico t on t.CEDULA=u.EMPL_COD_EMPL  WHERE u.USUARIO_USER='".$usuario."'";
+		
 		$query   = $this->db->query($sql_2);
 		
 		$row     = $query->row();
@@ -80,7 +82,7 @@ class Pedidos_model extends CI_Model
             INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
             INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
             where p.PEDF_NUM_PREIMP =".$nro_pedido." AND e.ID_ESTADOS<>'4'
-				ORDER BY pp.ID_PROCESO_PEDIDO ASC
+				ORDER BY pro.ORDEN ASC
 				LIMIT 1";
 		
 		$query= $this->db->query($sql);
@@ -159,6 +161,7 @@ class Pedidos_model extends CI_Model
 		$this->db->from("tecnico_proceso AS tp");
 		$this->db->join("procesos_nombre AS pn",'pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE');
 		$this->db->where("tp.ID_TECNICO=",$tecnico);
+		$this->db->where("tp.ACTIVO=",'S');
 		$this->db->order_by("pn.NOMBRE_PROCESO ASC");
 		
 		$consulta = $this->db->get();
@@ -797,13 +800,6 @@ class Pedidos_model extends CI_Model
     {
              $fecha = date("Y-m-d"); 
 
-<<<<<<< HEAD
-             $this->db->select("
-                                p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,
-								pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, 
-								pb.FECHA_EMPAQUE,'Mensajero/Courier' as mensajerocourirer, pb.FECHA_SALIDA, pb.FEC_HOR_ENTR, pb.PERSO_RECIBE
-                             ");
-=======
              $array=array("p.PEDF_NUM_PREIMP as numero", "p.FECHA_COTIZACION fing","pac.NOMBRE_APELLIDO as paciente",
 			 "IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico","tp.NOMBRE_PRUEBA","pb.FECHA_EMPAQUE",
 			 "if(pb.EMPL_COD_EMPL='' or pb.EMPL_COD_EMPL is null,(SELECT c.NOMBRE_COURIER FROM courier c WHERE c.ID_COURIER=pb.ID_COURIER),pb.EMPL_COD_EMPL) as mensajerocourirer",
@@ -811,7 +807,6 @@ class Pedidos_model extends CI_Model
 		
 			 
 			 $this->db->select($array);
->>>>>>> 7ae96107b7a6c6376ff5744895b6fc2b04766263
 
              $this->db->from("pedido p");
              $this->db->join("pruebas pb",'pb.ID_PEDIDO=p.ID_PEDIDO');

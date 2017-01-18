@@ -27,9 +27,17 @@
                              ?>                      
                         </select>
                     </div>
-                 </div>	
-                  <!--  campo tipo de proceso	-->
-                <div class="col-md-2 col-sm-2 col-xs-12">
+                 </div>
+				 <div class="col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group form-group-sm"> 
+                        <div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="GuardarProceso()">Ejecutar</button>
+						</div>
+                    </div>
+				 </div>
+                 <!--  campo tipo de proceso	-->
+                <!--
+				<div class="col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group form-group-sm"> 
                         <label class="control-label required" for="s_tproceso">Tipo de Proceso *</label>
                         <select id="s_tproceso" class="form-control" onchange="GuardarProceso()">  
@@ -40,7 +48,8 @@
                     
                         </select>
                     </div>
-                 </div>		 
+                 </div>
+				-->
 			</div>
 		</div>
 	</div>
@@ -82,7 +91,8 @@
 		
 		var nro_pedido =  $("#s_pedidos").val().trim();
 		var proceso    =  $("#s_proceso").val().trim();
-		var tproceso   =  $("#s_tproceso").val().trim();
+		//var tproceso   =  $("#s_tproceso").val().trim();
+		var tproceso   =  '1';
 		
 		if(nro_pedido!="" && proceso!="" && tproceso!="" )
 	 	{
