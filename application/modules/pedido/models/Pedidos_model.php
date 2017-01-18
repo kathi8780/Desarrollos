@@ -148,7 +148,8 @@ class Pedidos_model extends CI_Model
            
 		$usuario=$this->session->userdata['loggeado']['USUARIO'];	
 		
-		$sql_2   ="SELECT u.ID_TECNICO FROM usuario u WHERE u.USUARIO_USER='".$usuario."'";
+		$sql_2   ="SELECT t.CEDULA,u.EMPL_COD_EMPL, t.ID_TECNICO FROM usuario u 
+		JOIN tecnico t on t.CEDULA=u.EMPL_COD_EMPL  WHERE u.USUARIO_USER='".$usuario."'";
 		$query   = $this->db->query($sql_2);
 		
 		$row     = $query->row();
@@ -158,6 +159,7 @@ class Pedidos_model extends CI_Model
 		$this->db->from("tecnico_proceso AS tp");
 		$this->db->join("procesos_nombre AS pn",'pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE');
 		$this->db->where("tp.ID_TECNICO=",$tecnico);
+		$this->db->order_by("pn.NOMBRE_PROCESO ASC");
 		
 		$consulta = $this->db->get();
 		$resultado = $consulta->result_array();
