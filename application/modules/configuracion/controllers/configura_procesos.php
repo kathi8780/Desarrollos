@@ -157,7 +157,8 @@ class configura_procesos extends MX_Controller {
 		if ($this->session->userdata('loggeado')) 
         {
             $producto = trim($this->input->post('producto'));
-			$resultado = $datos['procesos_producto']  = $this->configura_procesos_model->ProcesosPorProducto($producto);
+            $procesos_producto="";
+			$resultado = $datos['procesos_producto']  = $this->configura_procesos_model->ProcesosPorProducto($producto,$procesos_producto);
             echo json_encode($resultado);             
         }
         else 
@@ -165,6 +166,49 @@ class configura_procesos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }
 		
+	}
+
+	public function buscarProcesosPorProductoUnico(){
+		if ($this->session->userdata('loggeado')) 
+        {
+            $producto = "";
+            $procesos_producto=trim($this->input->post('id_procesos'));
+			$datos= $this->configura_procesos_model->ProcesosPorProducto($producto,$procesos_producto);
+            echo json_encode($datos);             
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+	}
+
+	public function editarProcesoPorProducto(){
+		
+		if($this->session->userdata('loggeado')) 
+        {
+            $id=trim($this->input->post('id_procesos'));
+            $producto   = trim($this->input->post('producto'));
+			$proceso= trim($this->input->post('proceso'));
+			$comision   = trim($this->input->post('comision'));
+			$orden = trim($this->input->post('orden'));
+			
+			//Inserto Producto Por Laboratorio 
+            $data = array();
+
+            $data['ID_PRODUCTO_LABORATORIO']=$producto;
+            $data['ID_PROCESO_NOMBRE']      =$proceso;
+			$data['COMISION_PROCESO']       =$comision;
+			$data['ORDEN']                  =$orden;
+						
+            $actualizar=$this->configura_procesos_model->actualizarProcesoPorProducto($data,$id);
+			echo json_encode($actualizar);    
+                         
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
 	}
 	public function ProcesosPorTecnico(){
 		
