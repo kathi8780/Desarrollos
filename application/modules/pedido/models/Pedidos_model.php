@@ -565,9 +565,8 @@ class Pedidos_model extends CI_Model
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
         $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
         $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
-        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
-        $sql .= "AND pb.ENTREGADO ='N' ";
-        $sql .= "AND pb.DESPACHADO ='N' AND DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE)>1";     
+        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' AND pb.ENTREGADO ='N'";
+        $sql .= "AND DATEDIFF(CURDATE(),pb.FECHA_SALIDA)>1";     
 
         $query= $this->db->query($sql);
         $ds = $query->row_array();
@@ -576,7 +575,7 @@ class Pedidos_model extends CI_Model
     }
     public function obtenerPedidosAtrasadosEnEntrega() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
+        $sql = "SELECT if(pb.DESPACHADO='S','SI','NO') DESPACHADO, if(pb.DESPACHADO='S',pb.FECHA_SALIDA,'')FECHA_SALIDA, p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -584,10 +583,8 @@ class Pedidos_model extends CI_Model
         $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
         $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
         $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
-
-        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
-        $sql .= "AND pb.ENTREGADO ='N' ";
-        $sql .= "AND pb.DESPACHADO ='N' AND DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE)>1";     
+        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' AND pb.ENTREGADO ='N'";
+        $sql .= " AND DATEDIFF(CURDATE(),pb.FECHA_SALIDA)>1";     
 
         $query= $this->db->query($sql);
         $ds = $query->result_array();

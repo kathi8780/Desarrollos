@@ -95,6 +95,12 @@
                  <td>
                      FECHA EMPAQUE
                  </td>
+				 <td>
+                     DESPACHADO
+                 </td>
+				 <td>
+                     FECHA DE DESPACHADO
+                 </td>
                  <td>
                      DIAS
                  </td>
@@ -132,6 +138,12 @@
                      </td>
                      <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
                          <?php echo $pedidos_empacados[$i]['FECHA_EMPAQUE']." ".$pedidos_empacados[$i]['HORA_EMPAQUE']?>
+                     </td>
+					<td style="cursor:pointer; text-align: center"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['DESPACHADO'] ?>
+                     </td>
+					<td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
+                         <?php echo $pedidos_empacados[$i]['FECHA_SALIDA']?>
                      </td>
                      <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
                          <?php echo $pedidos_empacados[$i]['DIAS']; ?>
