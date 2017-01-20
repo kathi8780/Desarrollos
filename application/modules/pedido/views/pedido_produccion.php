@@ -95,11 +95,12 @@
                 <tr  
                     class="
                          <?php 
-						 $start = new DateTime(date("Y-m-d"));
-						 $start->setTimezone(new DateTimeZone('UTC'));
-						 $end = new DateTime($pedido_produccion[$i]['FECHA_PRUEBA']);
-						 $end->setTimezone(new DateTimeZone('UTC'));
-						 $days = round(($end->format('U')-$start->format('U')) / (60*60*24));
+						 //$start = new DateTime(date("Y-m-d"));
+						 //$start->setTimezone(new DateTimeZone('UTC'));
+						 //$end = new DateTime($pedido_produccion[$i]['FECHA_PRUEBA']);
+						 //$end->setTimezone(new DateTimeZone('UTC'));
+						 //$days = round(($end->format('U')-$start->format('U')) / (60*60*24));
+						 $days=$pedido_produccion[$i]['DIAS'];
 						 
                          if( $days < 0 )
                             echo "alert alert-danger";

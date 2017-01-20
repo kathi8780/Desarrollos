@@ -281,7 +281,7 @@ class Pedidos_model extends CI_Model
         $sql="SELECT 
                 p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
                 p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
-            pb.FECHA_SALIDA as FECHA_PRUEBA 
+            pb.FECHA_SALIDA as FECHA_PRUEBA, DATEDIFF(pb.FECHA_SALIDA,CURDATE()) DIAS 
             from pedido p
             INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
             INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
@@ -543,7 +543,7 @@ class Pedidos_model extends CI_Model
         $sql="SELECT 
                 p.PEDF_NUM_PREIMP as numero,'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
                 p.FECHA_COTIZACION fing,et.NOMBRE_ESTADO as estado, tp.NOMBRE_PRUEBA,
-            pb.FECHA_SALIDA as FECHA_PRUEBA 
+            pb.FECHA_SALIDA as FECHA_PRUEBA,DATEDIFF(pb.FECHA_SALIDA,CURDATE()) DIAS 
             from pedido p
             INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
             INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
