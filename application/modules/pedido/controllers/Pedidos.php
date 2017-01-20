@@ -7,9 +7,16 @@ class Pedidos extends MX_Controller {
         parent::__construct();
         $this->load->model('pedidos_model');
     }
-	public function prueba(){
+	public function prueba($nro_pedido, $proceso, $tproceso){
 
-		$result = $this->pedidos_model->obtenerMensajerosActivos();
+		$pedidos = $this->pedidos_model->validaProcesoCreado($nro_pedido, $proceso, $tproceso);
+        echo json_encode($pedidos);
+		
+	}
+	public function ObtenerTecnicosPedido(){
+			
+		$nro_pedido   = trim($this->input->post('nro_pedido'));
+		$result = $this->pedidos_model->ObtenerTecnicosPedido($nro_pedido);
         echo json_encode($result);
 		
 	}

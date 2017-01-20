@@ -39,13 +39,13 @@ class Pedidos_model extends CI_Model
 		$row1     = $query_1->row();
 		$categoria= $row1->ID_CATEGORIA;
 		
-		$sql="SELECT pp.ID_PROCESO_PEDIDO
+		$sql="SELECT pp.ID_PROCESO_PEDIDO,pro.ID_PROCESO_NOMBRE
             from pedido p
             INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
             INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
             INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
-            INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
-            where p.PEDF_NUM_PREIMP =".$nro_pedido." AND pro.ID_PROCESO_NOMBRE=".$proceso;
+            WHERE p.PEDF_NUM_PREIMP =".$nro_pedido." 
+			HAVING ID_PROCESO_NOMBRE=".$proceso;
 		
 		$query2= $this->db->query($sql);
         $resultado = $query2->result_array();				
@@ -63,31 +63,45 @@ class Pedidos_model extends CI_Model
 	public function validaProcesoCreado($nro_pedido, $proceso, $tproceso)
     {
            
-		/* Validad si el proceso seleccionado ya fue ingresado
-		$sql="select COUNT(*) AS cant
-            from pedido p
-            INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
-            INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
-            INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
-            INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
-            where p.PEDF_NUM_PREIMP =".$nro_pedido." AND pro.ID_PROCESO_NOMBRE=".$proceso."  AND e.ID_ESTADOS='4'";*/
-			
-		$sql="SELECT pp.ID_PROCESO_PEDIDO,pro.ID_PROCESO_NOMBRE,(
-            select NOMBRE_PROCESO
-            from procesos_nombre pn where pn.ID_PROCESO_NOMBRE=pro.ID_PROCESO_NOMBRE
-            )as NOMBRE_PROCESO
-            from pedido p
-            INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
-            INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
-            INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
-            INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
-            where p.PEDF_NUM_PREIMP =".$nro_pedido." AND e.ID_ESTADOS<>'4'
-				ORDER BY pro.ORDEN ASC
-				LIMIT 1";
 		
-		$query= $this->db->query($sql);
-        $ds = $query->result_array();
-        return $ds;
+		$sql="SELECT pp.ID_PEDIDO_DESCRIPCION, pro.ORDEN, pro.ID_PROCESO_NOMBRE #,pd.PROD_COD_PROD,pp.ID_PROCESO_PEDIDO,pro.ID_PROCESOS,pp.ID_ESTADOS
+            from pedido p
+            INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO
+            INNER JOIN proceso_pedido pp on pp.ID_PEDIDO_DESCRIPCION = pd.ID_PEDIDO_DESCRIPCION
+            INNER JOIN procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS
+            where p.PEDF_NUM_PREIMP =$nro_pedido
+            HAVING ID_PROCESO_NOMBRE=$proceso";
+		
+			$query=$this->db->query($sql);	
+			$procesos =$query->result();
+			
+
+		foreach($procesos AS $valida){
+			
+			$proceso=$valida->ID_PEDIDO_DESCRIPCION;
+			$orden=$valida->ORDEN-1;
+			
+			$sQL="SELECT pro.ID_PROCESO_NOMBRE,(SELECT NOMBRE_PROCESO FROM procesos_nombre pn where pn.ID_PROCESO_NOMBRE=pro.ID_PROCESO_NOMBRE)as NOMBRE_PROCESO 
+			FROM  proceso_pedido pp
+			JOIN  procesos pro on pro.ID_PROCESOS = pp.ID_PROCESOS 
+			WHERE  pp.ID_PEDIDO_DESCRIPCION=$proceso AND pro.ORDEN=$orden AND pp.ID_ESTADOS<>4";
+			
+			//echo $sQL;
+			
+			$query=$this->db->query($sQL);
+
+			if ($query->num_rows() > 0)
+			{
+				$row = $query->row_array();   
+				$resultado=$row['NOMBRE_PROCESO'];
+				return 'INCORRECTO.! Pase Primero '.$resultado;
+			}else{
+				
+				return 0;
+			}
+				
+		}
+        
 				
     }
    public function obtenerTecnico()
@@ -142,6 +156,37 @@ class Pedidos_model extends CI_Model
             $query= $this->db->query($sql);
             $ds = $query->result_array();
             return $ds; 
+				
+    }
+	// Se obtiene los procesos asociados a un Proceso
+	public function ObtenerTecnicosPedido($nro_pedido)
+    {
+           
+		$usuario=$this->session->userdata['loggeado']['USUARIO'];	
+		
+		$sql_2   ="SELECT t.CEDULA,u.EMPL_COD_EMPL, t.ID_TECNICO FROM usuario u 
+		JOIN tecnico t on t.CEDULA=u.EMPL_COD_EMPL  WHERE u.USUARIO_USER='".$usuario."'";
+		$query   = $this->db->query($sql_2);
+		
+		$row     = $query->row();
+		$tecnico = $row->ID_TECNICO;
+		
+		
+		$sQL="SELECT 
+		pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO 
+		FROM pedido p 
+		JOIN pedido_descripcion pd ON p.ID_PEDIDO=pd.ID_PEDIDO
+		JOIN proceso_pedido  AS pp ON pp.ID_PEDIDO_DESCRIPCION=pd.ID_PEDIDO_DESCRIPCION
+		JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
+		JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
+		JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
+		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico' AND pp.ID_ESTADOS<>4
+		GROUP BY pr.ID_PROCESO_NOMBRE
+		ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
+				
+		$query= $this->db->query($sQL);
+        $ds = $query->result_array();
+        return $ds; 
 				
     }
     // Se obtiene los procesos asociados a un técnico

@@ -6,16 +6,10 @@
                 <div class="col-md4 col-sm-4 col-xs-12">
                     <div class="form-group form-group-sm"> 
                         <label class="control-label required" for="s_pedidos">Ingrese Número de Pedido *</label>
-                        <input type="text" id="s_pedidos" maxlength="50" class="form-control" onkeypress="return runScript(event)" />
+                        <input type="text" id="s_pedidos" maxlength="50" class="form-control" />
                     </div>
-                 </div>			 
+                 </div>	
                 <!--  campo proceso	-->
-				 <div class="col-md4 col-sm-4 col-xs-12">
-                    <div class="form-group form-group-sm"> 
-                         <div id="tabla"></div>	
-                    </div>
-                 </div>
-				<!--
                 <div class="col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group form-group-sm"> 
                         <label class="control-label required" for="s_proceso">Proceso *</label>
@@ -59,7 +53,6 @@
 			</div>
 		</div>
 	</div>
-	
     <div>
     	<div id="tabla-productos" class="table-responsive" style="cursor: pointer"></div>
     </div>
@@ -91,92 +84,8 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
-	function runScript(e) {
-		if (e.keyCode == 13) {
-			
-			TecnicosProceso();
-		}
-	}
-	function TecnicosProceso(){
-		
-		var nro_pedido =  $("#s_pedidos").val().trim();
-		//alert(nro_pedido);
-		
-		
-		$.ajax({
-				 type: 'POST',
-				 async:false,
-				 dataType: 'json',
-				 data: {nro_pedido:nro_pedido},
-				 url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerTecnicosPedido',
-				 success: function (data) 
-				 {     
-				    CrearCampoSelect(data);                    
-				 }
 
-			    });
-		
-		
-	}
-	function CrearCampoSelect(data){
-		
-		 $("#tabla").html(""); // limpio el div que contiene la tabla generaada
 
-            //tabla
-            var tabla = document.createElement("table");
-            var thead = document.createElement("thead");
-            var tbody = document.createElement("tbody");
-
-            //cabecera
-            var filaCabecera = document.createElement("tr");
-			 
-						var celda0 = document.createElement("td");
-
-						var textoCelda0 = document.createTextNode("Procesos Por Técnico");
-  
-						celda0.appendChild(textoCelda0);
-			            
-						filaCabecera.appendChild(celda0);
-			           			            
-			            filaCabecera.setAttribute("id","fila_cabecera");
-						
-			            thead.appendChild(filaCabecera);
-						
-						var selectList = document.createElement('select');
-						selectList.setAttribute("onchange","GuardarProceso()");
-						selectList.id ='s_proceso';
-						
-						var fila = document.createElement("tr");
-							
-						var celda0 = document.createElement("td");
-
-			            //CUERPO
-			            for (var i = 0; i < data.length; i++)
-			            {
-			                var ID_PROCESO_NOMBRE = data[i]['ID_PROCESO_NOMBRE']; 
-			                var NOMBRE_PROCESO    = data[i]['NOMBRE_PROCESO']; 
-			                			               
-							var option = document.createElement("option");
-								option.value = ID_PROCESO_NOMBRE;
-							    option.text  = NOMBRE_PROCESO;
-							selectList.appendChild(option);
-						
-							celda0.appendChild(selectList);
-
-							fila.appendChild(celda0);
-			                							
-			                tbody.appendChild(fila);
-			            }
-
-            tabla.appendChild(thead);
-            tabla.appendChild(tbody);
-
-            var contenedor = document.getElementById("tabla");
-            contenedor.appendChild(tabla);
-
-            tabla.setAttribute("class","table table-condensed table-striped table-responsive");
-            tabla.setAttribute("id","tablaGenerada");
-	}
 	function GuardarProceso()
 	{
 		
@@ -196,28 +105,39 @@
 	                     url: '<?php echo base_url(); ?>index.php/pedido/pedidos/validaProcesoCreado',
 	                     success: function (data) 
 	                     {    
-								
-								if(data.length>0){	
-									alert(data);
-								}else{
-																	
-									$.ajax({
-										type: 'POST',
-										async:false,
-										dataType: 'json',
-										data: {nro_pedido:nro_pedido,proceso:proceso,tproceso:tproceso},
-										url: '<?php echo base_url(); ?>index.php/pedido/pedidos/TrackingCreado',
-										success: function (data) 
-										{
-											
-											alert('Procesado con Éxito');
-											cargarPedido();
-											
-										} 
-									});
-	                  	                  
+								if(data.length>0){
+									
+									var PROCESO_SIGUIENTE    = data[0]['ID_PROCESO_NOMBRE'];
+									var PROCESO_SELECCIONADO = proceso;
+									var NOMBRE_PROCESO       = data[0]['NOMBRE_PROCESO'];
+									
+									if(PROCESO_SIGUIENTE!=PROCESO_SELECCIONADO){
+										
+										var text = 'Proceso Incorrecto, Segun el Orden Cronológico el Siguiente Proceso es '+NOMBRE_PROCESO;
+										$.notific8(text, params); 	
+									}else
+									{
+										//alert('Proceso Correcto');
+										
+										$.ajax({
+											type: 'POST',
+											async:false,
+											dataType: 'json',
+											data: {nro_pedido:nro_pedido,proceso:proceso,tproceso:tproceso},
+											url: '<?php echo base_url(); ?>index.php/pedido/pedidos/TrackingCreado',
+											success: function (data) 
+											{
+												
+												alert(NOMBRE_PROCESO + ': Procesado con Éxito');
+												cargarPedido();
+												
+											} 
+										});
+										
+									} 
 								}
-						}
+	                  	                  
+	                     }
 	            }); 
 			
 		}else
