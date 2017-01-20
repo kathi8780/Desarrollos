@@ -111,7 +111,8 @@
             
             <?php              
                 for($i=0;$i<count($pedidos_atrasados);$i++)
-                {
+                		
+					
             ?>
                 <tr onclick="detallePedido('<?php echo $pedidos_atrasados[$i]['numero'] ?>')" >
                      <td>
