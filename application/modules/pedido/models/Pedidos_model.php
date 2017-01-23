@@ -180,7 +180,7 @@ class Pedidos_model extends CI_Model
 		JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
 		JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
 		JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
-		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico' AND pp.ID_ESTADOS<>4
+		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico' #AND pp.ID_ESTADOS<>4
 		GROUP BY pr.ID_PROCESO_NOMBRE
 		ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
 				
@@ -529,7 +529,7 @@ class Pedidos_model extends CI_Model
             left join tecnico_proceso tp on (tp.ID_TECNICO=t.ID_TECNICO and tp.ID_PROCESO_NOMBRE = pro.ID_PROCESO_NOMBRE )
             left join categoria categ on categ.ID_CATEGORIA = tp.ID_CATEGORIA
             INNER JOIN estados e on e.ID_ESTADOS=pp.ID_ESTADOS
-            where p.PEDF_NUM_PREIMP =".$nro_pedido;
+            where p.PEDF_NUM_PREIMP =$nro_pedido";
 
             $query= $this->db->query($sql);
             $ds = $query->result_array();

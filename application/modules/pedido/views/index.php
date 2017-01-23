@@ -397,20 +397,20 @@
 			 $('#indicador_ped_produccion').html(ped_produccion);
 
              //obtengo los pacientes y pedidos para el autocompletar del campo buscar
-            var arreglo_asociativo_pacientes = data.pacientes; // esto me da un arreglo asociativo y yo necesito uno lineal
-            var arreglo_asociativo_pedidos = data.pedidos;
-
-            for(var i=0; i<arreglo_asociativo_pacientes.length; i++)
-            {
-            	pacientes[i]=arreglo_asociativo_pacientes[i]['NOMBRE_APELLIDO'];
-            }
-
-            for(var i=0; i<arreglo_asociativo_pedidos.length; i++)
-            {
-            	pedidos[i]=arreglo_asociativo_pedidos[i]['PEDF_NUM_PREIMP'];
-            }
-
-            asociarPacientesABusqueda();
+            //var arreglo_asociativo_pacientes = data.pacientes; // esto me da un arreglo asociativo y yo necesito uno lineal
+            //var arreglo_asociativo_pedidos = data.pedidos;
+            //
+            //for(var i=0; i<arreglo_asociativo_pacientes.length; i++)
+            //{
+            //	pacientes[i]=arreglo_asociativo_pacientes[i]['NOMBRE_APELLIDO'];
+            //}
+            //
+            //for(var i=0; i<arreglo_asociativo_pedidos.length; i++)
+            //{
+            //	pedidos[i]=arreglo_asociativo_pedidos[i]['PEDF_NUM_PREIMP'];
+            //}
+            //
+            //asociarPacientesABusqueda();
 
          }
       });
