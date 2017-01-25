@@ -103,6 +103,24 @@ class usuarios_model extends CI_Model
 			
 					
     }
+
+  public function obtenerPasswordUsuario(){
+
+    
+
+
+          $usuario=$this->session->userdata['loggeado']['ID_USUARIO']; 
+          
+          $array=array("u.USUARIO_NOMBRE","u.USUARIO_ID");
+          $this->db->select($array);
+          $this->db->from("usuario AS u");
+          $this->db->where("u.USUARIO_ID=",$usuario);
+          
+          $consulta = $this->db->get();
+          $resultado = $consulta->result_array();
+          return $resultado;
+
+      }
 	public function insertarUsuario($data,$USUARIO_USER)
     { 
         		
@@ -125,6 +143,13 @@ class usuarios_model extends CI_Model
 		return $resultado;
 		
     }
+  public function actualizarClaveUsuario($data,$id){
+    
+
+    $this->db->where('usuario.USUARIO_ID', $id);
+    $this->db->update('usuario', $data);
+
+  } 
 	public function ActualizaUsuario($data, $id)
     {
         $this->db->where('usuario.USUARIO_ID', $id);

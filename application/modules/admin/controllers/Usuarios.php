@@ -132,4 +132,38 @@ class Usuarios extends MX_Controller {
           redirect('admin/login', 'refresh');
         } 
     }
+
+    public function mostrarFormularioCambiarClave(){
+    	if ($this->session->userdata('loggeado'))
+		 {
+			$datos=array();
+			$datos['pasusario']  = $this->usuarios_model->obtenerPasswordUsuario();
+			
+			//$datos['usuarios']= $this->usuarios_model->obtenerUsuarios();
+			
+						
+			$this->load->view('templates/header');
+            $this->load->view('CambiarClave', $datos);
+            $this->load->view('templates/footer');
+						 
+		 }
+
+    }
+
+    public function editarClaveUsuario(){
+    	if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('id'));
+            $data = array();
+			$data['USUARIO_PASSWORD']=MD5(trim($this->input->post('nuevaClave'))); 
+            $actualiza=$this->usuarios_model->actualizarClaveUsuario($data,$id);
+			echo json_encode($actualiza);
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+
+
+    }
 }
