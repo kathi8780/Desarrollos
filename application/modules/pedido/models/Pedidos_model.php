@@ -171,18 +171,28 @@ class Pedidos_model extends CI_Model
 		$row     = $query->row();
 		$tecnico = $row->ID_TECNICO;
 		
+		//Funciona Todos los procesos
+		//$sQL="SELECT 
+		//pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO,pp.ID_ESTADOS 
+		//FROM pedido p 
+		//JOIN pedido_descripcion pd ON p.ID_PEDIDO=pd.ID_PEDIDO
+		//JOIN proceso_pedido  AS pp ON pp.ID_PEDIDO_DESCRIPCION=pd.ID_PEDIDO_DESCRIPCION
+		//JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
+		//JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
+		//JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
+		//WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico'
+		//GROUP BY pr.ID_PROCESO_NOMBRE
+		//ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
 		
-		$sQL="SELECT 
-		pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO 
+		$sQL="SELECT pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO
 		FROM pedido p 
 		JOIN pedido_descripcion pd ON p.ID_PEDIDO=pd.ID_PEDIDO
 		JOIN proceso_pedido  AS pp ON pp.ID_PEDIDO_DESCRIPCION=pd.ID_PEDIDO_DESCRIPCION
-		JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
-		JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
-		JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
-		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico' #AND pp.ID_ESTADOS<>4
-		GROUP BY pr.ID_PROCESO_NOMBRE
-		ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
+		JOIN procesos_nombre as pn ON pn.ID_PROCESO_NOMBRE=(SELECT tp.ID_PROCESO_NOMBRE
+		FROM tecnico_proceso tp
+		INNER JOIN procesos p ON  tp.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE
+		WHERE tp.ACTIVO='S' AND tp.ID_TECNICO='$tecnico' AND p.ID_PROCESOS=pp.ID_PROCESOS)
+		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND pp.ID_ESTADOS='3'";
 				
 		$query= $this->db->query($sQL);
         $ds = $query->result_array();
