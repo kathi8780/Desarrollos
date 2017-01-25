@@ -67,6 +67,17 @@
 				  </td>
 				</tr>
 				<tr>
+					<td>
+				    <!-- campo usuario -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Usuario<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="30" id="c_USUARIO_USER" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+					</td>
+				</tr>
+				<tr>
                   <td>
 				  <!-- Fecha de Registro -->
 					<div class="col-md-8 col-sm-6 col-xs-12">
@@ -358,7 +369,7 @@
 
  <div style="min-height:500px">
     <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">Consultar Pedido</div>
+        <div class="panel-heading">Consultar Usuario</div>
         <div class="panel-body">
             <div class="row" > 
                 <!-- campo perfil de usuario -->
@@ -865,6 +876,7 @@
                 {  
 
 					var USUARIO_ID = data[0]['USUARIO_ID'];	
+					var PERFIL_ID = data[0]['PERFIL_ID'];	
 					var USUARIO_NOMBRE = data[0]['USUARIO_NOMBRE'];	
 					var USUARIO_APELLIDO = data[0]['USUARIO_APELLIDO'];	
 					var USUARIO_ACTIVO = data[0]['USUARIO_ACTIVO'];	
@@ -876,7 +888,7 @@
 					var USUARIO_TIEMPO_SESION = data[0]['USUARIO_TIEMPO_SESION'];
 					var USUARIO_USER = data[0]['USUARIO_USER'];
 					
-
+					$("#c_PERFIL_ID").val(PERFIL_ID);
 					$("#c_USUARIO_ID").val(USUARIO_ID); 
 					$("#c_USUARIO_NOMBRE").val(USUARIO_NOMBRE); 
 					$("#c_USUARIO_APELLIDO").val(USUARIO_APELLIDO); 
@@ -933,12 +945,13 @@
 	  var USUARIO_EMAIL = $("#c_USUARIO_EMAIL").val().trim();
 	  var USUARIO_FECHA_CADUCA = $("#c_USUARIO_FECHA_CADUCA").val().trim();
 	  var USUARIO_TIEMPO_SESION = $("#c_USUARIO_TIEMPO_SESION").val().trim();
+	  var USUARIO_USER =$("#c_USUARIO_USER").val().trim();
 	   
 	   $.ajax({
                 type: 'POST',
                 async:false,
                 dataType: 'json',
-                data: {USUARIO_ID:USUARIO_ID,PERFIL_ID:PERFIL_ID,USUARIO_NOMBRE:USUARIO_NOMBRE,USUARIO_APELLIDO:USUARIO_APELLIDO,USUARIO_ACTIVO:USUARIO_ACTIVO,USUARIO_FECHA_REGISTRO:USUARIO_FECHA_REGISTRO,USUARIO_MOVIL:USUARIO_MOVIL,USUARIO_TELEFONO:USUARIO_TELEFONO,USUARIO_EMAIL:USUARIO_EMAIL,USUARIO_FECHA_CADUCA:USUARIO_FECHA_CADUCA,USUARIO_TIEMPO_SESION:USUARIO_TIEMPO_SESION},
+                data: {USUARIO_USER:USUARIO_USER,USUARIO_ID:USUARIO_ID,PERFIL_ID:PERFIL_ID,USUARIO_NOMBRE:USUARIO_NOMBRE,USUARIO_APELLIDO:USUARIO_APELLIDO,USUARIO_ACTIVO:USUARIO_ACTIVO,USUARIO_FECHA_REGISTRO:USUARIO_FECHA_REGISTRO,USUARIO_MOVIL:USUARIO_MOVIL,USUARIO_TELEFONO:USUARIO_TELEFONO,USUARIO_EMAIL:USUARIO_EMAIL,USUARIO_FECHA_CADUCA:USUARIO_FECHA_CADUCA,USUARIO_TIEMPO_SESION:USUARIO_TIEMPO_SESION},
                 url: '<?php echo base_url(); ?>index.php/admin/usuarios/ActualizaUsuario',
                 success: function (data) 
                 {  

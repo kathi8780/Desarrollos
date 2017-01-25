@@ -192,7 +192,8 @@ class Pedidos_model extends CI_Model
 		FROM tecnico_proceso tp
 		INNER JOIN procesos p ON  tp.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE
 		WHERE tp.ACTIVO='S' AND tp.ID_TECNICO='$tecnico' AND p.ID_PROCESOS=pp.ID_PROCESOS)
-		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND pp.ID_ESTADOS='3'";
+		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND pp.ID_ESTADOS='3'
+		GROUP BY pn.ID_PROCESO_NOMBRE";
 				
 		$query= $this->db->query($sQL);
         $ds = $query->result_array();

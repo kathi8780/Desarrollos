@@ -8,6 +8,7 @@ class Usuarios extends MX_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('usuarios_model');
+		date_default_timezone_set('UTC');
     }
 	public function ObtenerUsuarios(){
 
