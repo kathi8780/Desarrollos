@@ -1286,6 +1286,7 @@ class Pedidos_model extends CI_Model
 
     public function actualizarPrueba($data,$idPrueba) 
     {
+
         $this->db->where('pruebas.ID_PRUEBAS', $idPrueba);
         $this->db->update('pruebas', $data);
     }
@@ -1425,7 +1426,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerMensajerosActivos()
     {
-        $array=array("u.EMPL_COD_EMPL AS ID_MENSAJERO", "CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) AS NOMBRE_MENSAJERO");
+        $array=array("u.USUARIO_ID","u.EMPL_COD_EMPL AS ID_MENSAJERO", "CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) AS NOMBRE_MENSAJERO");
 		$this->db->select($array);
         $this->db->from("usuario u");
         $this->db->join("perfil p",'u.PERFIL_ID = p.PERFIL_ID');
@@ -1524,6 +1525,7 @@ class Pedidos_model extends CI_Model
 
     public function actualizarRetiro($data,$idRetiro) 
     {
+
         $this->db->where('retiro.ID_RETIRO', $idRetiro);
         $this->db->update('retiro', $data);
     }
@@ -1532,7 +1534,7 @@ class Pedidos_model extends CI_Model
     {
          $this->db->select("*");
          $this->db->from("retiro r");
-         $this->db->join("usuario u",'u.USUARIO_ID = r.USUARIO_SESION');
+         $this->db->join("usuario u",'u.USUARIO_ID = r.ID_USUARIO_MENSAJERO');
          $this->db->where("r.ASIGNADO =",1);
          $this->db->where("r.RETIRADO =",0);
          $consulta = $this->db->get();
@@ -1595,6 +1597,11 @@ class Pedidos_model extends CI_Model
         $ds = $query->row_array();
         $resultado = $ds['cantidad'];
         return $resultado;
+
+    }
+    public function ingresarRetiroRecibido($data,$id){
+        $this->db->where('retiro.ID_RETIRO', $id);
+        $this->db->update('retiro', $data);
 
     }
 }

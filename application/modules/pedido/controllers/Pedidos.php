@@ -624,7 +624,7 @@ class Pedidos extends MX_Controller {
             else
             { 
                 $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
-                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/badent/assets/uploads/fotografias/';
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
                 $cod_error = $_FILES['formulario_pedido']['error'];
                 $nombreActual = $_FILES['formulario_pedido']['name']['FOTOPACIENTE']; 
                 $arrayNombreActual = explode('.', $nombreActual);
@@ -827,7 +827,7 @@ class Pedidos extends MX_Controller {
             else
             { 
                 $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
-                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/badent/assets/uploads/fotografias/';
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
                 $cod_error = $_FILES['formulario_pedido']['error'];
                 $nombreActual = $_FILES['formulario_pedido']['name']['FOTOPACIENTE']; 
                 $arrayNombreActual = explode('.', $nombreActual);
@@ -1391,5 +1391,59 @@ class Pedidos extends MX_Controller {
         {
           redirect('admin/login', 'refresh');
         } 
+    }
+    public function editarRetiro(){
+
+        if ($this->session->userdata('loggeado')) 
+        {    
+              
+              $formulario_pedido=trim($this->input->post('foto'));
+               $id = trim($this->input->post('id'));
+             // si se logro cargar la imagen temporal en el servidor, entonces la muevo hacia donde estan las fotos cargadas
+            if(isset($_FILES[$formulario_pedido]['error']['FOTOPACIENTE']) && $_FILES[$formulario_pedido]['error']['FOTOPACIENTE']==1)
+            {
+                $this->session->set_flashdata('mostrarMensajeErrorAlCargar', TRUE); 
+                redirect('pedido/pedidos/mostrarFormularioPedido/', 'refresh');
+                exit();                
+            }
+            else
+            { 
+                $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
+                $cod_error = $_FILES[$formulario_pedido]['error'];
+                $nombreActual = $_FILES[$formulario_pedido]['name']['FOTOPACIENTE']; 
+                $arrayNombreActual = explode('.', $nombreActual);
+                $ext = $arrayNombreActual[count($arrayNombreActual) - 1];
+                $uploaddirFotografiaActual = $uploaddir . $nombreUnicofotografia . '.' . $ext;
+
+
+                if (move_uploaded_file($_FILES[$formulario_pedido]['tmp_name']['FOTOPACIENTE'], $uploaddirFotografiaActual))
+                {
+                    $data['FOTOGRAFIA'] = $nombreUnicofotografia . '.' . $ext;
+
+                    //inserto foto de paciente
+                    $data_foto = array();
+                    $data_foto['FOTO_PACIENTE']= $nombreUnicofotografia.'.'.$ext;
+                    $id_foto = $this->pedidos_model->insertarFoto($data_foto);
+                }
+            } 
+
+
+
+            $id = trim($this->input->post('id'));
+
+            $data_retiro = array();
+            $data_retiro['RECIBE_CONFORME']=trim($this->input->post('nombre'));
+                       
+            $retiros = $this->pedidos_model->ingresarRetiroRecibido($data_retiro,$id);
+
+            echo json_encode($retiros);   
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+
+
     }
 }

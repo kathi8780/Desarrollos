@@ -861,7 +861,7 @@
                             <div class="col-md-1 col-sm-1 col-xs-12">
                                 <div class="form-group form-group-sm">                
                                     <label class="control-label" for="formulario_pedido_fotopaciente">Foto Paciente</label>                   
-                                    <input style="font-size:12px; max-width:95px" type="file" id="formulario_pedido_fotopaciente" name="formulario_pedido[FOTOPACIENTE]" />
+                                    <input style="font-size:12px; max-width:95px" type="file"  value="" id="formulario_pedido_fotopaciente" name="formulario_pedido[FOTOPACIENTE]" />
                                 </div>
                             </div>
 

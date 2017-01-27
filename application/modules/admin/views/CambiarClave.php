@@ -12,7 +12,7 @@
               <input type='text' value="<?php echo $array['USUARIO_ID'];?>"" id="id" /> 
           <?php } ?>
             
-            <input type="text"  min="0" max="30" maxlength="30" class="form-control"  value="" id="clave" />
+            <input type="password"  min="0" max="30" maxlength="30" class="form-control"  value="" id="clave" />
         
     
     <div class="panel-footer">  

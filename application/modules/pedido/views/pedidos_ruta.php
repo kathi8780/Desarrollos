@@ -1,5 +1,5 @@
 <!-- DETALLE DE PEDIDO -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal_detalle_pedido">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-asignar-recibe">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,42 +7,42 @@
         <h4 class="modal-title">Detalles del pedido</h4>
       </div>
       <div class="modal-body" id="modal-body">
-	      	<div class="table table-responsive">
-	      		<table class="table table-responsive table-hover table-condensed" style="border:none">
-	      			<tr>
-	      				<td style="font-weight:bold">
-	      					Paciente: 
-	      				</td>
-	      				<td>
-	      					<div id="dp_paciente" style="text-align: left"></div>
-	      				</td>
-	      				<td style="font-weight:bold">
-	      					Nº Pedido:
-	      				</td>
-	      				<td>
-	      					<div id="dp_pedido"  style="text-align: left"></div>
-	      				</td>
-	      			</tr>
-	      		</table>
-	      	</div>
+	      	
 
 		    <div class="panel panel-primary">
 		        <div class="panel-heading">PRUEBAS</div>
 		        <div class="panel-body">
 					<div id="pd_pruebas" class="table table-responsive"></div>
+          
+
+            <div class="col-md- col-sm-7 col-xs-12">
+              <div class="form-group form-group-sm">     
+              <label  class="control-label required" for="">Recibe Conforme<span class="required"> * </span></label> 
+                  <input type='text' id='id' value=""/>
+                  <input type="text" id="c_nombre" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value=""/>
+              </div>
+            </div>
+
+            <div class="col-md- col-sm-4 col-xs-12">
+              <div class="form-group form-group-sm">     
+              <label class="control-label" for="formulario_pedido_fotopaciente">Foto Paciente</label>         
+                <input style="font-size:12px; max-width:95px" type="file" id="fotoparecibe" name="formulario_pedido[FOTOPACIENTE]" />
+              </div>
+            </div>
+
+
 		        </div>
+
 		    </div>
 
-		    <div class="panel panel-primary">
-		        <div class="panel-heading">PROCESOS</div>
-		        <div class="panel-body">
-					<div id="pd_procesos" class="table table-responsive"></div>
-		        </div>
-		    </div>
+		  
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-      </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEdicion()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
+                        </button>
+                    </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -98,10 +98,16 @@
                        CLIENTE  
                     </td>
                     <td>
-                       CONTACTO  
+                        TELÉFONO
                     </td>
                     <td>
-                        TELÉFONO
+                       CIUDAD  
+                    </td>
+                    <td>
+                       DIRECCION  
+                    </td>
+                    <td>
+                       CONTACTO  
                     </td>
                     <td>
                        FECHA ASIGNACIÓN  
@@ -125,13 +131,19 @@
                      </td>
                      <td >
                           <?php echo $retiros_asignados[$i]['CLIENTE'] ?>
-                     </td>  
-                     <td >
-                          <?php echo $retiros_asignados[$i]['CONTACTO'] ?>
-                     </td>   
+                     </td>    
                      <td >
                           <?php echo $retiros_asignados[$i]['TELEFONO'] ?>
                      </td>
+                     <td >
+                          <?php echo $retiros_asignados[$i]['CIUDAD'] ?>
+                     </td> 
+                     <td >
+                          <?php echo $retiros_asignados[$i]['DIRECCION_RETIRO'] ?>
+                     </td> 
+                     <td >
+                          <?php echo $retiros_asignados[$i]['CONTACTO'] ?>
+                     </td> 
                      <td >
                           <?php echo $retiros_asignados[$i]['FECHA_FUE_ASIGNADO'] ?>
                      </td> 
@@ -647,16 +659,21 @@
     }
 	function asignarRetiro(id_retiro)
     {
-     
-      $("#modal-asignar-recibe").modal('show');
-	  alert(id_retiro);
+    id=id_retiro;
+    $("#modal-asignar-recibe").modal('show');
+    $("#id").val(id);
+
+	  
     }
-	function realizarAsignacion()
+	function realizarEdicion()
     {
-        var id_mensajero = $("#s_mensajeros").val().trim();
-        if(id_mensajero=="")
+        var foto=$("#fotoparecibe").val().trim();
+        var nombre = $("#c_nombre").val().trim();
+        var id=$("#id").val().trim();
+        //alert(foto);
+        if(id=="")
         {
-            var text = 'Seleccione un MENSAJERO';
+            var text = 'Seleccione un Nombre';
             $.notific8(text, params); 
             return;
         }
@@ -673,21 +690,23 @@
                              type: 'POST',
                              async:false,
                              dataType: 'json',
-                             data: {id_retiro_a_asignar:id_retiro_a_asignar, id_mensajero:id_mensajero},
-                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/asignarRetiroMensajero',
+                             data: {id:id, nombre:nombre,foto:foto},
+                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/editarRetiro',
                              success: function (data) 
                              {    
-                              $("#r"+id_retiro_a_asignar).remove();
-                              $('#modal-asignar-recibe').modal('hide');
-                              $.isLoading("hide") ;  
+                              
+                              //location.reload();
+                              $.isLoading("hide") ; 
+                              $("#modal-asignar-recibe").modal('hide');
+                              $("#id").val("");
+                              $("#c_nombre").val("");
+                              
                              }
                     }); 
+                    
         }
     }
 
-    $("#modal-asignar-recibe").on('hidden.bs.modal', function () 
-    {
-        $("#s_mensajeros").prop('input', true);
-    });
+    
 
     </script>

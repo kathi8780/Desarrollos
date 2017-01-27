@@ -136,6 +136,9 @@ class Usuarios extends MX_Controller {
     public function mostrarFormularioCambiarClave(){
     	if ($this->session->userdata('loggeado'))
 		 {
+		 	$this->load->helper('form');
+            $this->load->library('form_validation');       
+            $this->form_validation->CI =& $this;
 			$datos=array();
 			$datos['pasusario']  = $this->usuarios_model->obtenerPasswordUsuario();
 			
@@ -158,6 +161,8 @@ class Usuarios extends MX_Controller {
 			$data['USUARIO_PASSWORD']=MD5(trim($this->input->post('nuevaClave'))); 
             $actualiza=$this->usuarios_model->actualizarClaveUsuario($data,$id);
 			echo json_encode($actualiza);
+			$this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
+            redirect('admin/usuarios/mostrarFormularioCambiarClave', 'refresh');
         }
         else 
         {
