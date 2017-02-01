@@ -8,6 +8,7 @@ class Usuarios extends MX_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('usuarios_model');
+		date_default_timezone_set('UTC');
     }
 	public function ObtenerUsuarios(){
 
@@ -130,5 +131,44 @@ class Usuarios extends MX_Controller {
         {
           redirect('admin/login', 'refresh');
         } 
+    }
+
+    public function mostrarFormularioCambiarClave(){
+    	if ($this->session->userdata('loggeado'))
+		 {
+		 	$this->load->helper('form');
+            $this->load->library('form_validation');       
+            $this->form_validation->CI =& $this;
+			$datos=array();
+			$datos['pasusario']  = $this->usuarios_model->obtenerPasswordUsuario();
+			
+			//$datos['usuarios']= $this->usuarios_model->obtenerUsuarios();
+			
+						
+			$this->load->view('templates/header');
+            $this->load->view('CambiarClave', $datos);
+            $this->load->view('templates/footer');
+						 
+		 }
+
+    }
+
+    public function editarClaveUsuario(){
+    	if ($this->session->userdata('loggeado')) 
+        {      
+            $id=trim($this->input->post('id'));
+            $data = array();
+			$data['USUARIO_PASSWORD']=MD5(trim($this->input->post('nuevaClave'))); 
+            $actualiza=$this->usuarios_model->actualizarClaveUsuario($data,$id);
+			echo json_encode($actualiza);
+			$this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
+            redirect('admin/usuarios/mostrarFormularioCambiarClave', 'refresh');
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+
+
     }
 }

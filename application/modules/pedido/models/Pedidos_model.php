@@ -171,18 +171,29 @@ class Pedidos_model extends CI_Model
 		$row     = $query->row();
 		$tecnico = $row->ID_TECNICO;
 		
+		//Funciona Todos los procesos
+		//$sQL="SELECT 
+		//pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO,pp.ID_ESTADOS 
+		//FROM pedido p 
+		//JOIN pedido_descripcion pd ON p.ID_PEDIDO=pd.ID_PEDIDO
+		//JOIN proceso_pedido  AS pp ON pp.ID_PEDIDO_DESCRIPCION=pd.ID_PEDIDO_DESCRIPCION
+		//JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
+		//JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
+		//JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
+		//WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico'
+		//GROUP BY pr.ID_PROCESO_NOMBRE
+		//ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
 		
-		$sQL="SELECT 
-		pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO 
+		$sQL="SELECT pn.ID_PROCESO_NOMBRE,pn.NOMBRE_PROCESO
 		FROM pedido p 
 		JOIN pedido_descripcion pd ON p.ID_PEDIDO=pd.ID_PEDIDO
 		JOIN proceso_pedido  AS pp ON pp.ID_PEDIDO_DESCRIPCION=pd.ID_PEDIDO_DESCRIPCION
-		JOIN procesos as pr on pr.ID_PRODUCTO_LABORATORIO=pd.ID_PRODUCTO_LABORATORIO
-		JOIN tecnico_proceso AS tp ON tp.ID_PROCESO_NOMBRE=pr.ID_PROCESO_NOMBRE
-		JOIN procesos_nombre AS pn ON pn.ID_PROCESO_NOMBRE=tp.ID_PROCESO_NOMBRE
-		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND tp.ID_TECNICO='$tecnico' #AND pp.ID_ESTADOS<>4
-		GROUP BY pr.ID_PROCESO_NOMBRE
-		ORDER BY pr.ID_PROCESO_NOMBRE  ASC";
+		JOIN procesos_nombre as pn ON pn.ID_PROCESO_NOMBRE=(SELECT tp.ID_PROCESO_NOMBRE
+		FROM tecnico_proceso tp
+		INNER JOIN procesos p ON  tp.ID_PROCESO_NOMBRE=p.ID_PROCESO_NOMBRE
+		WHERE tp.ACTIVO='S' AND tp.ID_TECNICO='$tecnico' AND p.ID_PROCESOS=pp.ID_PROCESOS)
+		WHERE p.PEDF_NUM_PREIMP='$nro_pedido' AND pp.ID_ESTADOS='3'
+		GROUP BY pn.ID_PROCESO_NOMBRE";
 				
 		$query= $this->db->query($sQL);
         $ds = $query->result_array();
@@ -705,7 +716,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerPedidosEnRuta() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ";
+        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDIDO ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -1275,6 +1286,7 @@ class Pedidos_model extends CI_Model
 
     public function actualizarPrueba($data,$idPrueba) 
     {
+
         $this->db->where('pruebas.ID_PRUEBAS', $idPrueba);
         $this->db->update('pruebas', $data);
     }
@@ -1414,7 +1426,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerMensajerosActivos()
     {
-        $array=array("u.EMPL_COD_EMPL AS ID_MENSAJERO", "CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) AS NOMBRE_MENSAJERO");
+        $array=array("u.USUARIO_ID","u.EMPL_COD_EMPL AS ID_MENSAJERO", "CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) AS NOMBRE_MENSAJERO");
 		$this->db->select($array);
         $this->db->from("usuario u");
         $this->db->join("perfil p",'u.PERFIL_ID = p.PERFIL_ID');
@@ -1513,6 +1525,7 @@ class Pedidos_model extends CI_Model
 
     public function actualizarRetiro($data,$idRetiro) 
     {
+
         $this->db->where('retiro.ID_RETIRO', $idRetiro);
         $this->db->update('retiro', $data);
     }
@@ -1521,7 +1534,7 @@ class Pedidos_model extends CI_Model
     {
          $this->db->select("*");
          $this->db->from("retiro r");
-         $this->db->join("usuario u",'u.USUARIO_ID = r.USUARIO_SESION');
+         $this->db->join("usuario u",'u.USUARIO_ID = r.ID_USUARIO_MENSAJERO');
          $this->db->where("r.ASIGNADO =",1);
          $this->db->where("r.RETIRADO =",0);
          $consulta = $this->db->get();
@@ -1584,6 +1597,32 @@ class Pedidos_model extends CI_Model
         $ds = $query->row_array();
         $resultado = $ds['cantidad'];
         return $resultado;
+
+    }
+    public function ingresarRetiroRecibido($data,$id){
+        $this->db->where('retiro.ID_RETIRO', $id);
+        $this->db->update('retiro', $data);
+
+    }
+
+    public function ingresarPedidoEntregado($data_pruebas,$data_pedido,$id){
+
+        $this->db->select("pr.ID_PRUEBAS");
+         $this->db->from("pruebas pr");
+         $this->db->join("pedido pd",'pd.ID_PEDIDO = pr.ID_PEDIDO');
+         $this->db->where('pr.ID_PEDIDO', $id);
+         $consulta = $this->db->get();
+         $resultado = $consulta->row();
+         $id_prueba= array();
+         $id_prueba['ID_PRUEBAS']=$resultado;
+
+        $this->db->where('pedido.ID_PEDIDO', $id);
+        $this->db->update('pedido', $data_pedido);
+        //actualizar estado prueba
+
+        $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
+        $this->db->update('pruebas', $data_pruebas);
+
 
     }
 }

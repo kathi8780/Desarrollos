@@ -26,7 +26,7 @@
                           { 
                        ?> 
                               <option value="<?php echo $mensajeros[$i]['USUARIO_ID']; ?>">
-                                <?php echo $mensajeros[$i]['USUARIO_NOMBRE']." ".$mensajeros[$i]['USUARIO_APELLIDO']; ?>
+                                <?php echo $mensajeros[$i]['NOMBRE_MENSAJERO']; ?>
                               </option> 
                       <?php    
                           }
@@ -70,14 +70,8 @@
 	            </div>
 	        </div>	
 
-	        <!-- campo contacto -->
-	        <div class="col-md-2 col-sm-2 col-xs-12">
-	            <div class="form-group form-group-sm">                
-	                <label class="control-label required" for="">Contacto<span class="required"> * </span></label> 
-	                <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
-	            </div>
-	        </div>
-
+	        <!-- campo ciudad -->
+	        
           <div class="col-md-2 col-sm-2 col-xs-12">
               <div class="form-group form-group-sm">                
                   <label class="control-label required" for="">Ciudad<span class="required"> * </span></label> 
@@ -91,8 +85,13 @@
                   <input type="text" id="c_direccion" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
               </div>
           </div>
-            
-
+          <!-- campo contacto -->
+            <div class="col-md-2 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">Contacto<span class="required"> * </span></label> 
+                  <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+              </div>
+          </div>
 	        <!-- btn adicionar -->
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">     
@@ -123,14 +122,14 @@
                             <th>
                                 TELEFONO
                             </th>
-                            <th>
-                                CONTACTO
-                            </th>
                              <th>
                                 CIUDAD
                             </th>
                              <th>
                                 DIRECCION
+                            </th>
+                            <th>
+                                CONTACTO
                             </th>
                             <th>
                                 FECHA
@@ -175,14 +174,15 @@
 	                            <td>
 	                                <?php echo $retiros_pendientes[$i]['TELEFONO'];  ?>
 	                            </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['CONTACTO']; ?>
-	                            </td>
+	                            
                               <td>
                                   <?php echo $retiros_pendientes[$i]['CIUDAD']; ?>
                               </td>
                               <td>
                                   <?php echo $retiros_pendientes[$i]['DIRECCION_RETIRO']; ?>
+                              </td>
+                              <td>
+                                  <?php echo $retiros_pendientes[$i]['CONTACTO']; ?>
                               </td>
                               <td>
                                   <?php echo $retiros_pendientes[$i]['FECHA']; ?>

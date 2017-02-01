@@ -111,7 +111,16 @@
 				 url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerTecnicosPedido',
 				 success: function (data) 
 				 {     
-				    CrearCampoSelect(data);                    
+				    if(data.length>0){
+							
+						CrearCampoSelect(data); 
+											
+					}else{
+						
+						alert('Pedido '+nro_pedido+' Sin Procesos Pendientes para este Técnico' );
+						location.reload();
+					}
+					                   
 				 }
 
 			    });
@@ -146,6 +155,12 @@
 						selectList.setAttribute("onchange","GuardarProceso()");
 						selectList.id ='s_proceso';
 						
+						var option = document.createElement("option");
+							option.value = "";
+							option.text  = "Seleccione un Proceso";
+								
+							selectList.appendChild(option);
+						
 						var fila = document.createElement("tr");
 							
 						var celda0 = document.createElement("td");
@@ -156,11 +171,13 @@
 			                var ID_PROCESO_NOMBRE = data[i]['ID_PROCESO_NOMBRE']; 
 			                var NOMBRE_PROCESO    = data[i]['NOMBRE_PROCESO']; 
 			                			               
-							var option = document.createElement("option");
-								option.value = ID_PROCESO_NOMBRE;
-							    option.text  = NOMBRE_PROCESO;
-							selectList.appendChild(option);
-						
+							
+							var option1 = document.createElement("option");
+								option1.value = ID_PROCESO_NOMBRE;
+							    option1.text  = NOMBRE_PROCESO;
+							
+							selectList.appendChild(option1);
+													
 							celda0.appendChild(selectList);
 
 							fila.appendChild(celda0);

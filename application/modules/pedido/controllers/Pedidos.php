@@ -624,7 +624,7 @@ class Pedidos extends MX_Controller {
             else
             { 
                 $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
-                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/badent/assets/uploads/fotografias/';
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
                 $cod_error = $_FILES['formulario_pedido']['error'];
                 $nombreActual = $_FILES['formulario_pedido']['name']['FOTOPACIENTE']; 
                 $arrayNombreActual = explode('.', $nombreActual);
@@ -829,7 +829,7 @@ class Pedidos extends MX_Controller {
             else
             { 
                 $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
-                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/badent/assets/uploads/fotografias/';
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
                 $cod_error = $_FILES['formulario_pedido']['error'];
                 $nombreActual = $_FILES['formulario_pedido']['name']['FOTOPACIENTE']; 
                 $arrayNombreActual = explode('.', $nombreActual);
@@ -1393,5 +1393,125 @@ class Pedidos extends MX_Controller {
         {
           redirect('admin/login', 'refresh');
         } 
+    }
+    public function editarRetiro(){
+
+        if ($this->session->userdata('loggeado')) 
+        {    
+              
+           
+
+            $this->load->helper('form');
+            $this->load->library('form_validation');       
+            $this->form_validation->CI =& $this;       
+        
+            $data = $this->input->post('formulario_retiro');
+
+            //TOMO LOS DATOS DEL PEDIDO
+            $id_foto=null;
+            $id = strtoupper($data["IDRECIBE"]);
+            $nombrerecibe = strtoupper($data["NOMBRERECIBE"]);
+            if(isset($_FILES['formulario_retiro']['error']['FOTORECIBE']) && $_FILES['formulario_retiro']['error']['FOTORECIBE']==1)
+            {
+                $this->session->set_flashdata('mostrarMensajeErrorAlCargar', TRUE); 
+                redirect('pedido/pedidos/mostrarFormularioPedido/', 'refresh');
+                exit();                
+            }
+            else
+            { 
+                $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
+                $cod_error = $_FILES['formulario_retiro']['error'];
+                $nombreActual = $_FILES['formulario_retiro']['name']['FOTORECIBE']; 
+                $arrayNombreActual = explode('.', $nombreActual);
+                $ext = $arrayNombreActual[count($arrayNombreActual) - 1];
+                $uploaddirFotografiaActual = $uploaddir . $nombreUnicofotografia . '.' . $ext;
+
+
+                if (move_uploaded_file($_FILES['formulario_retiro']['tmp_name']['FOTORECIBE'], $uploaddirFotografiaActual))
+                {
+                    $data['FOTOGRAFIA'] = $nombreUnicofotografia . '.' . $ext;
+
+                    //inserto foto de paciente
+                    $data_foto = array();
+                    $data_foto['FOTO_PACIENTE']= $nombreUnicofotografia.'.'.$ext;
+                    $id_foto = $this->pedidos_model->insertarFoto($data_foto);
+                }
+            }   
+            $data_retiro = array();
+            $data_retiro['RECIBE_CONFORME']=$nombrerecibe;
+            $data_retiro['RETIRADO']='1';  
+            $data_retiro['ID_FOTOS']=$id_foto;    
+            $retiros = $this->pedidos_model->ingresarRetiroRecibido($data_retiro,$id);
+            $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
+            redirect('pedido/pedidos/mostrarFormularioRutaMotorizados', 'refresh'); 
+              
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+
+
+    }
+    public function editarEntregaPedido(){
+
+        if ($this->session->userdata('loggeado')) 
+        {    
+            
+            $this->load->helper('form');
+            $this->load->library('form_validation');       
+            $this->form_validation->CI =& $this;       
+        
+            $data = $this->input->post('formulario_entrega');
+
+            //TOMO LOS DATOS DEL PEDIDO
+            $id_foto=null;
+            $id = strtoupper($data["IDRECIBE"]);
+            $nombrerecibe = strtoupper($data["NOMBRERECIBE"]);
+            if(isset($_FILES['formulario_entrega']['error']['FOTORECIBE']) && $_FILES['formulario_entrega']['error']['FOTORECIBE']==1)
+            {
+                $this->session->set_flashdata('mostrarMensajeErrorAlCargar', TRUE); 
+                redirect('pedido/pedidos/mostrarFormularioRutaMotorizados/', 'refresh');
+                exit();                
+            }
+            else
+            { 
+                $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
+                $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
+                $cod_error = $_FILES['formulario_entrega']['error'];
+                $nombreActual = $_FILES['formulario_entrega']['name']['FOTORECIBE']; 
+                $arrayNombreActual = explode('.', $nombreActual);
+                $ext = $arrayNombreActual[count($arrayNombreActual) - 1];
+                $uploaddirFotografiaActual = $uploaddir . $nombreUnicofotografia . '.' . $ext;
+
+
+                if (move_uploaded_file($_FILES['formulario_entrega']['tmp_name']['FOTORECIBE'], $uploaddirFotografiaActual))
+                {
+                    $data['FOTOGRAFIA'] = $nombreUnicofotografia . '.' . $ext;
+
+                    //inserto foto de paciente
+                    $data_foto = array();
+                    $data_foto['FOTO_PACIENTE']= $nombreUnicofotografia.'.'.$ext;
+                    $id_foto = $this->pedidos_model->insertarFoto($data_foto);
+                }
+            }   
+            $data_pedido = array();
+            //$data_pedido['RECIBE_CONFORME']=$nombrerecibe;  
+            $data_pedido['ID_FOTOS']=$id_foto;  
+            $data_pedido['FECHA_ENTREGA']=$this->load->helper('date');
+            $data_prueba=array();
+            $data_prueba['ENTREGADO']='S';
+            $retiros = $this->pedidos_model->ingresarPedidoEntregado($data_prueba,$data_pedido,$id);
+            $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
+            redirect('pedido/pedidos/mostrarFormularioRutaMotorizados', 'refresh'); 
+              
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        } 
+
+
     }
 }
