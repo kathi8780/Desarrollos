@@ -1,5 +1,5 @@
 <div class="panel panel-primary" >
-    <div class="panel-heading">ACTUALIZACION DE CLAVE</div>
+    <div class="panel-heading">CAMBIO DE CLAVE</div>
 
   <div class="container">
     <div class="row">
@@ -9,10 +9,10 @@
         <label class="control-label required" for="">Ingrese Nueva Clave<span class="required"> * </span></label> 
         <?php foreach ($pasusario as $array) 
             {?>
-              <input type='text' value="<?php echo $array['USUARIO_ID'];?>"" id="id" /> 
+              <input type='hidden' value="<?php echo $array['USUARIO_ID'];?>"" id="id" /> 
           <?php } ?>
             
-            <input type="password"  min="0" max="30" maxlength="30" class="form-control"  value="" id="clave" />
+            <input type="text"  min="0" max="8" maxlength="30" class="form-control"  value="" id="clave" />
         
     
     <div class="panel-footer">  
@@ -64,10 +64,6 @@
             return;
       }
        
-        $.isLoading({
-                      text: "Cargando",
-                      position: "overlay"
-                });
             
           $.ajax({
                    type: 'POST',
@@ -77,40 +73,13 @@
                    url: '<?php echo base_url(); ?>index.php/admin/Usuarios/editarClaveUsuario',
                    success: function (data) 
                    {                    
-                      $.isLoading("hide");
-                      $("#clave").val(""); 
-                      //$("#id").val("");                     
+                      $("#clave").val("");
+					  alert("Cambio de Clave Realizado, se redireccionara al menú principal");
+					  window.location='<?php echo base_url(); ?>index.php/pedido/pedidos/AgendaProduccion';
+                   
                    }
 
           });  
-      }
-        
-  function GuardarAcceso(med_cod,acceso){
-    
-    var perfil   = $("#c_PERFIL_ID").val().trim();
-    var med_cod  = med_cod;
-    
-    if(acceso=='N'){
-      var acceso   = 'S';
-    }else{
-      var acceso   = 'N';
     }
-    
-    //alert(acceso);        
-    $.ajax({
-             type: 'POST',
-             async:false,
-             dataType: 'json',
-             data: {perfil:perfil,med_cod:med_cod,acceso:acceso},
-             url: '<?php echo base_url(); ?>index.php/admin/menu/GuardarAcceso',
-             success: function (data) 
-             {     
-                alert(data);
-          constultarPedidos();              
-          
-             }
         
-    });  
-    
-  }
 </script>

@@ -238,6 +238,15 @@
                                     +'      <td>'
                                     +'          Despachado'
                                     +'      </td>'
+									+'      <td>'
+                                    +'          Mensajero'
+                                    +'      </td>'
+									+'      <td>'
+                                    +'          Recibe'
+                                    +'      </td>'
+									+'      <td>'
+                                    +'          Fecha Hora'
+                                    +'      </td>'
                                     +'  </tr>'
 
                             //TOMO LAS PRUEBAS DEL PRODUCTO DETALLE Y LAS PONGO EN UNA TABLA
@@ -249,6 +258,10 @@
 
                                 var nombre_estado = data[i]['NOMBRE_ESTADO'];
                                 var despachado = data[i]['DESPACHADO'];
+								var mensajero = data[i]['EMPL_COD_EMPL'];
+								var recibe = data[i]['PERSO_RECIBE'];
+								var fechae = data[i]['FEC_HOR_ENTR'];
+								
                                 if(despachado=='S') despachado="Si";
 
                                 if(nombre_estado=="TERMINADO")
@@ -271,6 +284,15 @@
                                 html+='     </td>';
                                 html+='     <td style="text-align:center">';
                                 html+=          despachado;
+                                html+='     </td>';
+								html+='     <td>';
+                                html+=          mensajero;
+                                html+='     </td>';
+								html+='     <td>';
+                                html+=          recibe;
+                                html+='     </td>';
+								html+='     <td>';
+                                html+=          fechae;
                                 html+='     </td>';
                                 html+=' </tr>';
                             }

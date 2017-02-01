@@ -358,8 +358,8 @@ class Pedidos_model extends CI_Model
             SUM(pd.CANTIDAD) AS CANTID
             from pedido p
             INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE
-            INNER JOIN estados et on et.ID_ESTADOS=p.ID_ESTADOS
             INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO
+			INNER JOIN estados et on et.ID_ESTADOS=pb.ID_ESTADOS
             INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA = pb.ID_TIPO_PRUEBA 
 			INNER JOIN pedido_descripcion pd on p.ID_PEDIDO=pd.ID_PEDIDO ";
 
@@ -431,14 +431,14 @@ class Pedidos_model extends CI_Model
     }
 	  public function pruebasDetallePedido($nro_pedido)
     {
-         $this->db->select("
-                            pb.ID_PRUEBAS,
-                            pac.NOMBRE_APELLIDO, p.PEDF_NUM_PREIMP,
-                            tp.NOMBRE_PRUEBA,
-                            pb.FECHA_SALIDA,IFNULL(pb.FECHA_REGRESO,'') as FECHA_REGRESO,
-                            e.NOMBRE_ESTADO, pb.DESPACHADO, pb.OBSERVACIONES
-                            ");
-
+         
+			$array=array("pb.ID_PRUEBAS","pac.NOMBRE_APELLIDO","p.PEDF_NUM_PREIMP","tp.NOMBRE_PRUEBA",
+                            "pb.FECHA_SALIDA","IFNULL(pb.FECHA_REGRESO,'') as FECHA_REGRESO",
+                            "e.NOMBRE_ESTADO", "pb.DESPACHADO", "pb.OBSERVACIONES", "pb.PERSO_RECIBE", "pb.FEC_HOR_ENTR", 
+							"(SELECT CONCAT(u.USUARIO_APELLIDO,' ',u.USUARIO_NOMBRE) FROM usuario u WHERE u.EMPL_COD_EMPL=pb.EMPL_COD_EMPL) EMPL_COD_EMPL");
+		 
+			$this->db->select($array);
+		
              $this->db->from("pedido p");
              $this->db->join("pedido_descripcion pd",'p.ID_PEDIDO=pd.ID_PEDIDO');
              $this->db->join("pedidos_suspendidos ps",'ps.ID_PEDIDO=p.ID_PEDIDO','left');
