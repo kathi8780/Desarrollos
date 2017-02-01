@@ -1,10 +1,61 @@
 <!-- DETALLE DE PEDIDO -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-asignar-recibe">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_detalle_pedido">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Detalles del pedido</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+          <div class="table table-responsive">
+            <table class="table table-responsive table-hover table-condensed" style="border:none">
+              <tr>
+                <td style="font-weight:bold">
+                  Paciente: 
+                </td>
+                <td>
+                  <div id="dp_paciente" style="text-align: left"></div>
+                </td>
+                <td style="font-weight:bold">
+                  Nº Pedido:
+                </td>
+                <td>
+                  <div id="dp_pedido"  style="text-align: left"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">PRUEBAS</div>
+            <div class="panel-body">
+          <div id="pd_pruebas" class="table table-responsive"></div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">PROCESOS</div>
+            <div class="panel-body">
+          <div id="pd_procesos" class="table table-responsive"></div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- MODAL RECIBE -->
+<form  id="form_retiro" name="formulario_retiro" method="post" action="<?php echo base_url(); ?>index.php/pedido/pedidos/editarRetiro" enctype="multipart/form-data">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-asignar-recibe">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Realizar Retiro</h4>
       </div>
       <div class="modal-body" id="modal-body">
 	      	
@@ -18,15 +69,15 @@
             <div class="col-md- col-sm-7 col-xs-12">
               <div class="form-group form-group-sm">     
               <label  class="control-label required" for="">Recibe Conforme<span class="required"> * </span></label> 
-                  <input type='text' id='id' value=""/>
-                  <input type="text" id="c_nombre" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value=""/>
+                  <input type='hidden' id='id' value="" name="formulario_retiro[IDRECIBE]" />
+                  <input type="text" id="c_nombre" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="" name="formulario_retiro[NOMBRERECIBE]" />
               </div>
             </div>
 
             <div class="col-md- col-sm-4 col-xs-12">
               <div class="form-group form-group-sm">     
               <label class="control-label" for="formulario_pedido_fotopaciente">Foto Paciente</label>         
-                <input style="font-size:12px; max-width:95px" type="file" id="fotoparecibe" name="formulario_pedido[FOTOPACIENTE]" />
+                <input style="font-size:12px; max-width:95px" type="file" id="fotoparecibe" name="formulario_retiro[FOTORECIBE]" />
               </div>
             </div>
 
@@ -46,7 +97,57 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+</form>
+<!-- MODAL RECIBE PEDIDO-->
+<form  id="form_entrega" name="formulario_entrega" method="post" action="<?php echo base_url(); ?>index.php/pedido/pedidos/editarEntregaPedido" enctype="multipart/form-data">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-entrega-pedido">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Realizar Entrega Pedido</h4>
+      </div>
+      <div class="modal-body" id="modal-body">
+          
 
+        <div class="panel panel-primary">
+            <div class="panel-heading">PRUEBAS</div>
+            <div class="panel-body">
+          <div id="pd_pruebas" class="table table-responsive"></div>
+          
+
+            <div class="col-md- col-sm-7 col-xs-12">
+              <div class="form-group form-group-sm">     
+              <label  class="control-label required" for="">Recibe Conforme<span class="required"> * </span></label> 
+                  <input type='text' id='id_entrega' value="" name="formulario_entrega[IDRECIBE]" />
+                  <input type="text" id="c_nombre" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="" name="formulario_entrega[NOMBRERECIBE]" />
+              </div>
+            </div>
+
+            <div class="col-md- col-sm-4 col-xs-12">
+              <div class="form-group form-group-sm">     
+              <label class="control-label" for="formulario_pedido_fotopaciente">Foto Entrega</label>         
+                <input style="font-size:12px; max-width:95px" type="file" id="fotoentrega" name="formulario_entrega[FOTORECIBE]" />
+              </div>
+            </div>
+
+
+            </div>
+
+        </div>
+
+      
+      </div>
+      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="realizarEntrega()">
+                            <span class="glyphicon glyphicon-pencil"></span> Actualizar
+                        </button>
+                    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
     <style type="text/css">
         #fila_cabecera
         {
@@ -261,9 +362,12 @@
                         <?php echo $pedidos_ruta[$i]['estado'] ?>
                      </td>
                      <td style="text-align:center">
-                          <a class="btn btn-primary btn-sm" style="width: 60px">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                          </a>
+                          
+                          <center>
+                                    <button id="<?php echo $pedidos_ruta[$i]['ID_PEDIDO']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="mostrarModalEntrega(this.id)">
+                                          <span class="glyphicon glyphicon-share-alt">33</span>
+                                      </button>
+                            </center>
                      </td>
 
                 </tr>
@@ -665,13 +769,25 @@
 
 	  
     }
+  function mostrarModalEntrega(id){
+    
+    idr=id;
+    $("#modal-entrega-pedido").modal('show');
+    $("#id_entrega").val(idr);
+  }
+  function realizarEntrega(){
+
+        
+        
+          $("#form_entrega").submit();
+          //$("#modal-asignar-recibe").modal('hide');
+                    
+  }
 	function realizarEdicion()
     {
-        var foto=$("#fotoparecibe").val().trim();
-        var nombre = $("#c_nombre").val().trim();
-        var id=$("#id").val().trim();
-        //alert(foto);
-        if(id=="")
+      var nombre=$("#c_nombre").val().trim();
+        
+        if(nombre=="")
         {
             var text = 'Seleccione un Nombre';
             $.notific8(text, params); 
@@ -679,30 +795,8 @@
         }
         else
         {
-          //ACTUALIZO EL RETIRO
-            $.isLoading({
-                        text: "Cargando",
-                        position: "overlay"
-                    });
-
-
-                    $.ajax({
-                             type: 'POST',
-                             async:false,
-                             dataType: 'json',
-                             data: {id:id, nombre:nombre,foto:foto},
-                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/editarRetiro',
-                             success: function (data) 
-                             {    
-                              
-                              //location.reload();
-                              $.isLoading("hide") ; 
-                              $("#modal-asignar-recibe").modal('hide');
-                              $("#id").val("");
-                              $("#c_nombre").val("");
-                              
-                             }
-                    }); 
+          $("#form_retiro").submit();
+          //$("#modal-asignar-recibe").modal('hide');
                     
         }
     }

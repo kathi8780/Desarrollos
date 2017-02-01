@@ -716,7 +716,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerPedidosEnRuta() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ";
+        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDIDO ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -1602,6 +1602,27 @@ class Pedidos_model extends CI_Model
     public function ingresarRetiroRecibido($data,$id){
         $this->db->where('retiro.ID_RETIRO', $id);
         $this->db->update('retiro', $data);
+
+    }
+
+    public function ingresarPedidoEntregado($data_pruebas,$data_pedido,$id){
+
+        $this->db->select("pr.ID_PRUEBAS");
+         $this->db->from("pruebas pr");
+         $this->db->join("pedido pd",'pd.ID_PEDIDO = pr.ID_PEDIDO');
+         $this->db->where('pr.ID_PEDIDO', $id);
+         $consulta = $this->db->get();
+         $resultado = $consulta->row();
+         $id_prueba= array();
+         $id_prueba['ID_PRUEBAS']=$resultado;
+
+        $this->db->where('pedido.ID_PEDIDO', $id);
+        $this->db->update('pedido', $data_pedido);
+        //actualizar estado prueba
+
+        $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
+        $this->db->update('pruebas', $data_pruebas);
+
 
     }
 }
