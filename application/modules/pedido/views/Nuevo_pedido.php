@@ -393,9 +393,6 @@
                                             <?php } ?>
                                 </div>
                             </div>
-
-
-
                                 <!--  campo guia colores -->
                                 <div class="col-md-8 col-sm-8 col-xs-12">
                                     <div class="form-group form-group-sm"> 
@@ -537,8 +534,29 @@
                                         </div>
                                     </div>
                             </div>                
-                        </div> 
-
+                        </div>
+						<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:20px">
+                            <div class="row">
+                                    <!--  campo observaciones -->                        
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                         <div class="control-label" class="form-group form-group-sm">
+                                          <label for="formulario_pedido_ferulizado">Ferulizado:</label>
+                                          <input type="text" value="" id="formulario_pedido_ferulizado" name="formulario_pedido_ferulizado">
+                                        </div>
+                                    </div>
+                            </div>                
+                        </div>						
+						<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:20px">
+                            <div class="row">
+                                    <!--  campo observaciones -->                        
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                         <div class="control-label" class="form-group form-group-sm">
+                                          <label for="formulario_pedido_pontico">Pontico:</label>
+                                          <input type="text" value="" id="formulario_pedido_pontico" name="formulario_pedido_pontico">
+                                        </div>
+                                    </div>
+                            </div>                
+                        </div>
                         <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:20px">
                             <div class="row">
                                 <div class="form-group form-group-sm">
@@ -1703,8 +1721,12 @@
     params.heading = 'Notificación';     
     params.theme = 'ruby';      
     params.life = '4000';//4segundos
-
-    function limpiarFecha(id){ $("#"+id).val("");}
+	var contador=0;
+	function cantidad_acumulada(){	
+		contador++;
+		$("#formulario_pedido_cantidad").val(contador);
+	}
+	function limpiarFecha(id){ $("#"+id).val("");}
 
     function getSize() 
     {
@@ -1911,11 +1933,6 @@
             $("#contenedor-productos-principal").attr("style","border: 2px solid #018CF1;background-color: #CDECFF");
         }
     }
-
-
-
-
-
     //TRABAJANDO CON MODAL DE PRODUCTO
     function mostrarModalProd()
     {
@@ -1930,7 +1947,6 @@
 
         $("#modal-adicionar-producto").modal('show');
     }
-
     //ONHIDDEN modal adicionar producto
     $("#modal-adicionar-producto").on('hidden.bs.modal', function () 
     {
@@ -2227,8 +2243,7 @@
             $("#formulario_pedido_c3").html(cadena_html);
         }
     }
-	
-	function modelo(categoria,dientes){
+	function modelo(categoria,dientes, pontico, ferulizado){
 
 		var s = dientes;
 
@@ -2268,22 +2283,49 @@
 		s = s.replace("37", "#d37");
 		s = s.replace("38", "#d38");
 		
-		$.ajax({
-                 type: 'POST',
-                 async:false,
-                 dataType: 'json',
-                 data: {categoria:categoria},
-                 url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
-                 success: function (data) 
-                 {    
-                    //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};
-						//alert(categoria + s + data);
-                        //console.log("data"+data2);
-                        //alert(data2);
-                        //paint_tooth(categoria,s);   
-                        paint_hover_tooth(categoria,s,0);  
-                 }
-        }); 
+		
+		var str = s;
+		var res = str.split(",");
+		
+		var str2 = dientes;
+		var res2 = str2.split(",");
+		
+		//Ferulizado
+		var str3 = ferulizado;
+		var res3 = str3.split(",");
+		
+		for(var i=0;i < res.length; i++){
+			
+			bpontico = pontico;
+			pos=bpontico.indexOf(res2[i]);
+			if(pos!=-1){
+				vpontico=1;
+			}else{
+				vpontico=0;
+			}
+
+			console.log(res[i],vpontico,categoria);
+			//paint_hover_tooth(categoria,s,0,pontico,ferulizado);  
+		
+		} 
+				
+		
+		//$.ajax({
+        //         type: 'POST',
+        //         async:false,
+        //         dataType: 'json',
+        //         data: {categoria:categoria},
+        //         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
+        //         success: function (data) 
+        //         {    
+        //            //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};
+		//				//alert(categoria + s + data);
+        //                //console.log("data"+data2);
+        //                //alert(data2);
+        //                //paint_tooth(categoria,s);   
+        //                
+        //         }
+        //}); 
 		
 	}
 	function modelo_todos(){
@@ -2300,6 +2342,9 @@
                 var iterador =arreglo_identificadores_filas[iterador_arreglo_identificadores_filas];
                 var categoria = $("#catf"+iterador).html().trim();
                 var dientes = $("#dief"+iterador).html().trim(); 
+				var pontico = $("#pont"+iterador).html().trim(); 
+				var ferulizado = $("#fer"+iterador).html().trim();
+				
 				var s = dientes;
 
 				s = s.replace("11", "#d11");
@@ -2337,36 +2382,58 @@
 				s = s.replace("36", "#d36");
 				s = s.replace("37", "#d37");
 				s = s.replace("38", "#d38");
-				$.ajax({
-					
-					type: 'POST',
-					async:false,
-					dataType: 'json',
-					data: {categoria:categoria},
-					url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
-					success: function (data) 
-					{    
-                        console.log(data);
-                        //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};                        
-                        //paint_all_tooth(data2);
-						cadena_producto += categoria + s + data;					
-                        paint_tooth(categoria,s); 
-					}
-				}); 
+				
+				//$.ajax({
+				//	
+				//	type: 'POST',
+				//	async:false,
+				//	dataType: 'json',
+				//	data: {categoria:categoria},
+				//	url: '<?php echo base_url(); ?>index.php/pedido/pedidos/ObtenerColor',
+				//	success: function (data) 
+				//	{    
+                //        console.log(data);
+                //        //var data2 = {"data": [{"tipo": 2,"dientes": "22,23"},{"tipo": 3,"dientes": "22,23"}]};                        
+                //        //paint_all_tooth(data2);
+				//		cadena_producto += categoria + s + data;					
+                //        paint_tooth(categoria,s); 
+				//	}
+				//}); 
 
-                //cadena_producto += categoria+s;
+				
+				var str = s;
+				var res = str.split(",");
+				
+				var str2 = dientes;
+				var res2 = str2.split(",");
+				
+				//Ferulizado
+				var str3 = ferulizado;
+				var res3 = str3.split(",");
+				
+				for(var i=0;i < res.length; i++){
+					
+					bpontico = pontico;
+					pos=bpontico.indexOf(res2[i]);
+					if(pos!=-1){
+						vpontico=1;
+					}else{
+						vpontico=0;
+					}
+		
+					console.log(res[i],vpontico,categoria);
+					//paint_tooth(categoria,s);   
+				
+				} 
 				
                 iterador_arreglo_identificadores_filas++;
 				
             });
-			//console.log(cadena_producto);
-			//alert(cadena_producto);
         }     
 	}
 	
     var identificador_filas=0;
     var arreglo_identificadores_filas = [];
-	var arreglo_modelo_todos = [];
 	
 	function adicionarProducto()
     {
@@ -2378,8 +2445,8 @@
         var guia_colores = $("#formulario_pedido_guiacolores").val();
         var cant_corlores = $("input[name='formulario_pedido[COLOR]']:checked").val();
         var actividades = $("#observaciones").val().trim();
-
-		arreglo_modelo_todos[categoria,dientes];
+		var pontico    = $("#formulario_pedido_pontico").val().trim();
+		var ferulizado = $("#formulario_pedido_ferulizado").val().trim();
 		
         var colores = "";
 
@@ -2463,7 +2530,7 @@
         activarContenedor("contenedor-fechas");
 
         var cadena_html='<tr class="filas_producto" id="'+'f'+identificador_filas+'">'
-                            +'<td><label onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'") onmouseout="dientes_todos('+categoria+');">'
+                            +'<td><label onmouseover=modelo('+'"'+categoria+'"'+',"'+dientes+'","'+pontico+'","'+ferulizado+'") onmouseout="dientes_todos('+categoria+');">'
                                  +'img'
                             +'</label></td>'
                             +'<td  id="'+'catf'+identificador_filas+'">'
@@ -2488,6 +2555,12 @@
                                 +'<center><button type="button" class="btn btn-primary btn-xs" style="width:50px" onclick="verObsFila(this.id)" id="'+'obsf'+identificador_filas+'" observaciones="'+actividades+'">'
                                       +'<span class="glyphicon glyphicon-comment"></span>'
                                 +'</button></center>'
+                            +'</td>'
+							+'<td  id="'+'pont'+identificador_filas+'">'
+                                +pontico
+                            +'</td>'
+							+'<td  id="'+'fer'+identificador_filas+'">'
+                                +ferulizado
                             +'</td>'
                             +'<td>'
                                 +'<center><button type="button" class="btn btn-primary btn-xs" style="width:50px" onclick="editarFila(this.id)" id="'+'editarf'+identificador_filas+'" >'
@@ -2521,12 +2594,16 @@
         var guia_colores =$("#gui"+fila).html().trim();
         var colores = $("#col"+fila).html().trim();
         var actividades = $("#obs"+fila).attr("observaciones").trim();
+	    var pontico    = $("#formulario_pedido_pontico").val().trim();
+		var ferulizado = $("#formulario_pedido_ferulizado").val().trim();
 
 
         //cargo los datos en el modal
         $("#formulario_pedido_cantidad").val(cantidad);
         $("#formulario_pedido_item option[value='"+producto_seleccionado+"']").prop('selected', true);
         $("#formulario_pedido_guiacolores option[value='"+guia_colores+"']").prop('selected', true);
+		$("#formulario_pedido_pontico").val(pontico);
+		$("#formulario_pedido_ferulizado").val(ferulizado);
 
         //cargo los colores segun la guia
         cargarColores(guia_colores);
@@ -2684,6 +2761,8 @@
         $("#div_color3").attr('style', "display:none");
 
         $("#observaciones").val("");
+		$("#formulario_pedido_pontico").val("");
+		$("#formulario_pedido_ferulizado").val("");
     }
 
     function limpiarModalAdicionarPru()
@@ -2902,8 +2981,10 @@
                 var colores = $("#colf"+iterador).html().trim();
                 var actividades = $("#obsf"+iterador).attr("observaciones").trim();
                 var cantidad = $("#canf"+iterador).html().trim();
+				var pontico = $("#pont"+iterador).html().trim();
+				var ferulizado = $("#fer"+iterador).html().trim();
 
-                cadena_producto += categoria+"|||"+dientes+"|||"+producto+"|||"+guia_colores+"|||"+colores+"|||"+actividades+"|||"+cantidad+"&&&";
+                cadena_producto += categoria+"|||"+dientes+"|||"+producto+"|||"+guia_colores+"|||"+colores+"|||"+actividades+"|||"+cantidad+"|||"+pontico+"|||"+ferulizado+"&&&";
                 iterador_arreglo_identificadores_filas++;
             });
             cadena_producto=cadena_producto.substring(0,cadena_producto.length-3);

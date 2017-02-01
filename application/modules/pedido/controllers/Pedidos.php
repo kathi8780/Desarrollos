@@ -762,6 +762,8 @@ class Pedidos extends MX_Controller {
                  $arreglo_productos_actual['OBSERVACIONES']=$arreglo_aux_productos[5];
                  $arreglo_productos_actual['GUIACOLORES']=$arreglo_aux_productos[3];
                  $arreglo_productos_actual['COLORES']=$arreglo_aux_productos[4];
+				 $arreglo_productos_actual['PONTICO']=$arreglo_aux_productos[7];
+				 $arreglo_productos_actual['FERULIZADO']=$arreglo_aux_productos[8];
 
                  //inserto el producto
                      $id_pedido_descripcion = $this->pedidos_model->insertarProducto($arreglo_productos_actual);
