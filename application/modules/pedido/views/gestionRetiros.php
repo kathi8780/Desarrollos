@@ -58,7 +58,7 @@
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Cliente<span class="required"> * </span></label> 
-	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="DR. GALARZA" />
 	            </div>
 	        </div>		
 
@@ -66,7 +66,7 @@
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Teléfono<span class="required"> * </span></label> 
-	                <input type="text" id="c_telefono" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+	                <input type="text" id="c_telefono" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="097938338" />
 	            </div>
 	        </div>	
 
@@ -92,6 +92,45 @@
                   <input type="text" id="c_contacto" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
               </div>
           </div>
+          <!--tipo -->
+          <div class="col-md-2 col-sm-2 col-xs-12">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">TIPO<span class="required"> * </span></label> 
+                  <select id="s_filtro_tipo" class="form-control" style="height:30px" onchange="selecionTipo(this.value)">
+                            <option value="0">SELECCIONE</option>
+                            <option value="1">PRUEBA </option>
+                            <option value="2">NUEVO</optio>
+                        </select> 
+              </div>
+          </div>
+          <!--seleccion paciente-->
+          <div class="col-md-2 col-sm-2 col-xs-12" style="display: none;" id="select_paciente">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">PACIENTE<span class="required"> * </span></label> 
+                    <select id="prueba" class="form-control" style="height:30px" >
+                    <option value="">TODOS</option>
+                      <?php foreach ($pruebas_sinretorno as $array) 
+                        {?>
+                          <option value="<?php echo $array['id_prueba']; ?>" ><?php echo $array['paciente']."=".$array['prueba']; ?></option>  
+                      <?php } ?>
+                    </select>
+              </div>
+          </div>
+         
+          <!--seleccione pedido-->
+          <div class="col-md-2 col-sm-2 col-xs-12" style="display: none;" id="select_pedido">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">PEDIDO<span class="required"> * </span></label> 
+                    <select id="pedido" class="form-control" style="height:30px">
+                    <option value="">TODOS</option>
+                      <?php foreach ($pedidos_online as $array) 
+                        {?>
+                          <option value="<?php echo $array['num']; ?>" ><?php echo $array['numero']; ?></option>  
+                      <?php } ?>
+                    </select>
+              </div>
+          </div>
+          
 	        <!-- btn adicionar -->
 	        <div class="col-md-2 col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">     
@@ -100,111 +139,11 @@
                             <span class="glyphicon glyphicon-"></span> Crear Retiro
                         </button>
 	            </div>
-	        </div>	
+	        </div> 	
 		</div>		
 	</div>
 </div>
 
-
-<div class="panel panel-primary" >
-    <div class="panel-heading">RETIROS PENDIENTES</div></div>
-    <div class="container">
-    	<div class="table-responsive">
-    		<table id="tablaGenerada" class="table table-condensed table-hover table-striped tablaGenerada">
-    					<thead>
-                        <tr style="font-weight: bold" >
-                            <th>
-                              Nº
-                            </th>
-                            <th>
-                                CLIENTE
-                            </th>
-                            <th>
-                                TELEFONO
-                            </th>
-                             <th>
-                                CIUDAD
-                            </th>
-                             <th>
-                                DIRECCION
-                            </th>
-                            <th>
-                                CONTACTO
-                            </th>
-                            <th>
-                                FECHA
-                            </th>
-                            <th>
-                                REGISTRADO POR
-                            </th>
-                            <th style="text-align:center">
-                            	ASIGNAR
-                            </th>
-                        </tr>
-              </thead>
-                        <?php 
-                          $cliente_iteracion_anterior="";
-                        	for ($i=0; $i < count($retiros_pendientes); $i++) 
-                        	{ 
-                            $cliente= $retiros_pendientes[$i]['CLIENTE'];
-
-                              /*if($i!=0)//aqui controlo que se muestre solo una celda con el nombre
-                              {
-                                if($cliente==$cliente_iteracion_anterior)
-                                {
-                                  $cliente_iteracion_anterior=$cliente;
-                                  $cliente="";
-                                }
-                                else
-                                {
-                                  $cliente_iteracion_anterior=$cliente;
-                                }
-                              }
-                              else
-                                $cliente_iteracion_anterior=$cliente;*/
-
-                         ?>
-                         	<tr id="<?php echo  'r'.$retiros_pendientes[$i]['ID_RETIRO']; ?>" >
-                              <td>
-                                  <?php echo $i+1; ?>
-                              </td>
-	                            <td>
-	                                <?php echo $cliente; ?>
-	                            </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['TELEFONO'];  ?>
-	                            </td>
-	                            
-                              <td>
-                                  <?php echo $retiros_pendientes[$i]['CIUDAD']; ?>
-                              </td>
-                              <td>
-                                  <?php echo $retiros_pendientes[$i]['DIRECCION_RETIRO']; ?>
-                              </td>
-                              <td>
-                                  <?php echo $retiros_pendientes[$i]['CONTACTO']; ?>
-                              </td>
-                              <td>
-                                  <?php echo $retiros_pendientes[$i]['FECHA']; ?>
-                              </td>
-	                            <td>
-	                                <?php echo $retiros_pendientes[$i]['USUARIO_NOMBRE']." ".$retiros_pendientes[$i]['USUARIO_APELLIDO']; ?>
-	                            </td>
-	                            <td style="text-align:center">
-      				                    <center>
-      				                    	<button id="<?php echo $retiros_pendientes[$i]['ID_RETIRO']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="asignarRetiro(this.id)">
-      				                          	<span class="glyphicon glyphicon-share-alt"></span>
-      				                        </button>
-      				                    </center>
-	                            </td>
-	                        </tr>
-                        <?php 		
-                        	}
-                         ?>
-
-    		</table>
-    	</div>
-    </div>
 
 
 
@@ -240,18 +179,35 @@
 
     function crearRetiro()
     {
+       
+      
     	var cliente = $("#c_cliente").val().trim();
     	var telefono =$("#c_telefono").val().trim();
     	var contacto =$("#c_contacto").val().trim();
       var ciudad =$("#c_ciudad").val().trim();
       var direccion =$("#c_direccion").val().trim();
+      var pedido_online=$("#pedido").val().trim();
+      var prueba_sin_retorno=$("#prueba").val().trim();
+      var dato="";
+      if(pedido_online==0){
+        dato=prueba_sin_retorno;
+
+      }else if(prueba_sin_retorno==0){
+        dato=pedido_online;
+      }
+
+      
 
     	if(cliente=="")
     	{
             var text = 'Falta campo CLIENTE';
             $.notific8(text, params); 
             return;
-    	}
+    	}else if(dato==""){
+        var text = 'Falta campo TIPO';
+            $.notific8(text, params); 
+            return;
+      }
     	else if(telefono=="")
     	{
             var text = 'Falta campo TELEFONO';
@@ -275,6 +231,16 @@
             var text = 'Falta campo DIRECCION';
             $.notific8(text, params); 
             return;
+      }else if(pedido_online=="TODOS")
+      {
+            var text = 'Falta campo DIRECCION';
+            $.notific8(text, params); 
+            return;
+      }else if(prueba_sin_retorno=="TODOS")
+      {
+            var text = 'Falta campo DIRECCION';
+            $.notific8(text, params); 
+            return;
       }
 
 				$.isLoading({
@@ -287,7 +253,7 @@
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion},
+                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion,dato:dato},
                          url: '<?php echo base_url(); ?>index.php/pedido/pedidos/insertarRetiro',
                          success: function (data) 
                          {    
@@ -300,6 +266,9 @@
                            var id_retiro = data['ID_RETIRO'];
 				            //ADICIONO UNA LINEA DE PRUEBA
 				            var cadena_html='<tr class="fila-retiro" id="r'+id_retiro+'" >'
+                                        +'<td>'
+                                            +pedido
+                                        +'</td>'
                                         +'<td>'
 				                                    +cliente
 				                                +'</td>'
@@ -426,6 +395,31 @@
     	aplicarPaginado();
     }
 
+    function selecionTipo(id) {
+
+      if(id==0){
+
+            
+            $("#select_pedido").hide();
+            $("#select_paciente").hide();
+
+          }
+          if(id==1){
+
+           
+            $("#select_paciente").show();
+            $("#select_pedido").hide();
+        
+          }
+          if (id==2) {
+            $("#select_pedido").show();
+           
+            $("#select_paciente").hide();
+          
+          } 
+          return id;
+    }
+  
     function realizarAsignacion()
     {
         var id_mensajero = $("#s_mensajeros").val().trim();

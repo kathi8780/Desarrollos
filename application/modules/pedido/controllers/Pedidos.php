@@ -762,8 +762,8 @@ class Pedidos extends MX_Controller {
                  $arreglo_productos_actual['OBSERVACIONES']=$arreglo_aux_productos[5];
                  $arreglo_productos_actual['GUIACOLORES']=$arreglo_aux_productos[3];
                  $arreglo_productos_actual['COLORES']=$arreglo_aux_productos[4];
-				 $arreglo_productos_actual['PONTICO']=$arreglo_aux_productos[7];
-				 $arreglo_productos_actual['FERULIZADO']=$arreglo_aux_productos[8];
+				 //$arreglo_productos_actual['PONTICO']=$arreglo_aux_productos[7];
+				 //$arreglo_productos_actual['FERULIZADO']=$arreglo_aux_productos[8];
 
                  //inserto el producto
                      $id_pedido_descripcion = $this->pedidos_model->insertarProducto($arreglo_productos_actual);
@@ -1071,6 +1071,36 @@ class Pedidos extends MX_Controller {
         }
     }
 
+    public function mostrarFormularioLogistica(){
+
+     if ($this->session->userdata('loggeado')) 
+        {
+            $this->load->helper('form');
+            $this->load->library('form_validation');       
+            $this->form_validation->CI =& $this;
+
+            $datos=array();
+            $datos['retiros_pendientes'] = $this->pedidos_model->obtenerRetiros();
+            $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
+            $datos['pedidos_empacados'] = $this->pedidos_model->obtenerPedidosEmpacados(); 
+            $datos['mensajeros'] = $this->pedidos_model->obtenerMensajerosActivos();
+            $datos['courier'] = $this->pedidos_model->obtenerCourier();
+            $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
+            $datos['pedidos_ruta'] = $this->pedidos_model->obtenerPedidosEnRuta(); //RUTA DE ENTREGA
+            $datos['retiros_asignados'] = $this->pedidos_model->obtenerRetirosAsignados(); //RUTA DE RETIRO
+            $datos['pedidos_ruta']=$this->pedidos_model->obtenerPedidosEnRuta();
+            
+            
+            $this->load->view('templates/header');
+            $this->load->view('administrar_logistica',$datos);
+            $this->load->view('templates/footer');
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }   
+    }
+
     public function eliminarPrueba() 
     {
         if ($this->session->userdata('loggeado')) 
@@ -1310,11 +1340,13 @@ class Pedidos extends MX_Controller {
             $recibe = trim($this->input->post('recibe'));
             $flete = trim($this->input->post('flete'));
             $mensajero = trim($this->input->post('mensajero'));
+            $men=array();
+            $men['ID_USUARIO_MENSAJERO']=$mensajero;
             $tipoMensajeria = trim($this->input->post('tipoMensajeria'));
-
             $arreglo_ids_pruebas = explode("&&", $cadena);
+            $ruta=$this->pedidos_model->insertarRuta($men);
 
-            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria);
+            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta);
             $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
             echo 1; 
         }
@@ -1330,8 +1362,14 @@ class Pedidos extends MX_Controller {
         {        
             $datos=array();
             $datos['retiros_pendientes'] = $this->pedidos_model->obtenerRetiros();
+
+            $datos['pedidos_online']= $this->pedidos_model->obtenerPedidosClienteOnline();//por reslizar
+            $datos['pruebas_sinretorno']=$this->pedidos_model->obtenerPruebasSinRetorno();//por realizar
+            
             $datos['mensajeros'] = $this->pedidos_model->obtenerMensajerosActivos();
-                
+
+
+
             $this->load->view('templates/header');
             $this->load->view('gestionRetiros',$datos);
             $this->load->view('templates/footer');
@@ -1348,7 +1386,8 @@ class Pedidos extends MX_Controller {
         {      
             //$data_sesion = $this->session->userdata()['loggeado'];
             $id_usuario = $this->session->userdata['loggeado']['ID_USUARIO'];
-
+            $id=trim($this->input->post('dato'));
+            $id_pd=$this->pedidos_model->obtenerPedidoPrueba($id);
             $data_retiro = array();
             $data_retiro['CLIENTE']=trim($this->input->post('cliente'));
             $data_retiro['TELEFONO']=trim($this->input->post('telefono'));
@@ -1356,6 +1395,8 @@ class Pedidos extends MX_Controller {
             $data_retiro['DIRECCION_RETIRO']=trim($this->input->post('direccion'));
             $data_retiro['CIUDAD']=trim($this->input->post('ciudad'));
             $data_retiro['FECHA']=date("Y-m-d H:i:s");
+            $data_retiro['ID_PRUEBA']=trim($this->input->post('dato'));
+            $data_retiro['ID_PEDIDO']=$id_pd->PEDF_NUM_PREIMP;
             $data_retiro['USUARIO_SESION']=$id_usuario;       
 
            
@@ -1417,7 +1458,7 @@ class Pedidos extends MX_Controller {
                 redirect('pedido/pedidos/mostrarFormularioPedido/', 'refresh');
                 exit();                
             }
-            else
+           else
             { 
                 $nombreUnicofotografia = sha1(uniqid(mt_rand(), true)); // le genero un nombre unico a la fotografia
                 $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/nibadent/assets/uploads/fotografias/';
@@ -1514,4 +1555,7 @@ class Pedidos extends MX_Controller {
 
 
     }
+
+
+   
 }

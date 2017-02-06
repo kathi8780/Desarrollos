@@ -108,7 +108,7 @@ class Usuarios extends MX_Controller {
 
     	if ($this->session->userdata('loggeado')) 
         {      
-			
+			$pass="1234";
             $data = array();		
 			$data['PERFIL_ID']=trim($this->input->post('PERFIL_ID')); 
 			$data['USUARIO_NOMBRE']=trim($this->input->post('USUARIO_NOMBRE')); 
@@ -121,6 +121,7 @@ class Usuarios extends MX_Controller {
 			$data['USUARIO_FECHA_CADUCA']=trim($this->input->post('USUARIO_FECHA_CADUCA')); 
 			$data['USUARIO_TIEMPO_SESION']=trim($this->input->post('USUARIO_TIEMPO_SESION')); 
 			$data['USUARIO_USER']=trim($this->input->post('USUARIO_USER')); 
+			$data['USUARIO_PASSWORD']=MD5($pass);
 			$USUARIO_USER=trim($this->input->post('USUARIO_USER'));
 			
             $result = $this->usuarios_model->insertarUsuario($data,$USUARIO_USER);

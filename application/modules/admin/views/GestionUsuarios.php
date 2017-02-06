@@ -195,7 +195,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Perfil de Usuario<span class="required"> * </span></label> 
-							<select id="c_PERFIL_ID" class="form-control" style="height:30px">
+							<select id="n_PERFIL_ID" class="form-control" style="height:30px">
 							<option value="">TODOS</option>
 								<?php foreach ($perfil as $array) 
 									{?>
@@ -212,7 +212,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Nombre<span class="required"> * </span></label> 
-							<input type="text" min="0" max="30" id="c_USUARIO_NOMBRE" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+							<input type="text" min="0" max="30" id="n_USUARIO_NOMBRE" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -223,7 +223,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Apellido<span class="required"> * </span></label> 
-							<input type="text"  min="0" max="30" id="c_USUARIO_APELLIDO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+							<input type="text"  min="0" max="30" id="n_USUARIO_APELLIDO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -234,7 +234,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Usuario<span class="required"> * </span></label> 
-							<input type="text"  min="0" max="30" id="c_USUARIO_USER" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+							<input type="text"  min="0" max="30" id="n_USUARIO_USER" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -245,10 +245,10 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<label class="control-label">Fecha de Registro</label>
 						<div class='input-group'>
-							<span onclick="limpiarFecha('c_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
+							<span onclick="limpiarFecha('n_USUARIO_FECHA_REGISTRO')" class="input-group-addon left" style="cursor:pointer">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<input type="text" id="c_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly
+							<input type="text" id="n_USUARIO_FECHA_REGISTRO" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly
 							<?php 
 									$hoy = date("Y-m-d");
 									echo " value='".$hoy."' ";
@@ -263,10 +263,10 @@
 						<div class="col-md-8 col-sm-6 col-xs-12">
 						<label class="control-label">Fecha de Caducida</label>
 						<div class='input-group'>
-							<span onclick="limpiarFecha('c_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
+							<span onclick="limpiarFecha('n_USUARIO_FECHA_CADUCA')" class="input-group-addon left" style="cursor:pointer">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<input type="text" id="c_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly 
+							<input type="text" id="n_USUARIO_FECHA_CADUCA" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly 
 							<?php 
 									$hoy = date("Y-m-d");
 									echo " value='".$hoy."' ";
@@ -281,7 +281,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">E-mail<span class="required"> * </span></label> 
-							<input type="text"  min="0" max="50" id="c_USUARIO_EMAIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+							<input type="text"  min="0" max="50" id="n_USUARIO_EMAIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -292,7 +292,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Usuario Activo<span class="required"> * </span></label> 
-							<select id="c_USUARIO_ACTIVO" class="form-control" style="height:30px">
+							<select id="n_USUARIO_ACTIVO" class="form-control" style="height:30px">
 							<option value="S">SI</option>
 							<option value="N">NO</option>  
 							</select>
@@ -306,7 +306,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Teléfono Movil<span class="required"> * </span></label> 
-							<input type="text"  min="0" max="10" id="c_USUARIO_MOVIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+							<input type="text"  min="0" max="10" id="n_USUARIO_MOVIL" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -317,7 +317,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Teléfono Fijo<span class="required"> * </span></label> 
-							<input type="text" min="0" max="20" id="c_USUARIO_TELEFONO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+							<input type="text" min="0" max="20" id="n_USUARIO_TELEFONO" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -328,7 +328,7 @@
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<div class="form-group form-group-sm">                
 							<label class="control-label required" for="">Tiempo en Sesión (minutos)<span class="required"> * </span></label> 
-							<input type="text"  min="0" max="5" id="c_USUARIO_TIEMPO_SESION" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
+							<input type="text"  min="0" max="5" id="n_USUARIO_TIEMPO_SESION" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>
 						</div>
 					</div>
 				  </td>
@@ -728,18 +728,18 @@
 	}
     function crearUsuario()
     {
-      	  
-	  var USUARIO_ID = $("#c_USUARIO_ID").val().trim();
-	  var USUARIO_NOMBRE = $("#c_USUARIO_NOMBRE").val().trim();
-	  var USUARIO_APELLIDO = $("#c_USUARIO_APELLIDO").val().trim();
-	  var USUARIO_ACTIVO = $("#c_USUARIO_ACTIVO").val().trim();
-	  var USUARIO_FECHA_REGISTRO = $("#c_USUARIO_FECHA_REGISTRO").val().trim();
-	  var USUARIO_MOVIL = $("#c_USUARIO_MOVIL").val().trim();
-	  var USUARIO_TELEFONO = $("#c_USUARIO_TELEFONO").val().trim();
-	  var USUARIO_EMAIL = $("#c_USUARIO_EMAIL").val().trim();
-	  var USUARIO_FECHA_CADUCA = $("#c_USUARIO_FECHA_CADUCA").val().trim();
-	  var USUARIO_TIEMPO_SESION = $("#c_USUARIO_TIEMPO_SESION").val().trim();
-	  var USUARIO_USER = $("#c_USUARIO_USER").val().trim();
+      	
+	  var PERFIL_ID = $("#n_PERFIL_ID").val().trim();
+	  var USUARIO_NOMBRE = $("#n_USUARIO_NOMBRE").val().trim();
+	  var USUARIO_APELLIDO = $("#n_USUARIO_APELLIDO").val().trim();
+	  var USUARIO_ACTIVO = $("#n_USUARIO_ACTIVO").val().trim();
+	  var USUARIO_FECHA_REGISTRO = $("#n_USUARIO_FECHA_REGISTRO").val().trim();
+	  var USUARIO_MOVIL = $("#n_USUARIO_MOVIL").val().trim();
+	  var USUARIO_TELEFONO = $("#n_USUARIO_TELEFONO").val().trim();
+	  var USUARIO_EMAIL = $("#n_USUARIO_EMAIL").val().trim();
+	  var USUARIO_FECHA_CADUCA = $("#n_USUARIO_FECHA_CADUCA").val().trim();
+	  var USUARIO_TIEMPO_SESION = $("#n_USUARIO_TIEMPO_SESION").val().trim();
+	  var USUARIO_USER = $("#n_USUARIO_USER").val().trim();
 	  
 	     
       if(PERFIL_ID=="")
