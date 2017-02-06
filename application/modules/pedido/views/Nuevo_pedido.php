@@ -2294,7 +2294,7 @@
 		//Ferulizado
 		var str3 = ferulizado;
 		var res3 = str3.split(",");
-		
+				
 		for(var i=0;i < res.length; i++){
 			
 			bpontico = pontico;
@@ -2330,6 +2330,10 @@
 		
 	}
 	function modelo_todos(){
+		
+		//$el_array = array('good', 'hi', 'bad', 'hi');
+
+		//console.log(print_r( countRepeat($el_array)));
 		
         //VALIDAR CANT DE PROD
         var filas_producto = $("tr[class=filas_producto]"); //tomo las filas de producto 
@@ -2421,11 +2425,19 @@
 					}else{
 						vpontico=0;
 					}
-		
+						
+					if(res[i]==res){
+						
+						console.log('repetido'+res[i]);
+					}
 					console.log(res[i],vpontico,categoria);
-					//paint_tooth(categoria,s);   
+					//paint_tooth(categoria,s);  
+					
+					// un ejemplo;
 				
 				} 
+				
+
 				
                 iterador_arreglo_identificadores_filas++;
 				
