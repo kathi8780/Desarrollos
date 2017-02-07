@@ -241,6 +241,17 @@
 				</tr>
 				<tr>
                   <td>
+					<!-- campo password -->
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<div class="form-group form-group-sm">                
+							<label class="control-label required" for="">Clave<span class="required"> * </span></label> 
+							<input type="text"  min="0" max="30" id="n_USUARIO_PASSWORD" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="30" class="form-control"/>
+						</div>
+					</div>
+				  </td>
+				</tr>
+				<tr>
+                  <td>
 				  <!-- Fecha de Registro -->
 					<div class="col-md-8 col-sm-6 col-xs-12">
 						<label class="control-label">Fecha de Registro</label>
@@ -729,17 +740,18 @@
     function crearUsuario()
     {
       	
-	  var PERFIL_ID = $("#n_PERFIL_ID").val().trim();
-	  var USUARIO_NOMBRE = $("#n_USUARIO_NOMBRE").val().trim();
-	  var USUARIO_APELLIDO = $("#n_USUARIO_APELLIDO").val().trim();
-	  var USUARIO_ACTIVO = $("#n_USUARIO_ACTIVO").val().trim();
+	  var PERFIL_ID             = $("#n_PERFIL_ID").val().trim();
+	  var USUARIO_NOMBRE        = $("#n_USUARIO_NOMBRE").val().trim();
+	  var USUARIO_APELLIDO      = $("#n_USUARIO_APELLIDO").val().trim();
+	  var USUARIO_ACTIVO        = $("#n_USUARIO_ACTIVO").val().trim();
 	  var USUARIO_FECHA_REGISTRO = $("#n_USUARIO_FECHA_REGISTRO").val().trim();
-	  var USUARIO_MOVIL = $("#n_USUARIO_MOVIL").val().trim();
-	  var USUARIO_TELEFONO = $("#n_USUARIO_TELEFONO").val().trim();
-	  var USUARIO_EMAIL = $("#n_USUARIO_EMAIL").val().trim();
-	  var USUARIO_FECHA_CADUCA = $("#n_USUARIO_FECHA_CADUCA").val().trim();
+	  var USUARIO_MOVIL         = $("#n_USUARIO_MOVIL").val().trim();
+	  var USUARIO_TELEFONO      = $("#n_USUARIO_TELEFONO").val().trim();
+	  var USUARIO_EMAIL         = $("#n_USUARIO_EMAIL").val().trim();
+	  var USUARIO_FECHA_CADUCA  = $("#n_USUARIO_FECHA_CADUCA").val().trim();
 	  var USUARIO_TIEMPO_SESION = $("#n_USUARIO_TIEMPO_SESION").val().trim();
-	  var USUARIO_USER = $("#n_USUARIO_USER").val().trim();
+	  var USUARIO_USER          = $("#n_USUARIO_USER").val().trim();
+	  var USUARIO_PASSWORD      = $("#n_USUARIO_PASSWORD").val().trim();
 	  
 	     
       if(PERFIL_ID=="")
@@ -777,7 +789,7 @@
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {USUARIO_USER:USUARIO_USER,PERFIL_ID:PERFIL_ID,USUARIO_NOMBRE:USUARIO_NOMBRE,USUARIO_APELLIDO:USUARIO_APELLIDO,USUARIO_ACTIVO:USUARIO_ACTIVO,USUARIO_FECHA_REGISTRO:USUARIO_FECHA_REGISTRO,USUARIO_MOVIL:USUARIO_MOVIL,USUARIO_TELEFONO:USUARIO_TELEFONO,USUARIO_EMAIL:USUARIO_EMAIL,USUARIO_FECHA_CADUCA:USUARIO_FECHA_CADUCA,USUARIO_TIEMPO_SESION:USUARIO_TIEMPO_SESION},
+                         data: {USUARIO_PASSWORD:USUARIO_PASSWORD,USUARIO_USER:USUARIO_USER,PERFIL_ID:PERFIL_ID,USUARIO_NOMBRE:USUARIO_NOMBRE,USUARIO_APELLIDO:USUARIO_APELLIDO,USUARIO_ACTIVO:USUARIO_ACTIVO,USUARIO_FECHA_REGISTRO:USUARIO_FECHA_REGISTRO,USUARIO_MOVIL:USUARIO_MOVIL,USUARIO_TELEFONO:USUARIO_TELEFONO,USUARIO_EMAIL:USUARIO_EMAIL,USUARIO_FECHA_CADUCA:USUARIO_FECHA_CADUCA,USUARIO_TIEMPO_SESION:USUARIO_TIEMPO_SESION},
                          url: '<?php echo base_url(); ?>index.php/admin/usuarios/insertarUsuario',
                          success: function (data) 
                          {    
