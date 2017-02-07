@@ -1713,6 +1713,40 @@ class Pedidos_model extends CI_Model
         return null;
     }
     }
+    public function contarTotalCoordinacion(){
+
+        $sql = "SELECT COUNT(p.PEDF_NUM_PREIMP) as cordinacion ";
+
+        $sql .= "from pedido p ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
+        $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+
+        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
+        $sql .= "AND pb.ENTREGADO ='N' ";
+        $sql .= "AND pb.DESPACHADO ='N'  ";     
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+
+    }
+    public function contarRetirosPendientes(){
+
+        $this->db->select('COUNT(r.ID_RETIRO) as c_retiros');
+         $this->db->from("retiro r");
+         $this->db->join("usuario u",'u.USUARIO_ID = r.USUARIO_SESION');
+         $this->db->join("pedido p",'p.PEDF_NUM_PREIMP = r.ID_PEDIDO');
+         $this->db->join("pruebas pb", 'pb.ID_PRUEBAS= r.ID_PRUEBA');
+         $this->db->where("r.ASIGNADO =",0);
+         $this->db->order_by("r.CLIENTE", "asc");
+
+         $consulta = $this->db->get();
+         $resultado = $consulta->result_array();
+         return $resultado;
+    }
 
 }
 

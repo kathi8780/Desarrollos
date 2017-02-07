@@ -1,3 +1,42 @@
+<style type="text/css">
+  
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {background-color: #ddd;}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
 <?php
 
   $usuario=$this->session->userdata['loggeado']['ID_USUARIO'];
@@ -16,9 +55,17 @@
 
 
 <div class="panel panel-primary" >
-    <div class="panel-heading">GESTIONAR RETIROS ENTREGAS</div>
+    <div class="panel-heading">GESTIONAR LOGISTICA (0)</div>
 
 	<div class="container12">
+   <ul class="tab">
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container1');">Coordinación (<?php echo $contador_cordinacion[0]['cordinacion']+$contador_r_p[0]['c_retiros'];?>)</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container2');">Rutas (<?php echo $contador_r_p[0]['c_retiros'];?>)</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container3');">Retiros y Entregas (0)</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container3');">Pedidos Entregados(0)</a></li>
+  </ul>
+
+  <!--
 		<div class="row">
 	        <?php foreach ($panel AS $items){?>
            
@@ -43,7 +90,8 @@
         <?php }?>
 
 	        
-		</div>		
+		</div>	
+  -->	
 	</div>
 </div>
 

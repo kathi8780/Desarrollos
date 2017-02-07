@@ -1089,6 +1089,8 @@ class Pedidos extends MX_Controller {
             $datos['pedidos_ruta'] = $this->pedidos_model->obtenerPedidosEnRuta(); //RUTA DE ENTREGA
             $datos['retiros_asignados'] = $this->pedidos_model->obtenerRetirosAsignados(); //RUTA DE RETIRO
             $datos['pedidos_ruta']=$this->pedidos_model->obtenerPedidosEnRuta();
+            $datos['contador_cordinacion']=$this->pedidos_model->contarTotalCoordinacion();
+            $datos['contador_r_p']=$this->pedidos_model->contarRetirosPendientes();
             
             
             $this->load->view('templates/header');
