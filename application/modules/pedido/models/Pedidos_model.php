@@ -1448,43 +1448,43 @@ class Pedidos_model extends CI_Model
         return $resultado;
     }
 
-    public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta)
-
-    {
-        for ($i=0; $i < count($arreglo_ids_pruebas); $i++) 
-        { 
-            $fecha_actual = date("Y-m-d H:i:s");
-            $data_sesion = $this->session->userdata()['loggeado'];
-            $id_usuario = $data_sesion["ID_USUARIO"];
-            $id_prueba = $arreglo_ids_pruebas[$i];
-
-            $data_prueba = array();
-            $data_prueba['FECHA_SALIDA']=$fecha_actual;
-            $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
-            $data_prueba['VALOR_FLETE']=$flete ;
-            $data_prueba['DESPACHADO']='S' ;
-            $data_prueba['USER_DESPACHO']= $id_usuario;  
-
-            if($tipoMensajeria=="Courier")
-            {
-                $data_prueba['ID_COURIER']=$courier;
-                $data_prueba['ENTREGADO']='S' ;
-                $data_prueba['PERSO_RECIBE']=$recibe ;
-                $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
-            }
-            else if($tipoMensajeria=="Interna")
-            {
-                $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
-                $data_prueba['ID_RUTA']=$ruta;
-            }
-
-
-            $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
-            $this->db->update('pruebas', $data_prueba);
-
-        }
-
-    }
+    //public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta)
+    //
+    //{
+    //    for ($i=0; $i < count($arreglo_ids_pruebas); $i++) 
+    //    { 
+    //        $fecha_actual = date("Y-m-d H:i:s");
+    //        $data_sesion = $this->session->userdata()['loggeado'];
+    //        $id_usuario = $data_sesion["ID_USUARIO"];
+    //        $id_prueba = $arreglo_ids_pruebas[$i];
+    //
+    //        $data_prueba = array();
+    //        $data_prueba['FECHA_SALIDA']=$fecha_actual;
+    //        $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
+    //        $data_prueba['VALOR_FLETE']=$flete ;
+    //        $data_prueba['DESPACHADO']='S' ;
+    //        $data_prueba['USER_DESPACHO']= $id_usuario;  
+    //
+    //        if($tipoMensajeria=="Courier")
+    //        {
+    //            $data_prueba['ID_COURIER']=$courier;
+    //            $data_prueba['ENTREGADO']='S' ;
+    //            $data_prueba['PERSO_RECIBE']=$recibe ;
+    //            $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
+    //        }
+    //        else if($tipoMensajeria=="Interna")
+    //        {
+    //            $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
+    //            $data_prueba['ID_RUTA']=$ruta;
+    //        }
+    //
+    //
+    //        $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
+    //        $this->db->update('pruebas', $data_prueba);
+    //
+    //    }
+    //
+    //}
 
     public function insertarRetiro($data)
     {
