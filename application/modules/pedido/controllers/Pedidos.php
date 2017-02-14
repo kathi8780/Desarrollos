@@ -6,6 +6,7 @@ class Pedidos extends MX_Controller {
     {
         parent::__construct();
         $this->load->model('pedidos_model');
+        $this->load->model('Rutas_model');
     }
 	public function prueba($nro_pedido, $proceso, $tproceso){
 
@@ -306,6 +307,7 @@ class Pedidos extends MX_Controller {
 
             $datos=array();
             $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
+
             $datos['pedidos_ruta'] = $this->pedidos_model->obtenerPedidosEnRuta(); //RUTA DE ENTREGA
             $datos['retiros_asignados'] = $this->pedidos_model->obtenerRetirosAsignados(); //RUTA DE RETIRO
 
@@ -1091,6 +1093,8 @@ class Pedidos extends MX_Controller {
             $datos['pedidos_ruta']=$this->pedidos_model->obtenerPedidosEnRuta();
             $datos['contador_cordinacion']=$this->pedidos_model->contarTotalCoordinacion();
             $datos['contador_r_p']=$this->pedidos_model->contarRetirosPendientes();
+            $datos['rutas_sin_asignar'] = $this->pedidos_model->rutasSinAsignar();
+            //$datos['retirosSinAsignar']=$this->Rutas_model->obtenerRetirosSinAsignar();
             
             
             $this->load->view('templates/header');
@@ -1342,13 +1346,16 @@ class Pedidos extends MX_Controller {
             $recibe = trim($this->input->post('recibe'));
             $flete = trim($this->input->post('flete'));
             $mensajero = trim($this->input->post('mensajero'));
+            //$idusmen=array();
+            //$idusmen['USUARIO_ID']=$mensajero;
             $men=array();
             $men['ID_USUARIO_MENSAJERO']=$mensajero;
             $tipoMensajeria = trim($this->input->post('tipoMensajeria'));
             $arreglo_ids_pruebas = explode("&&", $cadena);
-            $ruta=$this->pedidos_model->insertarRuta($men);
+            //$cedulaMensajero=$this->pedidos_model->obtenerCedulaMensajero($mensajero);
+            //$ruta=$this->pedidos_model->insertarRuta($men);
 
-            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta);
+            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria);
             $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
             echo 1; 
         }

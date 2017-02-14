@@ -60,7 +60,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 	<div class="container12">
    <ul class="tab">
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container1');">Coordinación (<?php echo $contador_cordinacion[0]['cordinacion']+$contador_r_p[0]['c_retiros'];?>)</a></li>
-  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container2');">Rutas (<?php echo $contador_r_p[0]['c_retiros'];?>)</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container2');">Rutas (<?php echo  count($rutas_sin_asignar)?>)</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container3');">Retiros y Entregas (0)</a></li>
   <li><a href="javascript:void(0)" class="tablinks" onclick="openTabs('container3');">Pedidos Entregados(0)</a></li>
   </ul>
@@ -292,6 +292,75 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     </div><br>
 
 <!--Ruta de Retiro -->
+
+                  <div class="col-xs-20 text-right">
+                    <h1><small>RETIROS</small></h1>
+                    </div>
+                     
+                    <hr style="border: 0; height: 2px; border-top: 1px dashed black; border-bottom: 1px dashed black" />
+                     
+                    
+                      <div class="row">
+                      <div class="col-xs-5">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4>Para : <a href="#">Nombre del Cliente</a></h4>
+                            </div>
+                              <div class="panel-body">Dirección
+                                  detalles
+                                  más detalles
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-xs-5 col-xs-offset-2 text-right">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                              <h4><a href="#">Asignar Ruta</a></h4>
+                              </div>
+                              <div class="panel-body"><button type="button" class="btn btn-primary" data-dismiss="modal">Asignar</button>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <table class="table table-bordered">
+                      <thead >
+                      <tr style="font-weight:bold" >
+                            <th>
+                              Nº
+                            </th>
+                            <th>
+                                PEDIDO
+                            </th>
+                            <th>
+                                FECHA PEDIDO
+                            </th>
+                            <th>
+                                CIUDAD
+                            </th>
+                            <th>
+                                CLIENTE
+                            </th>
+                             <th>
+                                DIRECCION
+                            </th>
+                             <th>
+                                MEDIDO TRATANTE
+                            </th>
+                            <th>
+                                PRUEBA
+                            </th>
+                            <th>
+                                FECHA RETIRO
+                            </th>
+                            <th style="text-align:center">
+                              ASIGNAR
+                            </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                      </table>
+
 <div id="" style="display:block">
     <div class="panel panel-primary" style="border:none">
         <div class="panel-heading">Retiros Pendientes</div>
@@ -361,7 +430,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                                   <?php echo $i+1; ?>
                               </td>
                               <td>
-                                    <?php echo $retiros_pendientes[$i]['ID_PEDIDO'];  ?>
+                                    <?php echo $retiros_pendientes[$i]['PEDF_NUM_PREIMP'];  ?>
                               </td>
                               <td>
                                   <?php echo $retiros_pendientes[$i]['FECHA_COTIZACION'];  ?>
@@ -382,7 +451,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                                   medico
                               </td>
                               <td>
-                                  prueba
+                                   <?php echo $retiros_pendientes[$i]['ID_PRUEBA']; ?>
                               </td>
                               <td>
                                   <?php echo $retiros_pendientes[$i]['FECHA']; ?>
@@ -419,7 +488,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
              <tr>
                 <td colspan="11">
                             <center>
-                                <button class="btn btn-primary btn-sm" type="button" onclick="despacharPruebas();">
+                                <button class="btn btn-primary btn-sm" type="button" onclick="realizarDespacho();">
                                     <span class="glyphicon glyphicon-"></span>
                                     DESPACHAR
                                 </button>
@@ -491,7 +560,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                           <?php echo $pedidos_empacados[$i]['medico'] ?>
                      </td>
                      <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
-                         <?php echo $pedidos_empacados[$i]['NOMBRE_PRUEBA'] ?>
+                         <?php echo $pedidos_empacados[$i]['ID_PRUEBAS'] ?>
                      </td>
                      <td style="cursor:pointer"  onclick="detallePedido('<?php echo $pedidos_empacados[$i]['numero'] ?>')">
                          <?php echo $pedidos_empacados[$i]['FECHA_EMPAQUE']." ".$pedidos_empacados[$i]['HORA_EMPAQUE']?>
@@ -527,72 +596,100 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 </div>
 
 </div>
+<!--tab asignar rutas-->
+<div class="panel1" id="container2" style="display: none;">
 
-  <div class="panel1" id="container2" style="display: none;">
+       <div class="panel panel-primary" style="border:none">
+            <div class="panel-heading">RUTAS SIN ASIGNAR</div>
+        </div>
+        <?php 
+        $cont=0;
 
-   <div class="panel panel-primary" style="border:none">
-        <div class="panel-heading">RUTAS ASIGNADAS</div>
-    </div>
-    <div class="row">
-    
+        for($j=0;$j<count($rutas_sin_asignar);$j++)
+          {
+                       
+            ?>
+        <div class="row">
+          <div class="container" >
+                <div id="tabla" class="table-responsive" style="font-size:12px; overflow:hidden;" >
+                 
+                 
+                    
+                    <div class="col-xs-20 text-right">
+                    <h1><small>RUTA #<?php echo $rutas_sin_asignar[$j]['rutassn']?></small></h1>
+                    </div>
+                     
+                    <hr style="border: 0; height: 2px; border-top: 1px dashed black; border-bottom: 1px dashed black" />
+                     
+                    
+                      <div class="row">
+                      <div class="col-xs-5">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4>Para : <a href="#">Nombre del Cliente</a></h4>
+                            </div>
+                              <div class="panel-body">Dirección
+                                  detalles
+                                  más detalles
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-xs-5 col-xs-offset-2 text-right">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                              <h4><a href="#">Asignar Ruta</a></h4>
+                              </div>
+                              <div class="panel-body"><button type="button" class="btn btn-primary" data-dismiss="modal">Asignar</button>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
 
-    <div class="container" >
-        <div id="tabla" class="table-responsive" style="font-size:12px; overflow:hidden;" >
-         <table class="table table-condensed table-striped table-responsive tablaGenerada" id="tablaGenerada2">
-            <thead>
-             <tr style="font-weight:bold">
-                 <td>
-                    Nº  
-                 </td>
-                 <td>
-                    PEDIDO  
-                 </td>
-                 <td>
-                     FECHA DE PEDIDO
-                 </td>
-                 <td>
-                     CIUDAD
-                 </td>
-                 <td>
-                     CLIENTE
-                 </td>
-                 <td>
-                     PACIENTE
-                 </td>
-                 <td>
-                     MEDICO TRATANTE
-                 </td>
-                 <td>
-                     PRUEBA
-                 </td>
-                 <td>
-                     FECHA EMPAQUE
-                 </td>
-                 <td>
-                     MENSAJERO/ COURIER
-                 </td>
-                 <td>
-                     FECHA DESPACHO
-                 </td>
-                 <td>
-                     ESTADO
-                 </td>
-                 <td>
-                     RUTA
-                 </td>
-                 <td>
-                     MODIFICAR
-                 </td>
-             </tr>
-             </thead>
-            
-            <?php              
+                      <table class="table table-bordered">
+                      <thead >
+                      <tr>
+                      <th>
+                      <h4>No</h4>
+                      </th>
+                      <th>
+                      <h4>PEDIDO</h4>
+                      </th>
+                      <th>
+                      <h4>FECHA PEDIDO</h4>
+                      </th>
+                      <th>
+                      <h4>CIUDAD</h4>
+                      </th>
+                      <th>
+                      <h4>PACIENTE</h4>
+                      </th>
+                      <th>
+                      <h4>MEDICO TRATANTE</h4>
+                      </th>
+                      <th>
+                      <h4>FECHA DE EMPAQUE</h4>
+                      </th>
+                      <th>
+                      <h4>PRUEBA</h4>
+                      </th>
+                      <th>
+                      <h4>ENTREGA/RETIRO</h4>
+                      </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <?php
+                $con=1;  
                 for($i=0;$i<count($pedidos_ruta);$i++)
                 {
+                  if($rutas_sin_asignar[$j]['rutassn']==$pedidos_ruta[$i]['ruta']){
+
+
+                  
             ?>
                 <tr>   
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                          <?php echo $i+1; ?>
+                          <?php echo $con++; ?>
                      </td>
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
                           <?php echo $pedidos_ruta[$i]['numero'] ?>
@@ -603,9 +700,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
                           <?php echo $pedidos_ruta[$i]['ciudad'] ?>
                      </td>
-                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                          <?php echo $pedidos_ruta[$i]['cliente'] ?>
-                     </td>
+                    
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
                           <?php echo $pedidos_ruta[$i]['paciente'] ?>
                      </td>
@@ -616,43 +711,30 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                          <?php echo $pedidos_ruta[$i]['NOMBRE_PRUEBA'] ?>
                      </td>
                      <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                         <?php echo $pedidos_ruta[$i]['FECHA_EMPAQUE'] ?>
-                     </td>
-                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                     <?php echo $pedidos_ruta[$i]['mensajerocourirer'] ?>
-                     </td>
-                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
                         <?php echo $pedidos_ruta[$i]['FECHA_SALIDA'] ?>
                      </td>
-                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                        <?php echo $pedidos_ruta[$i]['estado'] ?>
-                     </td>
-                     <td style="cursor:pointer" onclick="detallePedido('<?php echo $pedidos_ruta[$i]['numero'] ?>')" >
-                        <?php echo $pedidos_ruta[$i]['ruta'] ?>
-                     </td>
-                     <td style="text-align:center">
-                          
-                          <center>
-                                    <button id="<?php echo $pedidos_ruta[$i]['ID_PEDIDO']; ?>" type="button" class="btn btn-primary btn-sm" style="width:50px" onclick="mostrarModalEntrega(this.id)">
-                                          <span class="glyphicon glyphicon-share-alt">33</span>
-                                      </button>
-                            </center>
-                     </td>
+
+                     <td>ENTREGA</td>
+                     
 
                 </tr>
             <?php                 
                }
+             }
             ?>
-         </table>
-        </div>
-    </div>
-</div>
-          
-          
-     
 
-  </div>
+                      </tbody>
+                      </table>
+                        
+                        
 
+                </div>
+            </div>
+            
+          <?php                 
+               }
+             
+            ?>
     <div class="panel1" id="container3" style="display: none;">
 
       <div class="panel panel-primary" style="border:none">
@@ -1036,59 +1118,14 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 
         if(cadena!="")
         {
-          cadena=cadena.substring(0,cadena.length-2);         
+          cadena=cadena.substring(0,cadena.length-2); 
+          alert(cadena);        
         }
 
-        //realizo validaciones
-        var despacho =$("#s_despacho").val().trim();
-        if(despacho=="")
-        {
-            var text = 'Seleccione DESPACHO';
-            $.notific8(text, params); 
-            return; 
-        }
-        else if(despacho==1)
-        {
-          if($("#s_courier").val().trim()=="")
-          {
-              var text = 'Seleccione COURIER';
-              $.notific8(text, params); 
-              return; 
-          }
-          else if($("#c_recibe").val().trim()=="")
-          {
-              var text = 'Campo RECIBE está vacío';
-              $.notific8(text, params); 
-              return;   
-          }
-          else if($("#c_flete").val().trim()=="")
-          {
-              var text = 'Campo FLETE está vacío';
-              $.notific8(text, params); 
-              return;   
-          }
-        }
-        else if(despacho==2)
-        {
-            if($("#s_mensajero").val().trim()=="")
-            {
-                var text = 'Seleccione MENSAJERO';
-                $.notific8(text, params); 
-                return; 
-            }
-        }
-
+        
+          
         //obtengo los datos
-        var courier = $("#s_courier").val().trim();
-        var recibe = $("#c_recibe").val().trim();
-        var flete = $("#c_flete").val().trim();
-        var mensajero = $("#s_mensajero").val().trim();
-
-        var tipoMensajeria = $("#s_despacho").val().trim();
-        if(tipoMensajeria==1)
-          tipoMensajeria="Courier";
-        else
-          tipoMensajeria="Interna";
+        
 
                 $.isLoading({
                               text: "Cargando",
@@ -1098,8 +1135,8 @@ ul.tab li a:focus, .active {background-color: #ccc;}
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {cadena:cadena,courier:courier,recibe:recibe,flete:flete,mensajero:mensajero,tipoMensajeria:tipoMensajeria},
-                         url: '<?php echo base_url(); ?>index.php/pedido/pedidos/DespacharPruebas',
+                         data: {cadena:cadena},
+                         url: '<?php echo base_url(); ?>index.php/pedido/rutas/crearRutas',
                          success: function (data) 
                          {                           
                             $.isLoading("hide") ;   

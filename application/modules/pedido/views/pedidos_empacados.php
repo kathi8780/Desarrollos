@@ -49,6 +49,9 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!--
+
+
 
 <!--ventana modal para despachar pruebas-->
         <div class="modal fade" id="modal-despacho-pruebas">
@@ -90,7 +93,7 @@
                                       for ($i=0; $i < count($mensajeros); $i++) 
                                       { 
                                   ?> 
-                                        <option value="<?php echo $mensajeros[$i]['USUARIO_ID'];?>"><?php echo $mensajeros[$i]['USUARIO_NOMBRE']." ".$mensajeros[$i]['USUARIO_APELLIDO'] ?>                                          
+                                        <option value="<?php echo $mensajeros[$i]['USUARIO_ID'];?>"><?php echo $mensajeros[$i]['NOMBRE_MENSAJERO'] ;?>                                         
                                         </option>
                                 <?php 
                                       }
@@ -154,6 +157,88 @@
 
 
 
+
+    <div class="panel panel-primary" style="border:none">
+        <div class="panel-heading">Consultar Pedidos Entregados</div>
+        <div class="panel-body">
+            <div class="row" >   
+        <div class="col-md-4 col-sm-2 col-xs-12">
+                  <label class="control-label">Fecha de inicio</label>
+                    <div class='input-group'>
+                        <span onclick="limpiarFecha('fecha_inicio')" class="input-group-addon left" style="cursor:pointer">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input value="<?php $fecha = date("Y-m-d"); echo $fecha; ?>" type="text" id="fecha_inicio" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly/>   
+                    </div>
+                </div>   
+                <div class="col-md-4 col-sm-2 col-xs-12">
+                  <label class="control-label">Fecha de fin</label>
+                    <div class='input-group'>
+                        <span onclick="limpiarFecha('fecha_fin')" class="input-group-addon left" style="cursor:pointer">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input value="<?php $fecha = date("Y-m-d"); echo $fecha; ?>" type="text" id="fecha_fin" placeholder="yyyy-mm-dd" class="form-control dp" style="height:30px" readonly/>   
+                    </div>
+                </div>
+                <!-- campo Cliente -->
+                <div class="col-md-4 col-sm-2 col-xs-12">
+                    <div class="form-group form-group-sm">                
+                        <label>Cliente</label>                            
+                        <input type="text" id="cliente" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" />
+                    </div>
+                </div>
+        <!-- campo Tipo -->
+                <div class="col-md-4 col-sm-3 col-xs-12">
+                    <div class="form-group form-group-sm">                
+                        <label>Despacho</label>                            
+                        <select id="activo" class="form-control" style="height:30px" onchange="seleccionarDespacho(this.value)">
+            <option value="0">Seleccione una Ocpión</option>
+            <option value="1">Mensajeria Interna</option>
+            <option value="2">Courier</option>
+            </select>
+                    </div>
+                </div>
+        <!-- campo Mensajero -->
+                <div id="men" style="display: none;" class="col-md-4 col-sm-2 col-xs-12">
+                    <div class="form-group form-group-sm">                
+
+          <label class="control-label required" for="">Mensajero<span class="required"> * </span></label>           
+          <select id="mensajero" class="form-control" style="height:30px">
+            <option value="">TODOS</option>
+              <?php foreach ($mensajeros as $array) 
+                {?>
+                  <option value="<?php echo $array['ID_MENSAJERO']; ?>" ><?php echo $array['NOMBRE_MENSAJERO']; ?></option>  
+              <?php } ?>
+          </select>
+           
+          </div>
+                </div>
+        <!-- campo Courier -->
+        <div id="cou" style="display: none;"   class="col-md-4 col-sm-4 col-xs-12">
+          <div class="form-group form-group-sm">                
+            <label class="control-label required" for="">Courier<span class="required"> * </span></label> 
+            <select id="ID_COURIER" class="form-control" style="height:30px">
+            <option value="">TODOS</option>
+              <?php foreach ($courier as $array) 
+                {?>
+                  <option value="<?php echo $array['ID_COURIER']; ?>" ><?php echo $array['NOMBRE_COURIER']; ?></option>  
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">                    
+      <div class="pull-right">  
+                <button class="btn btn-primary btn-sm" onclick="constultarPedidos()">Consultar</button>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="container">
+      <div id="tabla" class="table-responsive" style="font-size:11px; text-align:center; cursor: pointer"></div>
+    </div>
 
 
     <style type="text/css">
@@ -315,7 +400,46 @@
                 //$.notific8(text, params);
 
     function constultarPedidos()
-    {}
+      {
+        var f_inicio  = $("#fecha_inicio").val().trim();
+        var f_fin     = $("#fecha_fin").val().trim();
+      var cliente   = $("#cliente").val().trim();
+      var courier   = $("#ID_COURIER").val().trim();
+      var mensajero = $("#mensajero").val().trim();
+
+      
+        if(f_inicio!="")
+        var f1 = new Date(f_inicio);
+
+      if(f_fin!="")
+        var f2 = new Date(f_fin);
+
+      //valido fechas
+      if(f1>f2)
+      {
+            var text = 'Intervalo de fechas incorrecto';
+              $.notific8(text, params);
+              return;
+      }
+            
+            $.isLoading({
+                          text: "Cargando",
+                          position: "overlay"
+                       });
+               $.ajax({
+                        type: 'POST',
+                        async:false,
+                        dataType: 'json',
+                        data: {f_inicio:f_inicio,f_fin:f_fin,cliente:cliente,mensajero:mensajero,courier:courier},
+                        url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPedidosEntregados',
+                        success: function (data) 
+                        {     
+                           generarTablaDinamica(data);   
+                           $.isLoading("hide");                     
+                        }
+            
+               });  
+      }
 
     window.onload=function alcargar()
     {
@@ -567,6 +691,27 @@
                          }
                 });  
     }
+    function seleccionarDespacho(id){
+
+          
+          if(id==0){
+
+            $("#men").hide();
+            $("#cou").hide();
+          }
+          if(id==1){
+
+            $("#men").show();
+            $("#cou").hide();
+        
+          }
+          if (id==2) {
+            $("#cou").show();
+            $("#men").hide();
+          
+          }       
+          
+      }
 
     function despacharPruebas()
     {

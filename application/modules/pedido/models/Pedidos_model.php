@@ -276,7 +276,7 @@ class Pedidos_model extends CI_Model
 
          if($id_estado!="")
          {
-            $this->db->where(" ID_ESTADOS =", $id_estado );  
+            $this->db->where("ID_ESTADOS =", $id_estado );  
          }
          $this->db->order_by("PEDF_NUM_PREIMP", "asc");
 
@@ -735,12 +735,37 @@ class Pedidos_model extends CI_Model
         $sql .= "AND ep.NOMBRE_ESTADO <> 'ANULADO' ";
         $sql .= "AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' ";
         $sql .= "AND ep.NOMBRE_ESTADO <> 'EMPACADO' ";
-        
         $query= $this->db->query($sql);
         $ds = $query->result_array();
         return $ds;
     }
 
+    public function rutasSinAsignar(){
+
+        $sql = "SELECT rt.ID_RUTA as rutassn ";
+
+            $sql .= "from pedido p ";
+            $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+            $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
+            $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
+            $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+            $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+
+            $sql .= "left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO ";
+            $sql .= "INNER JOIN ruta_entrega_retiro rt on pb.ID_RUTA=rt.ID_RUTA ";
+            $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
+            $sql .= "AND pb.ENTREGADO ='N' ";
+            $sql .= "AND pb.DESPACHADO ='S' "; 
+            $sql .= "AND ep.NOMBRE_ESTADO <> 'TERMINADO' ";
+            $sql .= "AND ep.NOMBRE_ESTADO <> 'ANULADO' ";
+            $sql .= "AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' ";
+            $sql .= "AND ep.NOMBRE_ESTADO <> 'EMPACADO' ";
+            $sql .= "GROUP BY rutassn ";
+            $query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds;
+
+    } 
     public function cantidadPedidosEmpacados() 
     {
         $sql = "SELECT count(*) as cantidad ";
@@ -760,7 +785,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerPedidosEmpacados() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
+        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA,pb.ID_PRUEBAS, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -1448,43 +1473,53 @@ class Pedidos_model extends CI_Model
         return $resultado;
     }
 
-    //public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta)
-    //
-    //{
-    //    for ($i=0; $i < count($arreglo_ids_pruebas); $i++) 
-    //    { 
-    //        $fecha_actual = date("Y-m-d H:i:s");
-    //        $data_sesion = $this->session->userdata()['loggeado'];
-    //        $id_usuario = $data_sesion["ID_USUARIO"];
-    //        $id_prueba = $arreglo_ids_pruebas[$i];
-    //
-    //        $data_prueba = array();
-    //        $data_prueba['FECHA_SALIDA']=$fecha_actual;
-    //        $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
-    //        $data_prueba['VALOR_FLETE']=$flete ;
-    //        $data_prueba['DESPACHADO']='S' ;
-    //        $data_prueba['USER_DESPACHO']= $id_usuario;  
-    //
-    //        if($tipoMensajeria=="Courier")
-    //        {
-    //            $data_prueba['ID_COURIER']=$courier;
-    //            $data_prueba['ENTREGADO']='S' ;
-    //            $data_prueba['PERSO_RECIBE']=$recibe ;
-    //            $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
-    //        }
-    //        else if($tipoMensajeria=="Interna")
-    //        {
-    //            $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
-    //            $data_prueba['ID_RUTA']=$ruta;
-    //        }
-    //
-    //
-    //        $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
-    //        $this->db->update('pruebas', $data_prueba);
-    //
-    //    }
-    //
-    //}
+    public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria)
+    
+    {
+        $row=array();
+        $query='SELECT u.EMPL_COD_EMPL FROM usuario u  WHERE u.USUARIO_ID='.$mensajero;
+        $query= $this->db->query($sql);
+        if ($query->num_rows() > 0)
+              {
+
+                $row = $query->row_array();
+              }
+
+        for ($i=0; $i < count($arreglo_ids_pruebas); $i++) 
+        { 
+            $fecha_actual = date("Y-m-d H:i:s");
+            $data_sesion = $this->session->userdata()['loggeado'];
+            $id_usuario = $data_sesion["ID_USUARIO"];
+            $id_prueba = $arreglo_ids_pruebas[$i];
+    
+            $data_prueba = array();
+            $data_prueba['FECHA_SALIDA']=$fecha_actual;
+            $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
+            $data_prueba['VALOR_FLETE']=$flete ;
+            $data_prueba['DESPACHADO']='S' ;
+            $data_prueba['USER_DESPACHO']= $id_usuario;  
+            $data_prueba['EMPL_COD_EMPL']=$row['EMPL_COD_EMPL'];
+    
+            if($tipoMensajeria=="Courier")
+            {
+                $data_prueba['ID_COURIER']=$courier;
+                $data_prueba['ENTREGADO']='S' ;
+                $data_prueba['PERSO_RECIBE']=$recibe ;
+                $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
+            }
+            else if($tipoMensajeria=="Interna")
+            {
+                $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
+                //$data_prueba['ID_RUTA']=$ruta;
+            }
+    
+    
+            $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
+            $this->db->update('pruebas', $data_prueba);
+    
+        }
+    
+    }
 
     public function insertarRetiro($data)
     {
@@ -1509,6 +1544,7 @@ class Pedidos_model extends CI_Model
          $this->db->join("pedido p",'p.PEDF_NUM_PREIMP = r.ID_PEDIDO');
          $this->db->join("pruebas pb", 'pb.ID_PRUEBAS= r.ID_PRUEBA');
          $this->db->where("r.ASIGNADO =",0);
+         $this->db->where("r.ID_RUTA ",NULL);
          $this->db->order_by("r.CLIENTE", "asc");
 
          $consulta = $this->db->get();
@@ -1735,16 +1771,26 @@ class Pedidos_model extends CI_Model
     }
     public function contarRetirosPendientes(){
 
-        $this->db->select('COUNT(r.ID_RETIRO) as c_retiros');
+         $this->db->select('COUNT(r.ID_RETIRO) as c_retiros');
          $this->db->from("retiro r");
          $this->db->join("usuario u",'u.USUARIO_ID = r.USUARIO_SESION');
          $this->db->join("pedido p",'p.PEDF_NUM_PREIMP = r.ID_PEDIDO');
          $this->db->join("pruebas pb", 'pb.ID_PRUEBAS= r.ID_PRUEBA');
          $this->db->where("r.ASIGNADO =",0);
+         $this->db->where("r.ID_RUTA",NULL);         
          $this->db->order_by("r.CLIENTE", "asc");
 
          $consulta = $this->db->get();
          $resultado = $consulta->result_array();
+         return $resultado;
+    }
+    public function obtenerCedulaMensajero($id){
+
+         $this->db->select("u.EMPL_COD_EMPL");
+         $this->db->from("usuario u");
+         $this->db->where('u.USUARIO_ID', $id);
+         $consulta = $this->db->get();
+         $resultado = $consulta->result();
          return $resultado;
     }
 
