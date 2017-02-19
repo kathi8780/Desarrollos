@@ -40,6 +40,79 @@ class Rutas_model extends CI_Model
 
             
         }
+
+        public function obteneRutas(){
+            $sql = "SELECT  pb.ID_RUTA as ruta
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+            left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO 
+            INNER JOIN ruta rt on pb.ID_RUTA=rt.ID_RUTA
+            WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+            AND pb.ENTREGADO ='N' 
+            AND pb.DESPACHADO ='S' 
+            AND ep.NOMBRE_ESTADO <> 'TERMINADO' 
+            AND ep.NOMBRE_ESTADO <> 'ANULADO' 
+            AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' 
+            AND ep.NOMBRE_ESTADO <> 'EMPACADO'
+            UNION
+            SELECT r.ID_RUTA as ruta
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+            INNER JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+            INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION
+            WHERE r.ASIGNADO =1 
+            AND r.RETIRADO =0 
+            AND r.ID_RUTA IS NOT NULL";
+            $query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds;
+
+        }
+        public function obtenerValoresPrueba(){
+
+            $sql="
+            SELECT  pb.ID_RUTA as ruta
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+            left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO 
+            INNER JOIN ruta rt on pb.ID_RUTA=rt.ID_RUTA
+            WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+            AND pb.ENTREGADO ='N' 
+            AND pb.DESPACHADO ='S' 
+            AND ep.NOMBRE_ESTADO <> 'TERMINADO' 
+            AND ep.NOMBRE_ESTADO <> 'ANULADO' 
+            AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' 
+            AND ep.NOMBRE_ESTADO <> 'EMPACADO'
+            UNION
+            SELECT pb.ID_RUTA as ruta
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+            INNER JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+            INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION
+            WHERE r.ASIGNADO =1 
+            AND r.RETIRADO =0 
+            AND r.ID_RUTA IS NOT NULL";
+            $query=$this->db->query($sql);
+            $ds=$query->result_array();
+            return $ds;
+
+        }
     
     
 }

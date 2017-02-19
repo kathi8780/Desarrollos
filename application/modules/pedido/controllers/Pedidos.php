@@ -1082,19 +1082,26 @@ class Pedidos extends MX_Controller {
             $this->form_validation->CI =& $this;
 
             $datos=array();
-            $datos['retiros_pendientes'] = $this->pedidos_model->obtenerRetiros();
+            //$datos['retiros_pendientes'] = $this->pedidos_model->obtenerRetiros();
             $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
-            $datos['pedidos_empacados'] = $this->pedidos_model->obtenerPedidosEmpacados(); 
+            //$datos['pedidos_empacados'] = $this->pedidos_model->obtenerPedidosEmpacados(); 
             $datos['mensajeros'] = $this->pedidos_model->obtenerMensajerosActivos();
             $datos['courier'] = $this->pedidos_model->obtenerCourier();
             $datos['estados'] = $this->pedidos_model->obtenerEstadosTmp();
-            $datos['pedidos_ruta'] = $this->pedidos_model->obtenerPedidosEnRuta(); //RUTA DE ENTREGA
-            $datos['retiros_asignados'] = $this->pedidos_model->obtenerRetirosAsignados(); //RUTA DE RETIRO
-            $datos['pedidos_ruta']=$this->pedidos_model->obtenerPedidosEnRuta();
+            //$datos['pedidos_ruta'] = $this->pedidos_model->obtenerPedidosEnRuta(); //RUTA DE ENTREGA
+            //$datos['retiros_asignados'] = $this->pedidos_model->obtenerPedidosEnRuta2(); //RUTA DE RETIRO
+            $datos['pedidos_ruta']=$this->pedidos_model->obtenerPedidosEnRuta2();
             $datos['contador_cordinacion']=$this->pedidos_model->contarTotalCoordinacion();
             $datos['contador_r_p']=$this->pedidos_model->contarRetirosPendientes();
             $datos['rutas_sin_asignar'] = $this->pedidos_model->rutasSinAsignar();
+            $datos['clientes']=$this->pedidos_model->idClientesPedidosEmpacadosRetiros();
+            //$datos['clientesRetiros']=$this->pedidos_model->obtenerClientesRetiro();
+            $datos['rutas']=$this->Rutas_model->obteneRutas();
+            $datos['entregas_retiros']=$this->pedidos_model->obtenerRetirosEntregasPendientes();
+            
+            
             //$datos['retirosSinAsignar']=$this->Rutas_model->obtenerRetirosSinAsignar();
+
             
             
             $this->load->view('templates/header');
@@ -1106,6 +1113,8 @@ class Pedidos extends MX_Controller {
           redirect('admin/login', 'refresh');
         }   
     }
+
+
 
     public function eliminarPrueba() 
     {
@@ -1350,12 +1359,13 @@ class Pedidos extends MX_Controller {
             //$idusmen['USUARIO_ID']=$mensajero;
             $men=array();
             $men['ID_USUARIO_MENSAJERO']=$mensajero;
+            $men['FECHA_RUTA']=date("Y-m-d H:i:s");
             $tipoMensajeria = trim($this->input->post('tipoMensajeria'));
             $arreglo_ids_pruebas = explode("&&", $cadena);
             //$cedulaMensajero=$this->pedidos_model->obtenerCedulaMensajero($mensajero);
-            //$ruta=$this->pedidos_model->insertarRuta($men);
+            $ruta=$this->pedidos_model->insertarRuta($men);
 
-            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria);
+            $this->pedidos_model->despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta);
             $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
             echo 1; 
         }
@@ -1374,7 +1384,7 @@ class Pedidos extends MX_Controller {
 
             $datos['pedidos_online']= $this->pedidos_model->obtenerPedidosClienteOnline();//por reslizar
             $datos['pruebas_sinretorno']=$this->pedidos_model->obtenerPruebasSinRetorno();//por realizar
-            
+            $datos['clientes']=$this->pedidos_model->obtenerClientes();
             $datos['mensajeros'] = $this->pedidos_model->obtenerMensajerosActivos();
 
 
@@ -1405,7 +1415,7 @@ class Pedidos extends MX_Controller {
             $data_retiro['CIUDAD']=trim($this->input->post('ciudad'));
             $data_retiro['FECHA']=date("Y-m-d H:i:s");
             $data_retiro['ID_PRUEBA']=trim($this->input->post('dato'));
-            $data_retiro['ID_PEDIDO']=$id_pd->PEDF_NUM_PREIMP;
+            $data_retiro['ID_PEDIDO']=$id_pd->ID_PEDIDO;
             $data_retiro['USUARIO_SESION']=$id_usuario;       
 
            
@@ -1464,7 +1474,7 @@ class Pedidos extends MX_Controller {
             if(isset($_FILES['formulario_retiro']['error']['FOTORECIBE']) && $_FILES['formulario_retiro']['error']['FOTORECIBE']==1)
             {
                 $this->session->set_flashdata('mostrarMensajeErrorAlCargar', TRUE); 
-                redirect('pedido/pedidos/mostrarFormularioPedido/', 'refresh');
+                redirect('pedido/pedidos/mostrarFormularioLogistica/', 'refresh');
                 exit();                
             }
            else
@@ -1487,14 +1497,33 @@ class Pedidos extends MX_Controller {
                     $data_foto['FOTO_PACIENTE']= $nombreUnicofotografia.'.'.$ext;
                     $id_foto = $this->pedidos_model->insertarFoto($data_foto);
                 }
-            }   
-            $data_retiro = array();
-            $data_retiro['RECIBE_CONFORME']=$nombrerecibe;
-            $data_retiro['RETIRADO']='1';  
-            $data_retiro['ID_FOTOS']=$id_foto;    
-            $retiros = $this->pedidos_model->ingresarRetiroRecibido($data_retiro,$id);
+            } 
+
+            $m['datos']=$this->pedidos_model->validadIdPrueba($id);
+            if(count($m['datos'])>0){
+
+                $data_entrega = array();
+                //$data_retiro['FECHA_RETIRO']=date("Y-m-d H:i:s");
+                $data_entrega['PERSO_RECIBE']=$nombrerecibe;
+                $data_entrega['ENTREGADO']='S'; 
+                $data_entrega['ID_ESTADOS']='8'; 
+                $data_entrega['DESPACHADO']='S';  
+                $data_entrega['ID_FOTOS']=$id_foto;    
+                $retiros = $this->pedidos_model->ingresarEntrega($data_entrega,$id);
+            }  
+            else{
+
+                
+                $data_retiro = array();
+                $data_retiro['FECHA_RETIRO']=date("Y-m-d H:i:s");
+                $data_retiro['RECIBE_CONFORME']=$nombrerecibe;
+                $data_retiro['RETIRADO']='1';  
+                $data_retiro['ID_FOTOS']=$id_foto;    
+                $retiro = $this->pedidos_model->ingresarRetiroRecibido($data_retiro,$id);
+            }
+            
             $this->session->set_flashdata('mostrarMensajeConfirmacion', TRUE); 
-            redirect('pedido/pedidos/mostrarFormularioRutaMotorizados', 'refresh'); 
+            redirect('pedido/pedidos/mostrarFormularioLogistica', 'refresh'); 
               
         }
         else 
@@ -1564,7 +1593,63 @@ class Pedidos extends MX_Controller {
 
 
     }
+    public function obtenerPacientesPruebas(){
+        if ($this->session->userdata('loggeado')) 
+        {
+            $datos=array();
+            $cliente= trim($this->input->post('cliente'));
+            $datos = $this->pedidos_model->obtenerNombrePacientePrueba($cliente);
 
 
-   
+             echo json_encode($datos); 
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
+
+    }
+
+    public function obtenerPedidosOnLineCliente(){
+        if ($this->session->userdata('loggeado')) 
+        {
+            $datos=array();
+            $cliente= trim($this->input->post('cliente'));
+            $datos = $this->pedidos_model->obtenerPedidosOnLineCliente($cliente);
+
+
+             echo json_encode($datos); 
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
+    }
+    public function obtenerPruebasPorPaciente(){
+        if ($this->session->userdata('loggeado')) 
+        {
+            $datos=array();
+            $paciente= trim($this->input->post('paciente'));
+            $datos = $this->pedidos_model->obtenerPruebasPorPaciente($paciente);
+
+
+             echo json_encode($datos); 
+        }
+        else 
+        {
+          redirect('admin/login', 'refresh');
+        }
+
+
+    } 
+    public function obtenerValoresPrueba(){
+         if ($this->session->userdata('loggeado'))
+         {
+            $USUARIO_ID=trim($this->input->post('USUARIO_ID'));
+            $result=$this->usuarios_model->editarUsuario($USUARIO_ID);          
+            echo json_encode($result);               
+         }    
+    }   
 }

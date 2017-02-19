@@ -58,7 +58,14 @@
 	        <div class="col-md- col-sm-2 col-xs-12">
 	            <div class="form-group form-group-sm">                
 	                <label class="control-label required" for="">Cliente<span class="required"> * </span></label> 
-	                <input type="text" id="c_cliente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control" value="DR. GALARZA" />
+                  <select id="c_cliente" class="form-control" style="height:30px" onchange="obtenerPruebas(this.value);">
+                    <option value="">TODOS</option>
+                      <?php foreach ($clientes as $array) 
+                        {?>
+                          <option value="<?php echo $array['cliente']; ?>" ><?php echo $array['cliente']; ?></option>  
+                      <?php } ?>
+                    </select>
+	                
 	            </div>
 	        </div>		
 
@@ -99,34 +106,32 @@
                   <select id="s_filtro_tipo" class="form-control" style="height:30px" onchange="selecionTipo(this.value)">
                             <option value="0">SELECCIONE</option>
                             <option value="1">PRUEBA </option>
-                            <option value="2">NUEVO</optio>
+                            <option value="2">PEDIDO ONLINE</optio>
                         </select> 
               </div>
           </div>
           <!--seleccion paciente-->
-          <div class="col-md-2 col-sm-2 col-xs-12" style="display: none;" id="select_paciente">
+          <div class="col-md-2.5 col-sm-3 col-xs-12" style="display: none;" id="select_paciente">
               <div class="form-group form-group-sm">                
                   <label class="control-label required" for="">PACIENTE<span class="required"> * </span></label> 
-                    <select id="prueba" class="form-control" style="height:30px" >
-                    <option value="">TODOS</option>
-                      <?php foreach ($pruebas_sinretorno as $array) 
-                        {?>
-                          <option value="<?php echo $array['id_prueba']; ?>" ><?php echo $array['paciente']."=".$array['prueba']; ?></option>  
-                      <?php } ?>
+                    <select id="c_pacientes" name="c_pacientes" class="form-control" style="height:30px" onchange="seleccionaPrueba(this.value);" >
+                    <option value="0">Pacientes</option>                      
                     </select>
               </div>
           </div>
-         
+         <!-- pruebas -->
+         <div class="col-md-4 col-sm-2 col-xs-12" style="display: none;" id="select_prueba">
+              <div class="form-group form-group-sm">                
+                  <label class="control-label required" for="">PRUEBA PACIENTE<span class="required"> * </span></label> 
+                  <input type="hidden" id="c_id">
+                  <input type="text" id="c_pruebas_paciente" autocomplete="off" mayusculas="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$" maxlength="50" class="form-control"/>              </div>
+          </div>
           <!--seleccione pedido-->
           <div class="col-md-2 col-sm-2 col-xs-12" style="display: none;" id="select_pedido">
               <div class="form-group form-group-sm">                
                   <label class="control-label required" for="">PEDIDO<span class="required"> * </span></label> 
-                    <select id="pedido" class="form-control" style="height:30px">
-                    <option value="">TODOS</option>
-                      <?php foreach ($pedidos_online as $array) 
-                        {?>
-                          <option value="<?php echo $array['num']; ?>" ><?php echo $array['numero']; ?></option>  
-                      <?php } ?>
+                    <select id="c_pedido" name="c_pedido" class="form-control" style="height:30px">
+                    <option value="0">Todos</option>  
                     </select>
               </div>
           </div>
@@ -186,15 +191,15 @@
     	var contacto =$("#c_contacto").val().trim();
       var ciudad =$("#c_ciudad").val().trim();
       var direccion =$("#c_direccion").val().trim();
-      var pedido_online=$("#pedido").val().trim();
-      var prueba_sin_retorno=$("#prueba").val().trim();
-      var dato="";
-      if(pedido_online==0){
-        dato=prueba_sin_retorno;
+      var pedido_online=$("#c_pedido").val().trim();
+      var prueba=$("#c_id").val().trim();
+      var paciente=$("#c_pacientes").val().trim();
 
-      }else if(prueba_sin_retorno==0){
-        dato=pedido_online;
-      }
+      var dato="";
+     
+        dato=prueba;
+
+      
 
       
 
@@ -231,14 +236,15 @@
             var text = 'Falta campo DIRECCION';
             $.notific8(text, params); 
             return;
-      }else if(pedido_online=="TODOS")
+      }else if(prueba=="Pruebas")
       {
-            var text = 'Falta campo DIRECCION';
+            var text = 'Falta campo PRUEBA';
             $.notific8(text, params); 
             return;
-      }else if(prueba_sin_retorno=="TODOS")
+      }
+      else if(paciente=="")
       {
-            var text = 'Falta campo DIRECCION';
+            var text = 'Falta campo PACIENTE';
             $.notific8(text, params); 
             return;
       }
@@ -253,14 +259,15 @@
                          type: 'POST',
                          async:false,
                          dataType: 'json',
-                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion,dato:dato},
+                         data: {cliente:cliente,telefono:telefono,contacto:contacto,ciudad:ciudad,direccion:direccion,dato:dato,paciente},
                          url: '<?php echo base_url(); ?>index.php/pedido/pedidos/insertarRetiro',
                          success: function (data) 
                          {    
                            
 						   $.isLoading("hide"); 
+               alert('Retiro Creado Exitosamente');
 						   location.reload();
-                           //alert(data['USUARIO_NOMBRE']);  
+                  
 			
                            var usuario = data['USUARIO_NOMBRE']+" "+data['USUARIO_APELLIDO'];
                            var id_retiro = data['ID_RETIRO'];
@@ -409,15 +416,17 @@
            
             $("#select_paciente").show();
             $("#select_pedido").hide();
+
+
+
         
           }
           if (id==2) {
             $("#select_pedido").show();
-           
             $("#select_paciente").hide();
-          
+            $("#select_prueba").hide();
           } 
-          return id;
+          
     }
   
     function realizarAsignacion()
@@ -459,4 +468,109 @@
         $("#s_mensajeros option[value='']").prop('selected', true);
     });
 
+
+
+    function obtenerPruebas(id){
+
+      $('#c_pacientes option[value!="0"]').remove();
+      $('#c_pedido option[value!="0"]').remove();
+      var x = document.getElementById("c_pacientes");
+      var y = document.getElementById("c_pedido");
+      
+        
+        var cliente=id;
+        //alert(cliente);
+        if(cliente!=""){
+          //alert('dentro de if');
+          $.ajax({
+                             type: 'POST',
+                             async:false,
+                             dataType: 'json',
+                             data: {cliente:cliente},
+                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPacientesPruebas',
+                             success: function (data) 
+                             {  
+                              
+                              for (var i = 0; i < data.length; i++)
+                              {
+                                if (x.selectedIndex >= 0) {
+                                    var option = document.createElement("option");
+                                    option.text = data[i]['paciente'];
+                                    option.value= data[i]['id'];
+                                    x.add(option);
+                                }
+                                
+                              }
+                             }
+                    }); 
+
+          obtenerPedidosOnline(cliente);
+
+        }
+
+
+    }
+
+    function obtenerPedidosOnline(id){
+      $('#c_pedido option[value!="0"]').remove();
+      var y = document.getElementById("c_pedido");
+      var cliente=id;
+        //alert(cliente);
+        if(cliente!=""){
+
+          $.ajax({
+                             type: 'POST',
+                             async:false,
+                             dataType: 'json',
+                             data: {cliente:cliente},
+                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPedidosOnLineCliente',
+                             success: function (data) 
+                             {  
+                              
+                              for (var j = 0; j < data.length; j++)
+                              {
+                                if (y.selectedIndex >= 0) {
+                                    var option = document.createElement("option");
+                                    option.text = data[j]['pedido'];
+                                    option.value= data[j]['pedido'];
+                                    y.add(option);
+                                }
+                                
+                              }
+                             }
+                    }); 
+
+
+
+        }
+
+    }
+ function seleccionaPrueba(id){
+    $('#select_prueba').show();
+   // $('#c_pruebas_paciente option[value!="0"]').remove();
+      var y = document.getElementById("c_pruebas_paciente");
+      var paciente=id;
+      //alert(paciente);
+        if(paciente!=""){
+          //alert('dentro de paciente');
+          $.ajax({
+                             type: 'POST',
+                             async:false,
+                             dataType: 'json',
+                             data: {paciente:paciente},
+                             url: '<?php echo base_url(); ?>index.php/pedido/pedidos/obtenerPruebasPorPaciente',
+                             success: function (data) 
+                             {  
+                              
+                              $("#c_pruebas_paciente").val(data[0]['prueba']);
+                              $("#c_id").val(data[0]['id']);
+                             }
+                    }); 
+
+
+
+        }
+
+
+ }
 </script>

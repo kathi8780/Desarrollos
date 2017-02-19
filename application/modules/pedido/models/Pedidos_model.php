@@ -717,7 +717,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerPedidosEnRuta() 
     {
-        $sql = "SELECT rt.ID_RUTA as ruta, p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDIDO ";
+        $sql = "SELECT   p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE, CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDIDO ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -727,7 +727,7 @@ class Pedidos_model extends CI_Model
         $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
 
         $sql .= "left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO ";
-        $sql .= "INNER JOIN ruta_entrega_retiro rt on pb.ID_RUTA=rt.ID_RUTA ";
+        //$sql .= "INNER JOIN ruta rt on pb.ID_RUTA=rt.ID_RUTA ";
         $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
         $sql .= "AND pb.ENTREGADO ='N' ";
         $sql .= "AND pb.DESPACHADO ='S' "; 
@@ -752,7 +752,7 @@ class Pedidos_model extends CI_Model
             $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
 
             $sql .= "left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO ";
-            $sql .= "INNER JOIN ruta_entrega_retiro rt on pb.ID_RUTA=rt.ID_RUTA ";
+            $sql .= "INNER JOIN ruta rt on pb.ID_RUTA=rt.ID_RUTA ";
             $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
             $sql .= "AND pb.ENTREGADO ='N' ";
             $sql .= "AND pb.DESPACHADO ='S' "; 
@@ -785,7 +785,7 @@ class Pedidos_model extends CI_Model
 
     public function obtenerPedidosEmpacados() 
     {
-        $sql = "SELECT p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, 'Cliente Generico' as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA,pb.ID_PRUEBAS, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
+        $sql = "SELECT pb.ID_PRUEBAS,p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad, p.CLPV_COD_CLPV as cliente,pac.NOMBRE_APELLIDO as paciente,IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico, tp.NOMBRE_PRUEBA,pb.ID_PRUEBAS, pb.FECHA_EMPAQUE, pb.HORA_EMPAQUE, pb.ID_PRUEBAS, DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -797,6 +797,61 @@ class Pedidos_model extends CI_Model
         $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
         $sql .= "AND pb.ENTREGADO ='N' ";
         $sql .= "AND pb.DESPACHADO ='N'  ";     
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+    }
+
+
+    public function idClientesPedidosEmpacadosRetiros(){
+
+
+        $sql = " SELECT p.CLPV_COD_CLPV as cliente
+        from pedido p 
+        INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+        INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+        INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+        left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+        INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA
+        left JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+        left JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION 
+        WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+        AND pb.ENTREGADO ='N' 
+        AND pb.DESPACHADO ='N'   
+        UNION
+        SELECT p.CLPV_COD_CLPV as cliente
+        from pedido p 
+        INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+        INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+        INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+        left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+        INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+        INNER JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+        INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION
+        WHERE r.ASIGNADO =0 
+        AND r.RETIRADO =0 
+        AND r.ID_RUTA IS NULL ";    
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+
+    }
+
+    public function idpruebas(){
+
+        $sql = "SELECT pb.ID_PRUEBAS ";
+        $sql .= "from pedido p ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
+        $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+        $sql .= "WHERE e.NOMBRE_ESTADO ='EMPACADO' ";
+        $sql .= "AND pb.ENTREGADO ='N' ";
+        $sql .= "AND pb.DESPACHADO ='N'  ";
+        $sql .= "GROUP BY cliente";     
 
         $query= $this->db->query($sql);
         $ds = $query->result_array();
@@ -1473,12 +1528,16 @@ class Pedidos_model extends CI_Model
         return $resultado;
     }
 
-    public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria)
+    public function despacharPruebas($arreglo_ids_pruebas, $courier, $recibe, $flete, $mensajero, $tipoMensajeria,$ruta)
     
     {
+        
+
+
+
         $row=array();
         $query='SELECT u.EMPL_COD_EMPL FROM usuario u  WHERE u.USUARIO_ID='.$mensajero;
-        $query= $this->db->query($sql);
+        $query= $this->db->query($query);
         if ($query->num_rows() > 0)
               {
 
@@ -1487,35 +1546,83 @@ class Pedidos_model extends CI_Model
 
         for ($i=0; $i < count($arreglo_ids_pruebas); $i++) 
         { 
-            $fecha_actual = date("Y-m-d H:i:s");
-            $data_sesion = $this->session->userdata()['loggeado'];
-            $id_usuario = $data_sesion["ID_USUARIO"];
-            $id_prueba = $arreglo_ids_pruebas[$i];
-    
-            $data_prueba = array();
-            $data_prueba['FECHA_SALIDA']=$fecha_actual;
-            $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
-            $data_prueba['VALOR_FLETE']=$flete ;
-            $data_prueba['DESPACHADO']='S' ;
-            $data_prueba['USER_DESPACHO']= $id_usuario;  
-            $data_prueba['EMPL_COD_EMPL']=$row['EMPL_COD_EMPL'];
-    
-            if($tipoMensajeria=="Courier")
-            {
-                $data_prueba['ID_COURIER']=$courier;
-                $data_prueba['ENTREGADO']='S' ;
-                $data_prueba['PERSO_RECIBE']=$recibe ;
-                $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
+
+            
+            $sql="SELECT p.PEDF_NUM_PREIMP as numero
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA
+            left JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+            left JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION 
+            WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+            AND pb.ENTREGADO ='N' 
+            AND pb.DESPACHADO ='N'
+            AND pb.ID_PRUEBAS=".$arreglo_ids_pruebas[$i];
+            $query= $this->db->query($sql);
+            if ($query->num_rows() > 0)
+              {
+                    $fecha_actual = date("Y-m-d H:i:s");
+                    $data_sesion = $this->session->userdata()['loggeado'];
+                    $id_usuario = $data_sesion["ID_USUARIO"];
+                    $id_prueba = $arreglo_ids_pruebas[$i];
+            
+                    $data_prueba = array();
+                    $data_prueba['FECHA_SALIDA']=$fecha_actual;
+                    $data_prueba['FECHA_SALIDA_PRODUCCION']=$fecha_actual ;            
+                    $data_prueba['VALOR_FLETE']=$flete ;
+                    $data_prueba['DESPACHADO']='S' ;
+                    $data_prueba['USER_DESPACHO']= $id_usuario;  
+                    $data_prueba['EMPL_COD_EMPL']=$row['EMPL_COD_EMPL'];
+            
+                    if($tipoMensajeria=="Courier")
+                    {
+                        $data_prueba['ID_COURIER']=$courier;
+                        $data_prueba['ENTREGADO']='S' ;
+                        $data_prueba['PERSO_RECIBE']=$recibe ;
+                        $data_prueba['FEC_HOR_ENTR']=$fecha_actual ;          
+                    }
+                    else if($tipoMensajeria=="Interna")
+                    {
+                        $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
+                        $data_prueba['ID_RUTA']=$ruta;
+                    }
+                    $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
+                    $this->db->update('pruebas', $data_prueba);
+            }else{
+
+                    $fecha = date("Y-m-d H:i:s");
+                    $data_sesion = $this->session->userdata()['loggeado'];
+                    $id_usuario = $data_sesion["ID_USUARIO"];
+                    $id_prueba = $arreglo_ids_pruebas[$i];
+            
+                    $data_retiro = array();
+                    $data_retiro['FECHA_FUE_ASIGNADO']=$fecha;            
+                    $data_retiro['ASIGNADO']='1' ;
+                    $data_retiro['ID_USUARIO_ASIGNA']= $id_usuario;  
+                    //$data_retiro['EMPL_COD_EMPL']=$row['EMPL_COD_EMPL'];
+                    if($tipoMensajeria=="Courier")
+                    {
+                        
+                        
+                                  
+                    }
+                    else if($tipoMensajeria=="Interna")
+                    {
+                        $data_retiro['ID_USUARIO_MENSAJERO']=$mensajero ;
+                        $data_retiro['ID_RUTA']=$ruta;
+                    }
+                    $this->db->where('retiro.ID_PRUEBA', $id_prueba);
+                    $this->db->update('retiro', $data_retiro);
+            
             }
-            else if($tipoMensajeria=="Interna")
-            {
-                $data_prueba['ID_USUARIO_MENSAJERO']=$mensajero ;
-                //$data_prueba['ID_RUTA']=$ruta;
-            }
+
+            
+            
     
-    
-            $this->db->where('pruebas.ID_PRUEBAS', $id_prueba);
-            $this->db->update('pruebas', $data_prueba);
+            
     
         }
     
@@ -1538,18 +1645,27 @@ class Pedidos_model extends CI_Model
 
     public function obtenerRetiros() 
     {
-         $this->db->select("*");
-         $this->db->from("retiro r");
-         $this->db->join("usuario u",'u.USUARIO_ID = r.USUARIO_SESION');
-         $this->db->join("pedido p",'p.PEDF_NUM_PREIMP = r.ID_PEDIDO');
-         $this->db->join("pruebas pb", 'pb.ID_PRUEBAS= r.ID_PRUEBA');
-         $this->db->where("r.ASIGNADO =",0);
-         $this->db->where("r.ID_RUTA ",NULL);
-         $this->db->order_by("r.CLIENTE", "asc");
+        $sql = "SELECT p.CLPV_COD_CLPV as cliente, r.FECHA, r.DIRECCION_RETIRO,r.ID_PRUEBA, u.USUARIO_NOMBRE,u.USUARIO_APELLIDO, p.PEDF_NUM_PREIMP as numero,p.FECHA_COTIZACION fing,'Ciudad' as ciudad,pac.NOMBRE_APELLIDO as paciente,
+         tp.NOMBRE_PRUEBA,pb.ID_PRUEBAS, pb.ID_PRUEBAS, 
+         DATEDIFF(CURDATE(),r.FECHA) AS DIAS ";
 
-         $consulta = $this->db->get();
-         $resultado = $consulta->result_array();
-         return $resultado;
+        $sql .= "from retiro r ";
+        $sql .= "INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION ";
+        $sql .= "INNER JOIN pedido  p on r.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PRUEBAS= r.ID_PRUEBA ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
+        $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+
+        $sql .= "WHERE r.ASIGNADO =0 ";
+        $sql .= "AND r.RETIRADO =0 ";
+        $sql .= "AND r.ID_RUTA IS NULL "; 
+        $sql .= "ORDER BY r.ID_RETIRO asc";     
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
     }
 
     public function cantidadRetirosPendientes()
@@ -1582,6 +1698,7 @@ class Pedidos_model extends CI_Model
          $resultado = $consulta->result_array();
          return $resultado;
     }
+
 	public function cantidadPrePedido() 
     {
          $this->db->select("count(*) as cantidad");
@@ -1647,6 +1764,10 @@ class Pedidos_model extends CI_Model
 
     }
 
+    public function ingresarEntrega($data,$id){
+        $this->db->where('pruebas.ID_PRUEBAS', $id);
+        $this->db->update('pruebas', $data);
+    }
     public function ingresarPedidoEntregado($data_pruebas,$data_pedido,$id){
 
         $this->db->select("pr.ID_PRUEBAS");
@@ -1690,6 +1811,25 @@ class Pedidos_model extends CI_Model
 
     }
 
+    public function obtenerClientes(){
+
+        $sql = "SELECT p.CLPV_COD_CLPV as cliente ";
+        $sql .= "from pedido p ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+        $sql .= "WHERE e.NOMBRE_ESTADO ='PENDIENTE' "; //QUE ES PRODUCCION
+        $sql .= "AND pb.DESPACHADO ='S' ";
+        $sql .= "GROUP BY cliente ";
+        
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+
+    }
+
     public function obtenerPedidosClienteOnline(){
 
             $sql="SELECT 
@@ -1711,9 +1851,9 @@ class Pedidos_model extends CI_Model
 
 
     }
-    public function obtenerNombrePacientePrueba(){
+    public function obtenerNombrePacientePrueba($cliente){
 
-         $sql = "SELECT pac.NOMBRE_APELLIDO as paciente , tp.NOMBRE_PRUEBA as prueba ";
+         $sql = "SELECT pac.NOMBRE_APELLIDO as paciente, pac.ID_PACIENTE as id  ";
 
         $sql .= "from pedido p ";
         $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
@@ -1724,23 +1864,24 @@ class Pedidos_model extends CI_Model
         $sql .= "WHERE e.NOMBRE_ESTADO ='PENDIENTE' "; //QUE ES PRODUCCION
 
         $sql .= "AND pb.DESPACHADO ='S' ";
-        $sql .= "GROUP BY paciente,prueba";
+        $sql .= "AND p.CLPV_COD_CLPV=".$cliente;
+        $sql .= " GROUP BY paciente";
         
 
         $query= $this->db->query($sql);
-        $ds = $query->result_array();
+        $ds = $query->result();
         return $ds;
 
 
     }   
     public function insertarRuta($data){
 
-        $this->db->insert('ruta_entrega_retiro', $data);
+        $this->db->insert('ruta', $data);
         return $this->db->insert_id();
 
     }
     public function obtenerPedidoPrueba($id_prueba){
-        $sql="SELECT  pd.PEDF_NUM_PREIMP FROM pruebas as pr INNER JOIN pedido as pd ON pr.ID_PEDIDO=pd.ID_PEDIDO AND pr.ID_PRUEBAS=".$id_prueba;
+        $sql="SELECT  pd.ID_PEDIDO FROM pruebas as pr INNER JOIN pedido as pd ON pr.ID_PEDIDO=pd.ID_PEDIDO AND pr.ID_PRUEBAS=".$id_prueba;
         $query= $this->db->query($sql);
         if($query->num_rows()>0){
             return $query->row();
@@ -1794,5 +1935,167 @@ class Pedidos_model extends CI_Model
          return $resultado;
     }
 
+    public function obtenerPedidosOnLineCliente($cliente){
+        $sql = "SELECT p.PEDF_NUM_PREIMP as pedido  ";
+        $sql .= "from pedido p ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+
+        $sql .= "WHERE e.ID_ESTADOS=9 "; //QUE ES PREPEDIDO
+
+        $sql .= "AND pb.DESPACHADO ='S' ";
+        $sql .= "AND p.CLPV_COD_CLPV=".$cliente;
+        $sql .= " GROUP BY pedido";
+        
+
+        $query= $this->db->query($sql);
+        $ds = $query->result();
+  
+            return $ds;
+        
+        
+
+    }
+
+    public function obtenerPruebasPorPaciente($paciente){
+
+
+        $sql =  "SELECT  tp.NOMBRE_PRUEBA as prueba, pb.ID_PRUEBAS as id  ";
+        $sql .= "from pedido p ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+        $sql .= "WHERE e.NOMBRE_ESTADO ='PENDIENTE' "; //QUE ES PRODUCCION
+        $sql .= "AND pb.ID_ESTADOS='8' ";
+        $sql .= "AND pb.DESPACHADO ='S' ";
+        $sql .= "AND pac.ID_PACIENTE =".$paciente;
+        $sql .= " GROUP BY prueba";
+        $query= $this->db->query($sql);
+        $ds = $query->result();
+  
+            return $ds;
+
+    }
+
+    public function obtenerClientesRetiro(){
+        $sql = "SELECT p.CLPV_COD_CLPV as cliente, 'retiro' as tipo ";
+        $sql .= "from retiro r ";
+        $sql .= "INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION ";
+        $sql .= "INNER JOIN pedido  p on r.ID_PEDIDO=p.ID_PEDIDO ";
+        $sql .= "INNER JOIN pruebas pb on pb.ID_PRUEBAS= r.ID_PRUEBA ";
+        $sql .= "INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS ";
+        $sql .= "INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS ";
+        $sql .= "INNER JOIN paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE ";
+        $sql .= "INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA ";
+        $sql .= "WHERE r.ASIGNADO =0 ";
+        $sql .= "AND r.RETIRADO =0 ";
+        $sql .= "AND r.ID_RUTA IS NULL "; 
+        $sql .= "GROUP BY cliente";     
+
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+    }
+
+    public function obtenerPedidosEnRuta2() 
+    {
+        $sql = "SELECT '' as retiro, pb.ID_RUTA, p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 
+        p.CLPV_COD_CLPV as cliente,pac.NOMBRE_APELLIDO as paciente,
+        IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+        p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE as fecha, 
+        CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, 
+        pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDIDO ,'ENTREGA' as tipo
+        from pedido p 
+        INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+        INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+        INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+        left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+        INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+        left join usuario u on u.USUARIO_ID= pb.ID_USUARIO_MENSAJERO 
+        INNER JOIN ruta rt on pb.ID_RUTA=rt.ID_RUTA
+        WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+        AND pb.ENTREGADO ='N' 
+        AND pb.DESPACHADO ='S' 
+        AND ep.NOMBRE_ESTADO <> 'TERMINADO' 
+        AND ep.NOMBRE_ESTADO <> 'ANULADO' 
+        AND ep.NOMBRE_ESTADO <> 'SUSPENDIDO' 
+        AND ep.NOMBRE_ESTADO <> 'EMPACADO'
+        UNION
+        SELECT r.ID_RETIRO as retiro, r.ID_RUTA, p.PEDF_NUM_PREIMP as numero,'Ciudad' as ciudad, 
+        p.CLPV_COD_CLPV as cliente,pac.NOMBRE_APELLIDO as paciente,
+        IFNULL(p.MEDICO_TRATANTE,'Sin Asignar') as medico,
+        p.FECHA_COTIZACION fing, tp.NOMBRE_PRUEBA, pb.FECHA_EMPAQUE as fecha, 
+        CONCAT_WS(' ',u.USUARIO_NOMBRE,u.USUARIO_APELLIDO) as mensajerocourirer, 
+        pb.FECHA_SALIDA, 'En Ruta' as estado ,p.ID_PEDIDO as ID_PEDID , 'RETIRO' as tipo
+        from pedido p 
+        INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+        INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+        INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+        left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+        INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+        INNER JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+        INNER JOIN usuario u on u.USUARIO_ID = r.ID_USUARIO_MENSAJERO
+        WHERE r.ASIGNADO =1 
+        AND r.RETIRADO =0 
+        AND r.ID_RUTA IS NOT NULL";
+        $query= $this->db->query($sql);
+        $ds = $query->result_array();
+        return $ds;
+    }
+
+    public function obtenerRetirosEntregasPendientes(){
+
+        $sql=" SELECT pb.ID_PRUEBAS , p.PEDF_NUM_PREIMP as numero,
+             p.FECHA_COTIZACION as fing,p.CLPV_COD_CLPV as cliente,
+             'Ciudad' as ciudad,pac.NOMBRE_APELLIDO as paciente,
+             tp.NOMBRE_PRUEBA,pb.FECHA_EMPAQUE as fecha,
+             DATEDIFF(CURDATE(),pb.FECHA_EMPAQUE) AS DIAS,'ENTREGA' as tipo
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA
+            left JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+            left JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION 
+            WHERE e.NOMBRE_ESTADO ='EMPACADO' 
+            AND pb.ENTREGADO ='N' 
+            AND pb.DESPACHADO ='N'   
+            UNION
+            SELECT pb.ID_PRUEBAS , p.PEDF_NUM_PREIMP as numero,
+             p.FECHA_COTIZACION as fing,p.CLPV_COD_CLPV as cliente,
+             'Ciudad' as ciudad,pac.NOMBRE_APELLIDO as paciente,
+             tp.NOMBRE_PRUEBA,r.FECHA as fecha,
+             DATEDIFF(CURDATE(),r.FECHA) AS DIAS,'RETIRO' as tipo
+            from pedido p 
+            INNER JOIN pruebas pb on pb.ID_PEDIDO=p.ID_PEDIDO 
+            INNER JOIN estados e on e.ID_ESTADOS=pb.ID_ESTADOS 
+            INNER JOIN estados ep on ep.ID_ESTADOS=p.ID_ESTADOS 
+            left join paciente pac on pac.ID_PACIENTE= p.ID_PACIENTE 
+            INNER JOIN tipo_prueba tp on tp.ID_TIPO_PRUEBA= pb.ID_TIPO_PRUEBA 
+            INNER JOIN retiro r on r.ID_PRUEBA=pb.ID_PRUEBAS
+            INNER JOIN usuario u on u.USUARIO_ID = r.USUARIO_SESION
+            WHERE r.ASIGNADO =0 
+            AND r.RETIRADO =0 
+            AND r.ID_RUTA IS NULL";
+
+            $query= $this->db->query($sql);
+            $ds = $query->result_array();
+            return $ds;
+
+    }
+    public  function validadIdPrueba($id){
+        $ds='';
+        $sql="SELECT  pr.ID_PEDIDO FROM pruebas as pr WHERE pr.ID_PRUEBAS=".$id;
+        $query= $this->db->query($sql);
+        
+        return $ds = $query->result_array();
+
+     }   
+
 }
+
 
